@@ -1,3 +1,17 @@
 build.xml
 build.properties
 bin/*
+
+# Mac Stuff
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
+# Swap and Temporrary files
+*~
+Session.vim
+*.swp
