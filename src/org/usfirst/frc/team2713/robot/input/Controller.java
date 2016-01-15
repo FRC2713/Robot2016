@@ -10,7 +10,7 @@ public class Controller {
 	private String xboxName = "Controller (Gamepad for Xbox 360)";
 	
 	public AttackController attack;
-	public XboxController xbox;
+	public XBoxController xbox;
 	
 	
 	public Joystick getController(String targetControllerName) throws ControllerNotFoundException {

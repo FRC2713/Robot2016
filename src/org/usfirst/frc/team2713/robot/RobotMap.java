@@ -10,6 +10,16 @@ public class RobotMap {
 	// following variables to use with your drivetrain subsystem.
 	// public static int leftMotor = 1;
 	// public static int rightMotor = 2;
+	
+	public static final int LEFT_TANK = 1;
+	public static final int RIGHT_TANK = 2;
+	public static final int ARM_MOTOR = 3;
+	
+	 public static final int XBOX_PORT = 1; 
+	 public static final int LEFT_JOYSTICK_PORT = 2;
+	 public static final int RIGHT_JOYSICK_PORT = 3;
+	 
+	 public static final boolean INIT_DRIVE = true;
 
 	public static final int DIPSWITCHCOUNT = 4;
 	public static final int DIPSWITCHSTARTPORT = 10;
@@ -19,6 +29,8 @@ public class RobotMap {
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 	
-	public static int XBoxPort = 0;
-	public static int AttackPort = 1;
+	
+	
+	public static int XBoxPort = 1;
+	public static int AttackPort = 2;
 }
