@@ -13,3 +13,6 @@
 *~
 Session.vim
 *.swp
+
+# Ignore the Build Directory
+/build/
