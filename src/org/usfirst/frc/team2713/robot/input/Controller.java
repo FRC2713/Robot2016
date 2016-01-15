@@ -5,10 +5,7 @@ import org.usfirst.frc.team2713.robot.subsystems.exceptions.ControllerNotFoundEx
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class Controller {
-	private String name;
-	private int port;
-	
+public class Controller {	
 	private String attackName = "Logitech Attack 3";
 	private String xboxName = "Controller (Gamepad for Xbox 360)";
 	
@@ -16,7 +13,7 @@ public class Controller {
 	public XboxController xbox;
 	
 	
-	public Joystick Controller(String targetControllerName) throws ControllerNotFoundException {
+	public Joystick getController(String targetControllerName) throws ControllerNotFoundException {
 		if (targetControllerName.equals(attackName)){
 			return attack;
 		} else if (targetControllerName.equals(xboxName)) {
@@ -26,7 +23,7 @@ public class Controller {
 		}
 	}
 	
-	public Joystick Controller(int targetControllerInt) throws ControllerNotFoundException{
+	public Joystick getController(int targetControllerInt) throws ControllerNotFoundException{
 		if (targetControllerInt == RobotMap.AttackPort){
 			return attack;
 		} else if (targetControllerInt == RobotMap.XBoxPort) {
