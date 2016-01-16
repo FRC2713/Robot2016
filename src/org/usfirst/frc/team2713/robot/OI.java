@@ -8,6 +8,8 @@ import org.usfirst.frc.team2713.robot.input.XBoxController;
 public class OI {
 	
 	public static XBoxController xbox;
+	private JoystickButton FlywheelOn;
+	private JoystickButton FlywheelOff; 
 	
 	public XBoxController getXbox() { 
 				return xbox; 
@@ -16,6 +18,7 @@ public class OI {
 		xbox = new XBoxController(RobotMap.XBoxPort);
 	}
 
+	
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a joystick.
 	// You create one by telling it which joystick it's on and which button

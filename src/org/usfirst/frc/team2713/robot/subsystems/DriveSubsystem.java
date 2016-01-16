@@ -6,20 +6,21 @@ import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.Encoder; 
 import edu.wpi.first.wpilibj.Joystick; 
 import edu.wpi.first.wpilibj.RobotDrive; 
-import edu.wpi.first.wpilibj.RobotDrive.MotorType; 
+import edu.wpi.first.wpilibj.RobotDrive.MotorType;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem; 
 
 
 public class DriveSubsystem extends Subsystem{
 
 	public static RobotDrive roboDrive;
-	CANJaguar right;
-	CANJaguar left;
+	Talon right;
+	Talon left;
 	
 	public DriveSubsystem(){
 		if(RobotMap.INIT_DRIVE){
-			left= new CANJaguar(RobotMap.LEFT_TANK);
-			right= new CANJaguar(RobotMap.RIGHT_TANK);
+			left= new Talon(RobotMap.LEFT_TANK);
+			right= new Talon(RobotMap.RIGHT_TANK);
 			roboDrive.setInvertedMotor(MotorType.kFrontLeft, false); // invert the left side motors 
 			roboDrive.setInvertedMotor(MotorType.kFrontRight, false);  
 
