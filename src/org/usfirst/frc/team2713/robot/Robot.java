@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
+import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.FlywheelSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,6 +27,8 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static DigitalInput[] autonomousSwitches;
+	DriveSubsystem drive;
+	FlywheelSubsystem flywheel;
 	
     Command autonomousCommand;
     SendableChooser chooser;
@@ -34,6 +38,7 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	initSubsystems();
     	autonomousSwitches = new DigitalInput[RobotMap.DIPSWITCHCOUNT];
 		for(int i = 0; i < RobotMap.DIPSWITCHCOUNT; i++) {
 			autonomousSwitches[i] = new DigitalInput(i + RobotMap.DIPSWITCHSTARTPORT);
@@ -44,6 +49,12 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", new ExampleCommand());
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
+    }
+    
+    public void initSubsystems() {
+    	drive = new DriveSubsystem();
+    	flywheel = new FlywheelSubsystem();
+    	
     }
 	
 	/**
