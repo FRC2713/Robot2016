@@ -3,60 +3,70 @@ package org.usfirst.frc.team2713.robot.commands;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.subsystems.FlywheelSubsystem;
 
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class SpinWheelControls extends Command {
 
 	int desiredSpeed = 0;
 	int currentSpeed = 0;
-	double RPM;
+	double RPS;
 	double lastRPM;
 	double lastTime;
 	double error;
 	double lastError;
-	FlywheelSubsystem flyWheel;
+	double lastRadians;
+	double currentRadians;
+	double lastTimeRad;
+	CANTalon flyWheel;
+	Encoder encoder;
 	
-	public SpinWheelControls(int desiredSpeed, FlywheelSubsystem flyWheel) {
+	public SpinWheelControls(int desiredSpeed, CANTalon flyWheel, Encoder encoder) {
 		this.desiredSpeed = desiredSpeed;
 		this.flyWheel = flyWheel;
+		this.encoder = encoder;
+		
 	}
 	
-	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void execute() {
-		lastRPM = RPM;
-		RPM = flyWheel.getRPM();
+		lastRPM = RPS;
+		RPS = getRPS();
 		lastError = error;
-		error = ((RPM - desiredSpeed) - (lastRPM - desiredSpeed));
+		error = ((RPS - desiredSpeed) - (lastRPM - desiredSpeed));
 		double proportinal = RobotMap.Kp * (error); //Change in Velocity
 		double differential = RobotMap.Kd *(error - lastError) / (System.currentTimeMillis() - lastTime); //Change in error / sec
 		double integral = RobotMap.Ki *(error - lastError) * (System.currentTimeMillis() - lastTime); //How much the error has offset you by
 		lastTime = System.currentTimeMillis();
 		double toCorrect = proportinal + integral + differential;
-		currentSpeed += toCorrect;
+		//currentSpeed += toCorrect;
+		flyWheel.set(.1);
 	}
 
-	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
-	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
-		
+
+	}
+	
+	public double getRPS() {
+		lastRadians = currentRadians;
+		currentRadians = encoder.getDistance();
+		double currentTime = System.currentTimeMillis();
+		double RadiansPMS = (currentRadians - lastRadians) / (currentTime - lastTimeRad);
+		return 1000 * RadiansPMS / (2 * Math.PI);
 	}
 
 }
