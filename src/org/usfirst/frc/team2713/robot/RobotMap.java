@@ -15,7 +15,9 @@ public class RobotMap {
 	public static final int LEFT_TANK = 1;
 	public static final int RIGHT_TANK = 2;
 	public static final int ARM_MOTOR = 3;
-	public static final int WHEEL_MOTOR = 2;
+	public static final int WHEEL_MOTOR = 4;
+	public static final int LOAD_MOTOR = 5;
+	
 
 	public static final String XBOX_NAME = "Controller (Gamepad for Xbox 360)";
 	public static final String ATTACK_NAME = "Logitech Attack 3";
@@ -32,7 +34,9 @@ public class RobotMap {
 	public static final boolean INIT_LOADER = false;
 
 	public static final int DIPSWITCHCOUNT = 1;
-	public static final int DIPSWITCHSTARTPORT = 10;	
+	public static final int DIPSWITCHSTARTPORT = 10;
+	
+		
 
 	// If you are using multiple modules, make sure to define both the port
 	// number and the module. For example you with a rangefinder:

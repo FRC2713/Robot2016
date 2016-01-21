@@ -10,7 +10,7 @@ public class LoadBall extends Command {
 	private int polarity;
 	LoaderSubsystem load;
 
-	public LoadBall(int polarity, LoaderSubsystem load) {
+	public LoadBall(int polarity) {
 		this.load = load;
 		requires(load);
 	}
