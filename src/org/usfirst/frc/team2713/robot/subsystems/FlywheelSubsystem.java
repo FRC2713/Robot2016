@@ -20,10 +20,18 @@ public class FlywheelSubsystem extends Subsystem {
 		//wheelControl.start();
 	}
 	
-	public void startCommand() {
+	public void startTeleop() {
 		wheelMeasure = new Encoder(8, 9);
 		wheelMeasure.setDistancePerPulse(1);
 		new SpinWheelControls(0, wheel, wheelMeasure).start();
+	}
+	
+	public void startAuto(int chosen) {
+
+	}
+
+	public void startDisabled() {
+		
 	}
 	
 	@Override

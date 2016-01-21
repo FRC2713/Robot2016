@@ -1,7 +1,7 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
-
+import org.usfirst.frc.team2713.robot.commands.SpinWheelControls;
 
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -26,6 +26,18 @@ public class DriveSubsystem extends Subsystem{
 			roboDrive.setInvertedMotor(MotorType.kFrontRight, false);  
 
 		}
+	}
+	
+	public void startTeleop() {
+
+	}
+	
+	public void startAuto(int chosen) {
+
+	}
+	
+	public void startDisabled() {
+		
 	}
 	
 	public static void TankDrive(double left, double right, double deadband){

@@ -9,5 +9,16 @@ public class HookArmSubsystem extends Subsystem {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void startTeleop() {
 
+	}
+	
+	public void startAuto(int chosen) {
+
+	}
+	
+	public void startDisabled() {
+		
+	}
 }

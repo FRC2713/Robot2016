@@ -1,13 +1,17 @@
 package org.usfirst.frc.team2713.robot.commands;
 import org.usfirst.frc.team2713.robot.OI;
+import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 
-public class LoadBall extends commandBase {
+public class LoadBall extends Command {
 
 	private int polarity;
+	LoaderSubsystem load;
 
-	public LoadBall(int polarity){
+	public LoadBall(int polarity, LoaderSubsystem load) {
+		this.load = load;
 		requires(load);
 	}
 	
@@ -20,9 +24,7 @@ public class LoadBall extends commandBase {
 
 	@Override
 	protected void execute() {
-			load.loadBall(polarity);	
-
-		
+		load.loadBall(polarity);	
 	}
 
 	@Override

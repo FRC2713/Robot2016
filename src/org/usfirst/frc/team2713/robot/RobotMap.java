@@ -26,10 +26,13 @@ public class RobotMap {
 	public static final double Ki = 1;
 	public static final double Kd = 1;
 
-	public static final boolean INIT_DRIVE = true;
+	public static final boolean INIT_DRIVE = false;
+	public static final boolean INIT_FLYWHEEL = true;
+	public static final boolean INIT_HOOKARM = false;
+	public static final boolean INIT_LOADER = false;
 
-	public static final int DIPSWITCHCOUNT = 4;
-	public static final int DIPSWITCHSTARTPORT = 10;
+	public static final int DIPSWITCHCOUNT = 1;
+	public static final int DIPSWITCHSTARTPORT = 10;	
 
 	// If you are using multiple modules, make sure to define both the port
 	// number and the module. For example you with a rangefinder:

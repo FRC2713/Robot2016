@@ -10,4 +10,15 @@ public class LoaderSubsystem extends Subsystem {
 		
 	}
 
+	public void startTeleop() {
+
+	}
+	
+	public void startAuto(int chosen) {
+
+	}
+	
+	public void startDisabled() {
+		
+	}
 }
