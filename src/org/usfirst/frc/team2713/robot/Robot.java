@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
     	//drive = new DriveSubsystem();
     	flywheel = new FlywheelSubsystem();
     }
-	
+    
 	/**
      * This function is called once each time the robot enters Disabled mode.
      * You can use it to reset any subsystem information you want to clear when
@@ -105,6 +105,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
+    	flywheel.startCommand();
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove

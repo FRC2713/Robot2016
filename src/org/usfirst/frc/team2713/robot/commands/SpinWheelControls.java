@@ -1,7 +1,6 @@
 package org.usfirst.frc.team2713.robot.commands;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
-import org.usfirst.frc.team2713.robot.subsystems.FlywheelSubsystem;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
@@ -25,12 +24,11 @@ public class SpinWheelControls extends Command {
 	public SpinWheelControls(int desiredSpeed, CANTalon flyWheel, Encoder encoder) {
 		this.desiredSpeed = desiredSpeed;
 		this.flyWheel = flyWheel;
-		this.encoder = encoder;
-		
+		this.encoder = encoder;		
 	}
 	
 	protected void initialize() {
-
+	
 	}
 
 	@Override
@@ -46,10 +44,10 @@ public class SpinWheelControls extends Command {
 		double toCorrect = proportinal + integral + differential;
 		//currentSpeed += toCorrect;
 		flyWheel.set(.1);
+		System.out.println(encoder.get());
 	}
 
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -58,7 +56,7 @@ public class SpinWheelControls extends Command {
 	}
 
 	protected void interrupted() {
-
+		System.out.println("Hi");
 	}
 	
 	public double getRPS() {
