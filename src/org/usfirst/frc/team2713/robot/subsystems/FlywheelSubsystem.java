@@ -10,18 +10,20 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class FlywheelSubsystem extends Subsystem {
 
-	public CANTalon wheel;
+	public CANTalon flywheel;
 	SpinWheelControls wheelControl;
 	Encoder wheelMeasure;
+	SpinWheelControls control;
 	
 	public FlywheelSubsystem() {
-		wheel = new CANTalon(RobotMap.WHEEL_MOTOR);
+		flywheel = new CANTalon(RobotMap.WHEEL_MOTOR);
 		wheelMeasure = new Encoder(8, 9);
 		wheelMeasure.setDistancePerPulse(-1.0 / 256.0);
 	}
 	
 	public void startTeleop() {
-		new SpinWheelControls(3, wheel, wheelMeasure).start();
+		control = new SpinWheelControls(3, flywheel, wheelMeasure);
+		control.start();
 	}
 	
 	public void startAuto(int chosen) {
@@ -29,7 +31,7 @@ public class FlywheelSubsystem extends Subsystem {
 	}
 
 	public void startDisabled() {
-		
+		control.output();
 	}
 	
 	@Override
