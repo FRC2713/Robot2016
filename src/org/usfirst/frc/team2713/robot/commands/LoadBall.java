@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class LoadBall extends Command {
 
-	private int polarity;
+	private double polarity;
 	LoaderSubsystem load;
 
-	public LoadBall(int polarity) {
+	public LoadBall(double polarity) {
 		this.load = load;
 		requires(load);
 	}

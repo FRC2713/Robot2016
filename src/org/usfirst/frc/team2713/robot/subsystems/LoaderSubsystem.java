@@ -7,12 +7,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class LoaderSubsystem extends Subsystem {
 
-	public static LoaderSubsystem load;
-	CANTalon loader;
+	public static LoaderSubsystem loader;
+	CANTalon load;
+	
 	
 	public LoaderSubsystem(){
 		if(RobotMap.INIT_LOADER){
-			loader = new CANTalon(RobotMap.LOAD_MOTOR);
+			load = new CANTalon(RobotMap.LOAD_MOTOR);
 		}
 	}
 	
@@ -34,8 +35,8 @@ public class LoaderSubsystem extends Subsystem {
 		
 	}
 
-	public void loadBall(int polarity) {
-		loader.set(polarity);
+	public void loadBall(double polarity) {
+		load.set(polarity);
 		
 	}
 }
