@@ -16,14 +16,12 @@ public class FlywheelSubsystem extends Subsystem {
 	
 	public FlywheelSubsystem() {
 		wheel = new CANTalon(RobotMap.WHEEL_MOTOR);
-		System.out.println("Command Start Run");
-		//wheelControl.start();
+		wheelMeasure = new Encoder(8, 9);
+		wheelMeasure.setDistancePerPulse(-1.0 / 256.0);
 	}
 	
 	public void startTeleop() {
-		wheelMeasure = new Encoder(8, 9);
-		wheelMeasure.setDistancePerPulse(1);
-		new SpinWheelControls(0, wheel, wheelMeasure).start();
+		new SpinWheelControls(3, wheel, wheelMeasure).start();
 	}
 	
 	public void startAuto(int chosen) {

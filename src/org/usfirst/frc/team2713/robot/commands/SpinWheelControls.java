@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SpinWheelControls extends Command {
 
+	int intervalCount = 3;
 	int desiredSpeed = 0;
-	int currentSpeed = 0;
 	double RPS;
-	double lastRPM;
+	double lastRPS;
 	double lastTime;
 	double error;
 	double lastError;
@@ -20,31 +20,39 @@ public class SpinWheelControls extends Command {
 	double lastTimeRad;
 	CANTalon flyWheel;
 	Encoder encoder;
-	
+
 	public SpinWheelControls(int desiredSpeed, CANTalon flyWheel, Encoder encoder) {
 		this.desiredSpeed = desiredSpeed;
 		this.flyWheel = flyWheel;
-		this.encoder = encoder;		
+		this.encoder = encoder;
 	}
-	
+
 	protected void initialize() {
-	
+
 	}
 
 	@Override
 	protected void execute() {
-		lastRPM = RPS;
-		RPS = getRPS();
-		lastError = error;
-		error = ((RPS - desiredSpeed) - (lastRPM - desiredSpeed));
-		double proportinal = RobotMap.Kp * (error); //Change in Velocity
-		double differential = RobotMap.Kd *(error - lastError) / (System.currentTimeMillis() - lastTime); //Change in error / sec
-		double integral = RobotMap.Ki *(error - lastError) * (System.currentTimeMillis() - lastTime); //How much the error has offset you by
-		lastTime = System.currentTimeMillis();
-		double toCorrect = proportinal + integral + differential;
-		//currentSpeed += toCorrect;
-		flyWheel.set(.1);
-		System.out.println(encoder.get());
+		if (intervalCount > 2) {
+			lastRPS = RPS;
+			RPS = getRPS();
+			lastError = error;
+			error = ((desiredSpeed - RPS));
+			System.out.println(RPS);
+			double proportinal = RobotMap.Kp * (error); // Change in Velocity
+			double differential = RobotMap.Kd * (error - lastError) / (System.currentTimeMillis() - lastTime);
+			double integral = RobotMap.Ki * (error - lastError) * (System.currentTimeMillis() - lastTime);
+			lastTime = System.currentTimeMillis();
+			double toCorrect = proportinal + integral + differential;
+			if(flyWheel.get() + toCorrect < 1) {
+				flyWheel.set(flyWheel.get() + toCorrect);
+			} else {
+				flyWheel.set(1);
+			}
+			intervalCount = 0;
+		} else {
+			intervalCount++;
+		}
 	}
 
 	protected boolean isFinished() {
@@ -58,13 +66,15 @@ public class SpinWheelControls extends Command {
 	protected void interrupted() {
 		System.out.println("Hi");
 	}
-	
+
 	public double getRPS() {
 		lastRadians = currentRadians;
 		currentRadians = encoder.getDistance();
 		double currentTime = System.currentTimeMillis();
-		double RadiansPMS = (currentRadians - lastRadians) / (currentTime - lastTimeRad);
-		return 1000 * RadiansPMS / (2 * Math.PI);
+		double RPMS = (currentRadians - lastRadians) / (currentTime - lastTimeRad);
+		lastTimeRad = currentTime;
+		intervalCount = 0;
+		return 1000 * RPMS;
 	}
 
 }
