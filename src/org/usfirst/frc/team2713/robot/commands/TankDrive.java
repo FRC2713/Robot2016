@@ -9,6 +9,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class TankDrive extends Command {
+	
+	DriveSubsystem drive;
+	
+	public TankDrive(DriveSubsystem drive){
+		this.drive = drive;
+		requires(drive);
+	}
+	
 	double scaler;
 	double deadband;
 	double polarity;

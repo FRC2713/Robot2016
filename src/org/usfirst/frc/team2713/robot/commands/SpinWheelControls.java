@@ -47,9 +47,9 @@ public class SpinWheelControls extends Command {
 			lastError = error;
 			error = ((desiredSpeed - RPS));
 			System.out.println(RPS);
-			double proportinal = RobotMap.Kp * (error); // Change in Velocity
-			double differential = RobotMap.Kd * (error - lastError) / (System.currentTimeMillis() - lastTime);
-			double integral = RobotMap.Ki * (error - lastError) * (System.currentTimeMillis() - lastTime);
+			double proportinal = RobotMap.KpWheel * (error); // Change in Velocity
+			double differential = RobotMap.KdWheel * (error - lastError) / (System.currentTimeMillis() - lastTime);
+			double integral = RobotMap.KiWheel * (error - lastError) * (System.currentTimeMillis() - lastTime);
 			lastTime = System.currentTimeMillis();
 			double toCorrect = proportinal + integral + differential;
 			if (flyWheel.get() + toCorrect < 1) {
