@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
+import org.usfirst.frc.team2713.robot.commands.LoadBall;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.FlywheelSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
@@ -27,10 +28,12 @@ public class Robot extends IterativeRobot {
 
 	public OI oi;
 	public DigitalInput[] autonomousSwitches;
+	public DigitalInput loadswitch;
 	DriveSubsystem drive;
 	FlywheelSubsystem flywheel;
 	HookArmSubsystem hookarm;
 	LoaderSubsystem loader;
+	
 
 	Command autonomousCommand;
 
@@ -46,6 +49,7 @@ public class Robot extends IterativeRobot {
 		}
 		oi = new OI();
 		SmartDashboard.putData(Scheduler.getInstance());
+		loadswitch = new DigitalInput(1);
 	}
 
 	public void initSubsystems() {
@@ -136,6 +140,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
+		boolean load = loadswitch.get();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -150,6 +155,13 @@ public class Robot extends IterativeRobot {
 			hookarm.startTeleop();
 		if (loader != null)
 			loader.startTeleop();
+		while(load=false){
+			new LoadBall(0.0);
+		}
+		while(load= true){
+			new LoadBall(1.0);
+		}
+		
 	}
 
 	/**
