@@ -1,17 +1,19 @@
 package org.usfirst.frc.team2713.robot.commands;
-import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Command;
 
 
 public class LoadBall extends Command {
 
-	private double polarity;
+	private double polarity = 1;
 	LoaderSubsystem load;
+	DigitalInput control;
 
-	public LoadBall(double polarity) {
+	public LoadBall(LoaderSubsystem load, DigitalInput control) {
 		this.load = load;
+		this.control = control;
 		requires(load);
 	}
 	
@@ -24,7 +26,11 @@ public class LoadBall extends Command {
 
 	@Override
 	protected void execute() {
-		load.loadBall(polarity);	
+		if(control.get()) {
+			load.loadBall(polarity);	
+		} else {
+			load.loadBall(0);
+		}
 	}
 
 	@Override

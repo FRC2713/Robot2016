@@ -1,18 +1,23 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.commands.LoadBall;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class LoaderSubsystem extends Subsystem {
 
 	public static LoaderSubsystem loader;
 	CANTalon load;
+	LoadBall loadCommand;
+	DigitalInput loadswitch;
 	
 	
 	public LoaderSubsystem(){
 		if(RobotMap.INIT_LOADER){
+			loadswitch = new DigitalInput(1);
 			load = new CANTalon(RobotMap.LOAD_MOTOR);
 		}
 	}
@@ -28,7 +33,8 @@ public class LoaderSubsystem extends Subsystem {
 	}
 	
 	public void startAuto(int chosen) {
-
+		loadCommand = new LoadBall(this, loadswitch);
+		loadCommand.start();
 	}
 	
 	public void startDisabled() {

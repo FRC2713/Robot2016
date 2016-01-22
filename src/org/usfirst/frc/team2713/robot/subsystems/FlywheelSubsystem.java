@@ -12,7 +12,7 @@ public class FlywheelSubsystem extends Subsystem {
 
 	public CANTalon flywheel;
 	SpinWheelControls wheelControl;
-	Encoder wheelMeasure;
+	public Encoder wheelMeasure;
 	SpinWheelControls control;
 	
 	public FlywheelSubsystem() {
@@ -22,8 +22,8 @@ public class FlywheelSubsystem extends Subsystem {
 	}
 	
 	public void startTeleop() {
-		control = new SpinWheelControls(3, flywheel, wheelMeasure);
-		control.start();
+		//control = new SpinWheelControls(3, this);
+		//control.start();
 	}
 	
 	public void startAuto(int chosen) {

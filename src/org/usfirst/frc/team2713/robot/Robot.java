@@ -28,7 +28,6 @@ public class Robot extends IterativeRobot {
 
 	public OI oi;
 	public DigitalInput[] autonomousSwitches;
-	public DigitalInput loadswitch;
 	DriveSubsystem drive;
 	FlywheelSubsystem flywheel;
 	HookArmSubsystem hookarm;
@@ -47,9 +46,8 @@ public class Robot extends IterativeRobot {
 		for (int i = 0; i < RobotMap.DIPSWITCHCOUNT; i++) {
 			autonomousSwitches[i] = new DigitalInput(i + RobotMap.DIPSWITCHSTARTPORT);
 		}
-		oi = new OI();
+		oi = new OI(flywheel, hookarm);
 		SmartDashboard.putData(Scheduler.getInstance());
-		loadswitch = new DigitalInput(1);
 	}
 
 	public void initSubsystems() {
@@ -119,15 +117,6 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = new ExampleCommand();
 		}
 
-		// autonomousCommand = (Command) chooser.getSelected();
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 	}
@@ -140,7 +129,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		boolean load = loadswitch.get();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -155,12 +143,6 @@ public class Robot extends IterativeRobot {
 			hookarm.startTeleop();
 		if (loader != null)
 			loader.startTeleop();
-		while(load=false){
-			new LoadBall(0.0);
-		}
-		while(load= true){
-			new LoadBall(1.0);
-		}
 		
 	}
 

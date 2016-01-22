@@ -2,9 +2,7 @@ package org.usfirst.frc.team2713.robot.commands;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 

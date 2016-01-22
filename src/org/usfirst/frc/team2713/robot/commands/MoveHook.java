@@ -5,12 +5,12 @@ import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class HoldHookAtAngle extends Command {
+public class MoveHook extends Command {
 
 	private double polarity;
 	HookArmSubsystem hookarm;
 	
-	public HoldHookAtAngle(double polarity){
+	public MoveHook(HookArmSubsystem hookarm, double polarity){
 		this.hookarm = hookarm;
 		requires(hookarm);
 	}

@@ -1,21 +1,22 @@
 package org.usfirst.frc.team2713.robot.commands;
 
 import java.io.File;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.subsystems.FlywheelSubsystem;
 
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class SpinWheelControls extends Command {
 
+	FlywheelSubsystem flyWheel;
 	int intervalCount = 3;
-	int desiredSpeed = 0;
+	double desiredSpeed = 0;
 	double RPS;
 	double lastTime;
 	double error;
@@ -23,17 +24,14 @@ public class SpinWheelControls extends Command {
 	double lastRotations;
 	double currentRotations;
 	double lastTimeRotations;
-	CANTalon flyWheel;
-	Encoder encoder;
 	ArrayList<Double> proportional;
 	ArrayList<Double> differential;
 	ArrayList<Double> integral;
 	ArrayList<Double> speed;
 
-	public SpinWheelControls(int desiredSpeed, CANTalon flyWheel, Encoder encoder) {
+	public SpinWheelControls(double desiredSpeed, FlywheelSubsystem flyWheel) {
 		this.desiredSpeed = desiredSpeed;
 		this.flyWheel = flyWheel;
-		this.encoder = encoder;
 	}
 
 	protected void initialize() {
@@ -52,10 +50,10 @@ public class SpinWheelControls extends Command {
 			double integral = RobotMap.KiWheel * (error - lastError) * (System.currentTimeMillis() - lastTime);
 			lastTime = System.currentTimeMillis();
 			double toCorrect = proportinal + integral + differential;
-			if (flyWheel.get() + toCorrect < 1) {
-				flyWheel.set(flyWheel.get() + toCorrect);
+			if (flyWheel.flywheel.get() + toCorrect < 1) {
+				flyWheel.flywheel.set(flyWheel.flywheel.get() + toCorrect);
 			} else {
-				flyWheel.set(1);
+				flyWheel.flywheel.set(1);
 			}
 			intervalCount = 0;
 			this.proportional.add(proportinal);
@@ -67,7 +65,10 @@ public class SpinWheelControls extends Command {
 		}
 	}
 
-	protected boolean isFinished() {
+	protected boolean isFinished() { //Once it is up to speed (for a time?), it stops
+		if(flyWheel.flywheel.get() - .1 < desiredSpeed && flyWheel.flywheel.get() + .1 > desiredSpeed) {
+			return true;
+		}
 		return false;
 	}
 
@@ -76,12 +77,12 @@ public class SpinWheelControls extends Command {
 	}
 
 	protected void interrupted() {
-		System.out.println("Hi");
+
 	}
 
 	public double getRPS() {
 		lastRotations = currentRotations;
-		currentRotations = encoder.getDistance();
+		currentRotations = flyWheel.wheelMeasure.getDistance();
 		double currentTime = System.currentTimeMillis();
 		double RPMS = (currentRotations - lastRotations) / (currentTime - lastTimeRotations);
 		lastTimeRotations = currentTime;
