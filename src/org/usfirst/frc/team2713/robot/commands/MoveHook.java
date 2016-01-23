@@ -1,8 +1,6 @@
 package org.usfirst.frc.team2713.robot.commands;
 
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
-import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveHook extends Command {

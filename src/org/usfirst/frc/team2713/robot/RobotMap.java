@@ -15,9 +15,11 @@ public class RobotMap {
 	public static final int LEFT_TANK = 1;
 	public static final int RIGHT_TANK = 2;
 	public static final int ARM_MOTOR = 3;
-	public static final int WHEEL_MOTOR = 2;
-	public static final int LOAD_MOTOR = 5;
-	
+	public static final int WHEEL1_MOTOR = 2;
+	public static final int WHEEL2_MOTOR = 3;
+	public static final int LOAD_MOTOR = 6;
+	public static final int SWAP_MOTOR = 7;
+
 	public static final int LOAD_LIMIT = 1;
 
 	public static final String XBOX_NAME = "Controller (Gamepad for Xbox 360)";
@@ -25,13 +27,14 @@ public class RobotMap {
 	public static final int LEFT_JOYSTICK_PORT = 2;
 	public static final int RIGHT_JOYSICK_PORT = 3;
 	
-	public static final double KpWheel = .01;
-	public static final double KiWheel = .003;
-	public static final double KdWheel = .003;
+	public static final double KpWheel = 3.5;// * Math.random(); //5 is in my mind
+	public static final double KiWheel = .04;// * Math.random();
+	public static final double KdWheel = 0.4;// * Math.random();
+	public static final int ENCODER_PULSE = 256;
 	
 	public static final double KpArm = .01;
-	public static final double KiArm = .003;
-	public static final double KdArm = .003;
+	public static final double KiArm = .00;
+	public static final double KdArm = .0;
 
 	public static final boolean INIT_DRIVE = false;
 	public static final boolean INIT_FLYWHEEL = true;

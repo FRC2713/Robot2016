@@ -3,7 +3,6 @@ package org.usfirst.frc.team2713.robot.input;
 import org.usfirst.frc.team2713.robot.subsystems.exceptions.ButtonNotFoundException;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 
 public class AttackController extends Joystick {
 

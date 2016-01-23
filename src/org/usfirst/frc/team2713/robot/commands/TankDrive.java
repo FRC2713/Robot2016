@@ -1,19 +1,18 @@
 package org.usfirst.frc.team2713.robot.commands;
 
-import org.usfirst.frc.team2713.robot.OI;
- 
-import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class TankDrive extends Command {
 	
 	DriveSubsystem drive;
+	XBoxController xbox;
 	
-	public TankDrive(DriveSubsystem drive){
+	public TankDrive(DriveSubsystem drive, XBoxController xbox){
 		this.drive = drive;
+		this.xbox = xbox;
 		requires(drive);
 	}
 	
@@ -26,7 +25,7 @@ public class TankDrive extends Command {
 		deadband = 0.1;
 		polarity = 1;
 
-		DriveSubsystem.TankDrive(OI.xbox.getLeftY()*scaler, OI.xbox.getRightY()*scaler, deadband);
+		DriveSubsystem.TankDrive(xbox.getLeftY()*scaler, xbox.getRightY()*scaler, deadband);
 		
 	}
 

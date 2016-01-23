@@ -11,6 +11,7 @@ public class LoaderSubsystem extends Subsystem {
 
 	public static LoaderSubsystem loader;
 	CANTalon load;
+	public CANTalon swap;
 	LoadBall loadCommand;
 	DigitalInput loadswitch;
 	
@@ -19,6 +20,7 @@ public class LoaderSubsystem extends Subsystem {
 		if(RobotMap.INIT_LOADER){
 			loadswitch = new DigitalInput(1);
 			load = new CANTalon(RobotMap.LOAD_MOTOR);
+			swap = new CANTalon(RobotMap.SWAP_MOTOR);
 		}
 	}
 	

@@ -6,16 +6,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.subsystems.FlywheelSubsystem;
 
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class SpinWheelControls extends Command {
 
 	FlywheelSubsystem flyWheel;
-	int intervalCount = 3;
 	double desiredSpeed = 0;
 	double RPS;
 	double lastTime;
@@ -24,10 +26,9 @@ public class SpinWheelControls extends Command {
 	double lastRotations;
 	double currentRotations;
 	double lastTimeRotations;
-	ArrayList<Double> proportional;
-	ArrayList<Double> differential;
-	ArrayList<Double> integral;
-	ArrayList<Double> speed;
+	double globalIntegral = 0.0;
+	ArrayList<Double> speed = new ArrayList<Double>();
+	int count = 0;
 
 	public SpinWheelControls(double desiredSpeed, FlywheelSubsystem flyWheel) {
 		this.desiredSpeed = desiredSpeed;
@@ -40,75 +41,48 @@ public class SpinWheelControls extends Command {
 
 	@Override
 	protected void execute() {
-		if (intervalCount > 2) {
-			RPS = getRPS();
-			lastError = error;
-			error = ((desiredSpeed - RPS));
-			System.out.println(RPS);
-			double proportinal = RobotMap.KpWheel * (error); // Change in Velocity
-			double differential = RobotMap.KdWheel * (error - lastError) / (System.currentTimeMillis() - lastTime);
-			double integral = RobotMap.KiWheel * (error - lastError) * (System.currentTimeMillis() - lastTime);
-			lastTime = System.currentTimeMillis();
-			double toCorrect = proportinal + integral + differential;
-			if (flyWheel.flywheel.get() + toCorrect < 1) {
-				flyWheel.flywheel.set(flyWheel.flywheel.get() + toCorrect);
-			} else {
-				flyWheel.flywheel.set(1);
-			}
-			intervalCount = 0;
-			this.proportional.add(proportinal);
-			this.differential.add(differential);
-			this.integral.add(integral);
-			this.speed.add(RPS);
-		} else {
-			intervalCount++;
-		}
+		flyWheel.flywheel1.set(desiredSpeed);
+		//flyWheel.flywheel2.set(flyWheel.flywheel1.getOutputVoltage());
 	}
 
-	protected boolean isFinished() { //Once it is up to speed (for a time?), it stops
-		if(flyWheel.flywheel.get() - .1 < desiredSpeed && flyWheel.flywheel.get() + .1 > desiredSpeed) {
-			return true;
+	protected boolean isFinished() {
+		System.out.println(flyWheel.flywheel1.get());
+		double RPS = flyWheel.flywheel1.get();
+		this.speed.add(RPS);
+		if ((RPS - 10) <= desiredSpeed && (RPS + 10) >= desiredSpeed) {
+			count++;
+			if (count > 10) {
+				System.out.println("Done");
+				output();
+				return true;
+			}
+		} else {
+			count = 0;
 		}
 		return false;
 	}
 
 	protected void end() {
-
+		output();
 	}
 
 	protected void interrupted() {
-
+		output();
 	}
 
 	public double getRPS() {
-		lastRotations = currentRotations;
-		currentRotations = flyWheel.wheelMeasure.getDistance();
-		double currentTime = System.currentTimeMillis();
-		double RPMS = (currentRotations - lastRotations) / (currentTime - lastTimeRotations);
-		lastTimeRotations = currentTime;
-		intervalCount = 0;
-		return 1000 * RPMS;
+		return flyWheel.flywheel1.get();
 	}
 
 	public void output() {
-		File output = new File(System.currentTimeMillis() + ".txt");
+		File output = new File("/home/lvuser/output.txt");
 		FileWriter write = null;
 		try {
 			write = new FileWriter(output);
 			PrintWriter print = new PrintWriter(write);
-			print.println("Spinner Output");
-			print.println("Proportional");
-			for (int i = 0; i < proportional.size(); i++) {
-				print.println(proportional.get(i));
-			}
-			print.println("Differential");
-			for (int i = 0; i < differential.size(); i++) {
-				print.println(differential.get(i));
-			}
-			print.println("Integral");
-			for (int i = 0; i < integral.size(); i++) {
-				print.println(integral.get(i));
-			}
+			print.println(RobotMap.KdWheel + " Derivative");
+			print.println(RobotMap.KpWheel + " Proportional");
+			print.println(RobotMap.KiWheel + " Integral");
 			print.println("RPS");
 			for (int i = 0; i < speed.size(); i++) {
 				print.println(speed.get(i));
@@ -120,5 +94,4 @@ public class SpinWheelControls extends Command {
 			e.printStackTrace();
 		}
 	}
-
 }
