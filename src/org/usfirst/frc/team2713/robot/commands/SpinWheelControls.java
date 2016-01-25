@@ -42,7 +42,7 @@ public class SpinWheelControls extends Command {
 	@Override
 	protected void execute() {
 		flyWheel.flywheel1.set(desiredSpeed);
-		//flyWheel.flywheel2.set(flyWheel.flywheel1.getOutputVoltage());
+		flyWheel.flywheel2.set(flyWheel.flywheel1.getOutputVoltage());
 	}
 
 	protected boolean isFinished() {

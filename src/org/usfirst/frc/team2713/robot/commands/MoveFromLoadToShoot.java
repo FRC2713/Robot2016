@@ -3,6 +3,7 @@ package org.usfirst.frc.team2713.robot.commands;
 import org.usfirst.frc.team2713.robot.subsystems.FlywheelSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveFromLoadToShoot extends Command {
@@ -13,6 +14,7 @@ public class MoveFromLoadToShoot extends Command {
 	
 	public MoveFromLoadToShoot(LoaderSubsystem loader, FlywheelSubsystem flywheel) {
 		this.loader = loader;
+		PowerDistributionPanel PDP = new PowerDistributionPanel();
 		this.flywheel = flywheel;
 	}
 	

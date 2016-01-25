@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2713.robot;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -9,9 +10,11 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
+import org.usfirst.frc.team2713.robot.commands.lights.Lights;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.FlywheelSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,7 +34,7 @@ public class Robot extends IterativeRobot {
 	FlywheelSubsystem flywheel;
 	HookArmSubsystem hookarm;
 	LoaderSubsystem loader;
-	
+	LightSubsystem lights;
 
 	Command autonomousCommand;
 
@@ -58,6 +61,8 @@ public class Robot extends IterativeRobot {
 			loader = new LoaderSubsystem();
 		if (hookarm == null && RobotMap.INIT_HOOKARM)
 			hookarm = new HookArmSubsystem();
+		if (lights == null && RobotMap.INIT_LIGHTS)
+			lights = new LightSubsystem();
 	}
 
 	/**
@@ -74,6 +79,8 @@ public class Robot extends IterativeRobot {
 			hookarm.startDisabled();
 		if (loader != null)
 			loader.startDisabled();
+		if (lights != null)
+			lights.startDisabled();
 	}
 
 	public void disabledPeriodic() {
@@ -110,6 +117,9 @@ public class Robot extends IterativeRobot {
 
 		if (loader != null)
 			loader.startAuto(chosen);
+		
+		if (lights != null)
+			lights.startAuto(chosen);
 
 		switch (chosen) {
 		case 0:
@@ -142,6 +152,8 @@ public class Robot extends IterativeRobot {
 			hookarm.startTeleop();
 		if (loader != null)
 			loader.startTeleop();
+		if (lights != null)
+			lights.startTeleop();
 		
 	}
 

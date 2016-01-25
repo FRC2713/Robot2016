@@ -19,8 +19,7 @@ public class RobotMap {
 	public static final int WHEEL2_MOTOR = 3;
 	public static final int LOAD_MOTOR = 6;
 	public static final int SWAP_MOTOR = 7;
-
-	public static final int LOAD_LIMIT = 1;
+	public static final int LIGHT_TALON = 4;
 
 	public static final String XBOX_NAME = "Controller (Gamepad for Xbox 360)";
 	public static final String ATTACK_NAME = "Logitech Attack 3";
@@ -40,6 +39,8 @@ public class RobotMap {
 	public static final boolean INIT_FLYWHEEL = true;
 	public static final boolean INIT_HOOKARM = false;
 	public static final boolean INIT_LOADER = false;
+	public static final boolean INIT_LIGHTS = false;
+	public static final boolean USE_LIGHT_JAG = true;
 
 	public static final int DIPSWITCHCOUNT = 1;
 	public static final int DIPSWITCHSTARTPORT = 10;
