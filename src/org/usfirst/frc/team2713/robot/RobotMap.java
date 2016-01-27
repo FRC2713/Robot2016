@@ -15,11 +15,11 @@ public class RobotMap {
 	public static final int LEFT_TANK = 1;
 	public static final int RIGHT_TANK = 2;
 	public static final int ARM_MOTOR = 3;
-	public static final int WHEEL1_MOTOR = 2;
-	public static final int WHEEL2_MOTOR = 3;
+	public static final int SHOOTER_WHEEL_MOTOR = 4;
+	public static final int LOADER_WHEEL_MOTOR = 5;
 	public static final int LOAD_MOTOR = 6;
 	public static final int SWAP_MOTOR = 7;
-	public static final int LIGHT_TALON = 4;
+	public static final int LIGHT_TALON = 8;
 
 	public static final String XBOX_NAME = "Controller (Gamepad for Xbox 360)";
 	public static final String ATTACK_NAME = "Logitech Attack 3";

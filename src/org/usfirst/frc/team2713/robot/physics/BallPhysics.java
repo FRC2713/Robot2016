@@ -46,4 +46,8 @@ public class BallPhysics {
 		return 14;
 	}
 	
+	public double getWheelRPS() {
+		return 1;
+	}
+	
 }

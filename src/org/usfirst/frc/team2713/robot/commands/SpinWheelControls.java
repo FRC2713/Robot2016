@@ -12,12 +12,13 @@ import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.subsystems.FlywheelSubsystem;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class SpinWheelControls extends Command {
 
-	FlywheelSubsystem flyWheel;
+	CANTalon flyWheel;
 	double desiredSpeed = 0;
 	double RPS;
 	double lastTime;
@@ -30,7 +31,7 @@ public class SpinWheelControls extends Command {
 	ArrayList<Double> speed = new ArrayList<Double>();
 	int count = 0;
 
-	public SpinWheelControls(double desiredSpeed, FlywheelSubsystem flyWheel) {
+	public SpinWheelControls(double desiredSpeed, CANTalon flyWheel) {
 		this.desiredSpeed = desiredSpeed;
 		this.flyWheel = flyWheel;
 	}
@@ -41,13 +42,13 @@ public class SpinWheelControls extends Command {
 
 	@Override
 	protected void execute() {
-		flyWheel.flywheel1.set(desiredSpeed);
-		flyWheel.flywheel2.set(flyWheel.flywheel1.getOutputVoltage());
+		flyWheel.set(desiredSpeed);
+		flyWheel.set(flyWheel.getOutputVoltage());
 	}
 
 	protected boolean isFinished() {
-		System.out.println(flyWheel.flywheel1.get());
-		double RPS = flyWheel.flywheel1.get();
+		System.out.println(flyWheel.get());
+		double RPS = flyWheel.get();
 		this.speed.add(RPS);
 		if ((RPS - 10) <= desiredSpeed && (RPS + 10) >= desiredSpeed) {
 			count++;
@@ -71,7 +72,7 @@ public class SpinWheelControls extends Command {
 	}
 
 	public double getRPS() {
-		return flyWheel.flywheel1.get();
+		return flyWheel.get();
 	}
 
 	public void output() {

@@ -13,18 +13,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class FlywheelSubsystem extends Subsystem {
 
-	public CANTalon flywheel1;
-	public CANTalon flywheel2;
+	public CANTalon flywheelShooter;
 	SpinWheelControls wheelControl;
 	SpinWheelControls control;
 	
 	public FlywheelSubsystem() {
-		flywheel1 = new CANTalon(RobotMap.WHEEL1_MOTOR);
-		flywheel2 = new CANTalon(RobotMap.WHEEL2_MOTOR);
-		flywheel1.configEncoderCodesPerRev(RobotMap.ENCODER_PULSE);
-		flywheel1.setPID(RobotMap.KpWheel, RobotMap.KiWheel, RobotMap.KdWheel);
-		flywheel1.setPIDSourceType(PIDSourceType.kRate);
-		flywheel1.changeControlMode(TalonControlMode.Speed);
+		flywheelShooter = new CANTalon(RobotMap.SHOOTER_WHEEL_MOTOR);
+		flywheelShooter.configEncoderCodesPerRev(RobotMap.ENCODER_PULSE);
+		flywheelShooter.setPID(RobotMap.KpWheel, RobotMap.KiWheel, RobotMap.KdWheel);
+		flywheelShooter.setPIDSourceType(PIDSourceType.kRate);
+		flywheelShooter.changeControlMode(TalonControlMode.Speed);
 	}
 	
 	public void startTeleop() {
@@ -45,10 +43,9 @@ public class FlywheelSubsystem extends Subsystem {
 	}
 	
 	public void stopMotors() {
-		flywheel1.changeControlMode(TalonControlMode.Voltage);
-		flywheel1.set(0);
-		flywheel2.set(0);
-		flywheel1.changeControlMode(TalonControlMode.Speed);
+		flywheelShooter.changeControlMode(TalonControlMode.Voltage);
+		flywheelShooter.set(0);
+		flywheelShooter.changeControlMode(TalonControlMode.Speed);
 	}
 	
 }
