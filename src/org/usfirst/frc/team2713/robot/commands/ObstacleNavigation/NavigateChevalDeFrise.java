@@ -11,15 +11,15 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 
 
-public class NavigateChevalDeFrise extends Command {
+public class NavigateChevalDeFrise extends CommandGroup {
 
 	HookArmSubsystem hookarm;
 	DriveSubsystem drive;
 	@Override
+	
 	protected void initialize() {
 		// TODO Auto-generated method stub
-		//addSequential(new MoveHook(hookarm, 1));
-		//addSequential(new GoForward(drive, 4));
+		
 		
 		
 	}
@@ -27,6 +27,8 @@ public class NavigateChevalDeFrise extends Command {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
+		addSequential(new MoveHook(hookarm, 1));
+		addSequential(new GoForward(drive, 4));
 		
 	}
 

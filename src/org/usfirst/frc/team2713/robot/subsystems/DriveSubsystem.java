@@ -19,7 +19,6 @@ public class DriveSubsystem extends Subsystem{
 			right= new CANTalon(RobotMap.RIGHT_TANK);
 			roboDrive.setInvertedMotor(MotorType.kFrontLeft, false); // invert the left side motors 
 			roboDrive.setInvertedMotor(MotorType.kFrontRight, false);  
-
 		}
 	}
 	
