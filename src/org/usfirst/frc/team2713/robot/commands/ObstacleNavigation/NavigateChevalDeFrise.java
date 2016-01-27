@@ -1,12 +1,26 @@
 package org.usfirst.frc.team2713.robot.commands.ObstacleNavigation;
 
+import org.usfirst.frc.team2713.robot.commands.GoForward;
+import org.usfirst.frc.team2713.robot.commands.MoveHook;
+import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+
+
+
 
 public class NavigateChevalDeFrise extends Command {
 
+	HookArmSubsystem hookarm;
+	DriveSubsystem drive;
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
+		//addSequential(new MoveHook(hookarm, 1));
+		//addSequential(new GoForward(drive, 4));
+		
 		
 	}
 
