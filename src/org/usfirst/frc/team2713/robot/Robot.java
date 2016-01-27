@@ -1,7 +1,6 @@
 
 package org.usfirst.frc.team2713.robot;
 
-import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -10,7 +9,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
-import org.usfirst.frc.team2713.robot.commands.lights.Lights;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.FlywheelSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;

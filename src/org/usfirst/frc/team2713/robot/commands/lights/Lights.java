@@ -1,16 +1,18 @@
 package org.usfirst.frc.team2713.robot.commands.lights;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class Lights extends Command {
 
-	CANTalon lights;
 	boolean toDo = true;
 	double inc = 40;
 	int change = 4;
+	LightSubsystem lights;
 
-	public Lights(CANTalon lights) {
+	public Lights(LightSubsystem lights) {
 		this.lights = lights;
 	}
 
@@ -26,12 +28,26 @@ public class Lights extends Command {
 
 	@Override
 	protected void execute() {
+		if(RobotMap.USE_LIGHT_JAG) {
+			talonLight();
+		} else {
+			servoLights();
+		}
+	}
+	
+	public void servoLights() {
+		lights.red.set(1);
+		lights.green.set(1);
+		lights.blue.set(1);
+	}
+	
+	public void talonLight() {
 		if (lights != null) {
 			if (toDo) {
-				lights.set(1);
+				lights.lights.set(1);
 				toDo = false;
 			} else {
-				lights.set(0);
+				lights.lights.set(0);
 				toDo = true;
 
 			}
@@ -48,12 +64,6 @@ public class Lights extends Command {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			/*
-			 * if(toDo) { lights.set(1); toDo = false; } else { lights.set(0);
-			 * toDo = true; } try { Thread.sleep((long) ((60.0 / 140.0) *
-			 * 400.0)); } catch (InterruptedException e) { // TODO
-			 * Auto-generated catch block e.printStackTrace(); }
-			 */
 		}
 	}
 

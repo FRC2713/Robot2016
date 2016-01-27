@@ -4,23 +4,29 @@ import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.lights.Lights;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class LightSubsystem extends Subsystem {
 
-	CANTalon light;
-
+	public CANTalon lights;
+	public Servo red;
+	public Servo green;
+	public Servo blue;
+	
 	public LightSubsystem() {
 		if (RobotMap.USE_LIGHT_JAG) {
-			light = new CANTalon(RobotMap.LIGHT_TALON);
+			lights = new CANTalon(RobotMap.LIGHT_TALON);
+		} else {
+			red = new Servo(RobotMap.RED_PWM_PORT);
+			green = new Servo(RobotMap.GREEN_PWM_PORT);
+			blue = new Servo(RobotMap.BLUE_PWM_PORT);
 		}
 	}
 
 	public void startTeleop() {
-		if (RobotMap.USE_LIGHT_JAG) {
-			Lights rave = new Lights(light);
-			rave.start();
-		}
+		Lights rave = new Lights(this);
+		rave.start();
 	}
 
 	public void startAuto(int chosen) {
