@@ -99,6 +99,7 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
+		Scheduler.getInstance().run();
 		int chosen = 0;
 		for (int i = 0; i < autonomousSwitches.length; i++) {
 			if (autonomousSwitches[i].get()) {
@@ -142,6 +143,7 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		Scheduler.getInstance().run();
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		if (flywheel != null)

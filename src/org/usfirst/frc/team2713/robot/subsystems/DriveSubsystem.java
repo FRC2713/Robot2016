@@ -57,6 +57,11 @@ public class DriveSubsystem extends Subsystem{
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void move(double polarity) {
+		left.set(polarity);
+		right.set(polarity);
+	}
 	
 
 }
