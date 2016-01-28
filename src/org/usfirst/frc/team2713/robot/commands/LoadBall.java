@@ -11,12 +11,13 @@ public class LoadBall extends Command {
 	LoaderSubsystem load;
 	DigitalInput control;
 
-	public LoadBall(LoaderSubsystem load, DigitalInput control) {
-		this.load = load;
+	public LoadBall(LoaderSubsystem loader, double polarity) {
+		this.load = loader;
 		this.control = control;
-		requires(load);
+		requires(loader);
 	}
 	
+
 
 	@Override
 	protected void initialize() {

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2713.robot;
 
+import org.usfirst.frc.team2713.robot.commands.LoadBall;
 import org.usfirst.frc.team2713.robot.commands.MoveHook;
 import org.usfirst.frc.team2713.robot.commands.ShootShot;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
@@ -39,13 +40,15 @@ public class OI {
 
 			}
 		}
-		// loadin = new JoystickButton(xbox, 4);
-		// loadin.whileHeld(new LoadBall(1));
-		// loadin.whenReleased(new LoadBall(0));
-
-		// loadout = new JoystickButton(xbox, 1);
-		// loadout.whileHeld(new LoadBall(-1));
-		// loadout.whenReleased(new LoadBall(0));
+		if(RobotMap.INIT_LOADER) {
+			loadin = new JoystickButton(xbox, 5);
+			loadin.whileHeld(new LoadBall(loader, 1.0));
+			loadin.whenReleased(new LoadBall(loader, 0));
+			loadout = new JoystickButton(xbox, 6);
+			loadout.whileHeld(new LoadBall(loader, -1.0));
+			loadout.whenReleased(new LoadBall(loader, 0));
+		  }
+		
 		if (RobotMap.INIT_HOOKARM) {
 			armup = new JoystickButton(xbox, 2);
 			armup.whileHeld(new MoveHook(hookarm, 1.0));

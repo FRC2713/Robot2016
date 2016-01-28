@@ -38,8 +38,6 @@ public class LoaderSubsystem extends Subsystem {
 	}
 	
 	public void startAuto(int chosen) {
-		loadCommand = new LoadBall(this, loadswitch);
-		loadCommand.start();
 	}
 	
 	public void startDisabled() {

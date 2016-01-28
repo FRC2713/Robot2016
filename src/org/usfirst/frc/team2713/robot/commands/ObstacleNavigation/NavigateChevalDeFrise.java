@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2713.robot.commands.ObstacleNavigation;
 
 import org.usfirst.frc.team2713.robot.commands.GoForward;
+
 import org.usfirst.frc.team2713.robot.commands.MoveHook;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
@@ -27,7 +28,7 @@ public class NavigateChevalDeFrise extends CommandGroup {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		addSequential(new MoveHook(hookarm, 1));
+		addSequential(new MoveHook(hookarm, 1),3);
 		addSequential(new GoForward(drive, 4));
 		
 	}
