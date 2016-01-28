@@ -9,9 +9,6 @@ import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-
-
-
 public class NavigateChevalDeFrise extends CommandGroup {
 
 	HookArmSubsystem hookarm;

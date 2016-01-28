@@ -2,18 +2,21 @@ package org.usfirst.frc.team2713.robot.commands.ObstacleNavigation;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.GoForward;
+import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-
-public class NavigateDoor extends Command {
+import edu.wpi.first.wpilibj.command.CommandGroup;
+@Deprecated
+public class NavigateDoor extends CommandGroup {
 	DigitalInput frontSwitch;
 	DigitalInput leftSwitch;
-	boolean frontPressed;
-	boolean leftPressed;
-	Timer timer;
-
+	boolean frontPressed = false;
+	boolean leftPressed = false;
+	Timer timer = new Timer(); // Used as a limit, to make sure the robot doesn't get stuck in this command
+	DriveSubsystem drive;
+	
 	@Override
 	protected void initialize() {
 		frontSwitch = new DigitalInput(RobotMap.FRONT_LIMIT_SWITCH);
@@ -26,8 +29,9 @@ public class NavigateDoor extends Command {
 	protected void execute() {
 		if (!frontSwitch.get()){
 			while (!frontSwitch.get()){
-				//TODO Go Forward + 3-5 seconds
+				addSequential(new GoForward(drive, 1));
 			}
+			addSequential(new GoForward(drive, 5)); //For a few more seconds to clear gate
 			frontPressed = true;
 		} else {
 			frontPressed = true;
