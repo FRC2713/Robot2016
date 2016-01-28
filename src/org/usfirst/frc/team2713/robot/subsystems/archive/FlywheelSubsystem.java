@@ -1,8 +1,7 @@
-package org.usfirst.frc.team2713.robot.subsystems;
+package org.usfirst.frc.team2713.robot.subsystems.archive;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
-
-import org.usfirst.frc.team2713.robot.commands.SpinWheelControls;
+import org.usfirst.frc.team2713.robot.commands.archive.SpinWheelControls;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;

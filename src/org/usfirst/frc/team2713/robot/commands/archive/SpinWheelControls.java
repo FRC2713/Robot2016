@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2713.robot.commands;
+package org.usfirst.frc.team2713.robot.commands.archive;
 
 import java.io.File;
 
@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
-import org.usfirst.frc.team2713.robot.subsystems.FlywheelSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SpinWheelControls extends Command {
+public class SpinWheelControls extends Command {//Not used
 
 	CANTalon flyWheel;
 	double desiredSpeed = 0;

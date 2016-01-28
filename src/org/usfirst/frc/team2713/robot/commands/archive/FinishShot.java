@@ -1,11 +1,11 @@
-package org.usfirst.frc.team2713.robot.commands;
+package org.usfirst.frc.team2713.robot.commands.archive;
 
-import org.usfirst.frc.team2713.robot.subsystems.FlywheelSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class FinishShot extends Command {
+public class FinishShot extends Command {//Not used
 	CANTalon swap;
 	FlywheelSubsystem flywheel;
 	

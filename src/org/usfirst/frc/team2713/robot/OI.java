@@ -1,13 +1,13 @@
 package org.usfirst.frc.team2713.robot;
 
 import org.usfirst.frc.team2713.robot.commands.LoadBall;
+
 import org.usfirst.frc.team2713.robot.commands.MoveHook;
-import org.usfirst.frc.team2713.robot.commands.ShootShot;
+import org.usfirst.frc.team2713.robot.commands.archive.ShootShot;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
-import org.usfirst.frc.team2713.robot.subsystems.FlywheelSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
-import org.usfirst.frc.team2713.robot.subsystems.exceptions.ControllerNotFoundException;
+import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -26,47 +26,68 @@ public class OI {
 		return xbox;
 	}
 
-	public OI(FlywheelSubsystem flywheel, HookArmSubsystem hookarm, LoaderSubsystem loader) {
-		for (int i = 0; i < 6; i++) {
-			try {
-				Joystick test = new Joystick(i);
-				if (test.getName().equals(RobotMap.XBOX_NAME)) {
-					xbox = new XBoxController(i);
-				}
-				if (test.getName().equals(RobotMap.ATTACK_NAME)) {
-					attack = new Joystick(i);
-				}
-			} catch (ControllerNotFoundException ex) {
+	public OI(HookArmSubsystem hookarm, LoaderSubsystem loader) {
+		initController();
+		if (RobotMap.INIT_LOADER) {
+			loaderCommands(loader);
+		}
 
+		if (RobotMap.INIT_HOOKARM) {
+			hookArmCommands(hookarm);
+		}
+	}
+	public OI(FlywheelSubsystem flywheel, HookArmSubsystem hookarm, LoaderSubsystem loader) {
+		initController();
+		if (RobotMap.INIT_LOADER) {
+			loaderCommands(loader);
+		}
+
+		if (RobotMap.INIT_HOOKARM) {
+			hookArmCommands(hookarm);
+		}
+		
+		if (RobotMap.INIT_FLYWHEEL) {
+			flywheelCommands(flywheel);
+		}
+
+	}
+	
+	public void initController() {
+		for (int i = 0; i < 6; i++) {
+			Joystick test = new Joystick(i);
+			if (test.getName().equals(RobotMap.XBOX_NAME)) {
+				xbox = new XBoxController(i);
+			}
+			if (test.getName().equals(RobotMap.ATTACK_NAME)) {
+				attack = new Joystick(i);
 			}
 		}
-		if(RobotMap.INIT_LOADER) {
-			loadin = new JoystickButton(xbox, 5);
-			loadin.whileHeld(new LoadBall(loader, 1.0));
-			loadin.whenReleased(new LoadBall(loader, 0));
-			loadout = new JoystickButton(xbox, 6);
-			loadout.whileHeld(new LoadBall(loader, -1.0));
-			loadout.whenReleased(new LoadBall(loader, 0));
-		  }
-		
-		if (RobotMap.INIT_HOOKARM) {
+	}
+	
+	public void loaderCommands(LoaderSubsystem loader) {
+		loadin = new JoystickButton(xbox, 5);
+		loadin.whileHeld(new LoadBall(loader, 1.0));
+		loadin.whenReleased(new LoadBall(loader, 0));
+		loadout = new JoystickButton(xbox, 6);
+		loadout.whileHeld(new LoadBall(loader, -1.0));
+		loadout.whenReleased(new LoadBall(loader, 0));
+	}
+	
+	public void hookArmCommands(HookArmSubsystem hookarm) {
 			armup = new JoystickButton(xbox, 2);
 			armup.whileHeld(new MoveHook(hookarm, 1.0));
 			armup.whenReleased(new MoveHook(hookarm, 0));
 			armdown = new JoystickButton(xbox, 3);
 			armdown.whileHeld(new MoveHook(hookarm, -1.0));
 			armdown.whenReleased(new MoveHook(hookarm, 0));
-		}
-
-		if (RobotMap.INIT_FLYWHEEL) {
+	}
+	
+	public void flywheelCommands(FlywheelSubsystem flywheel) {
 			System.out.println(xbox);
 			shootButton = new JoystickButton(xbox, 4);
-			//shootButton.whenPressed(new ShootShot(flywheel, loader));
+			// shootButton.whenPressed(new ShootShot(flywheel, loader));
 			shootButton.whenPressed(new ShootShot(flywheel));
-		}
-
 	}
-
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.

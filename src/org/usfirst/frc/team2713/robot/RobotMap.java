@@ -38,7 +38,7 @@ public class RobotMap {
 	public static final double KdArm = .0;
 
 	public static final boolean INIT_DRIVE = false;
-	public static final boolean INIT_FLYWHEEL = true;
+	public static final boolean INIT_FLYWHEEL = false;
 	public static final boolean INIT_HOOKARM = false;
 	public static final boolean INIT_LOADER = false;
 	public static final boolean INIT_LIGHTS = false;

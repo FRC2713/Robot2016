@@ -1,9 +1,9 @@
-package org.usfirst.frc.team2713.robot.commands;
+package org.usfirst.frc.team2713.robot.commands.archive;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class MoveBallToShooter extends Command {
+public class MoveBallToShooter extends Command {//Not used
 
 	CANTalon loader;
 	int count = 0;
