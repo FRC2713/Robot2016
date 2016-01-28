@@ -20,6 +20,7 @@ public class RobotMap {
 	public static final int LOAD_MOTOR = 6;
 	public static final int SWAP_MOTOR = 7;
 	public static final int LIGHT_TALON = 8;
+	public static final int FRONT_LIMIT_SWITCH = 1;
 	public static final int LEFT_LIMIT_SWITCH = 2;
 
 	public static final String XBOX_NAME = "Controller (Gamepad for Xbox 360)";
