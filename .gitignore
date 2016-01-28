@@ -1,4 +1,6 @@
 /bin/
+/dist/
+sysProps.xml
 
 # Mac Stuff
 .DS_Store
