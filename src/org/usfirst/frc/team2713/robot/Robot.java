@@ -9,11 +9,14 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
+import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
+
+import com.analog.adis16448.frc.ADIS16448_IMU;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -33,6 +36,7 @@ public class Robot extends IterativeRobot {
 	HookArmSubsystem hookarm;
 	LoaderSubsystem loader;
 	LightSubsystem lights;
+	IMU imu;
 
 	Command autonomousCommand;
 
@@ -42,6 +46,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		initSubsystems();
+		imu.initImu();
 		autonomousSwitches = new DigitalInput[RobotMap.DIPSWITCHCOUNT];
 		for (int i = 0; i < RobotMap.DIPSWITCHCOUNT; i++) {
 			autonomousSwitches[i] = new DigitalInput(i + RobotMap.DIPSWITCHSTARTPORT);
@@ -49,6 +54,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI(flywheel, hookarm, loader);
 		SmartDashboard.putData(Scheduler.getInstance());
 	}
+	
 
 	public void initSubsystems() {
 		if (flywheel == null && RobotMap.INIT_FLYWHEEL)
@@ -154,7 +160,6 @@ public class Robot extends IterativeRobot {
 			loader.startTeleop();
 		if (lights != null)
 			lights.startTeleop();
-		
 	}
 
 	/**
