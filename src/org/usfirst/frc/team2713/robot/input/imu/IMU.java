@@ -15,14 +15,15 @@ public class IMU {
 		while (true) { //TODO Does this get stuck in a loop?
             SmartDashboard.putData("IMU", imu);
             Timer.delay(0.005);		// wait for a motor update time
+            System.out.println(getAngle());
         }
 	}
 	
 	public double getAngle(){
 		double angle = imu.getAngle();
-		if (angle > 360){
-			angle = angle - 360; // The gyro by default goes over 360 (ex. 360 -> 361 -> 362 etc.)
-		}
+		//if (angle > 360){
+		//	angle = angle - 360; // The gyro by default goes over 360 (ex. 360 -> 361 -> 362 etc.)
+		//}
 		return angle;
 	}
 

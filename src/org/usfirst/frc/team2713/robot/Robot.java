@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
 	HookArmSubsystem hookarm;
 	LoaderSubsystem loader;
 	LightSubsystem lights;
-	IMU imu;
+	IMU imu = new IMU();
 
 	Command autonomousCommand;
 
