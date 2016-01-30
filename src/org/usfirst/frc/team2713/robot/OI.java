@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
 
-	public XBoxController xbox;
+	public static XBoxController xbox;
 	public Joystick attack;
 	private JoystickButton loadin;
 	private JoystickButton loadout;

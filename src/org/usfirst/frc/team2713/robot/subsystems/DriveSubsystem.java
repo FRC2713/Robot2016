@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
+import org.usfirst.frc.team2713.robot.OI;
+import org.usfirst.frc.team2713.robot.commands.TankDrive;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive; 
@@ -12,18 +14,21 @@ public class DriveSubsystem extends Subsystem{
 	public static RobotDrive roboDrive;
 	CANTalon right;
 	CANTalon left;
+	CANTalon leftback;
+	CANTalon rightback;
 	
 	public DriveSubsystem(){
 		if(RobotMap.INIT_DRIVE){
 			left= new CANTalon(RobotMap.LEFT_TANK);
 			right= new CANTalon(RobotMap.RIGHT_TANK);
-			roboDrive.setInvertedMotor(MotorType.kFrontLeft, false); // invert the left side motors 
-			roboDrive.setInvertedMotor(MotorType.kFrontRight, false);  
+			leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
+			rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
+			roboDrive = new RobotDrive(left,leftback,right,rightback);
 		}
 	}
 	
 	public void startTeleop() {
-
+		new TankDrive(this, OI.xbox).start();
 	}
 	
 	public void startAuto(int chosen) {

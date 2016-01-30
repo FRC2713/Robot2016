@@ -23,9 +23,9 @@ public class TankDrive extends Command {
 	protected void execute() {
 		scaler =1.0;
 		deadband = 0.1;
-		polarity = 1;
+		polarity = -1;
 
-		DriveSubsystem.TankDrive(xbox.getLeftY()*scaler, xbox.getRightY()*scaler, deadband);
+		DriveSubsystem.TankDrive(xbox.getLeftY()*scaler*polarity, xbox.getRightY()*scaler*polarity, deadband);
 		
 	}
 
