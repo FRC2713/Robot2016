@@ -51,4 +51,6 @@ public class RobotMap {
 	public static final int GREEN_PWM_PORT = 2;
 	public static final int BLUE_PWM_PORT = 3;
 	
+	public static final int CAMERA = 0;
+	
 }

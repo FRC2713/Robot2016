@@ -1,6 +1,9 @@
 
 package org.usfirst.frc.team2713.robot;
 
+import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.videoio.VideoCapture;
 import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
@@ -52,13 +55,22 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		initSubsystems();
-		imu.initImu();
+		//imu.initImu();
 		autonomousSwitches = new DigitalInput[RobotMap.DIPSWITCHCOUNT];
 		for (int i = 0; i < RobotMap.DIPSWITCHCOUNT; i++) {
 			autonomousSwitches[i] = new DigitalInput(i + RobotMap.DIPSWITCHSTARTPORT);
 		}
 		oi = new OI(flywheel, hookarm, loader);
 		SmartDashboard.putData(Scheduler.getInstance());
+		
+		VideoCapture capture = new VideoCapture(RobotMap.CAMERA);
+		if(!capture.isOpened()) {
+			System.out.println("Camera not opened.");
+		} else {
+			Mat image = new Mat();
+			capture.read(image);
+			Imgcodecs.imwrite(String.format("%s/%d.jpg", System.getProperty("user.home"), System.currentTimeMillis()), image);
+		}
 	}
 	
 
