@@ -1,32 +1,33 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.commands.lights.Color;
 import org.usfirst.frc.team2713.robot.commands.lights.Lights;
 
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class LightSubsystem extends Subsystem {
 
-	public CANTalon lights;
-	public Servo red;
-	public Servo green;
-	public Servo blue;
-	
+	private DigitalOutput red;
+	private DigitalOutput green;
+	private DigitalOutput blue;
+
 	public LightSubsystem() {
-		if (RobotMap.USE_LIGHT_JAG) {
-			lights = new CANTalon(RobotMap.LIGHT_TALON);
-		} else {
-			red = new Servo(RobotMap.RED_PWM_PORT);
-			green = new Servo(RobotMap.GREEN_PWM_PORT);
-			blue = new Servo(RobotMap.BLUE_PWM_PORT);
-		}
+		red = new DigitalOutput(RobotMap.RED_DIO_PORT);
+		green = new DigitalOutput(RobotMap.GREEN_DIO_PORT);
+		blue = new DigitalOutput(RobotMap.BLUE_DIO_PORT);
 	}
 
 	public void startTeleop() {
 		Lights rave = new Lights(this);
 		rave.start();
+	}
+	
+	public void setColor(Color color) {
+		red.set(color.getRed() > 127); // "Temporary" method, only shuts colors off/on
+		green.set(color.getGreen() > 127);
+		blue.set(color.getBlue() > 127);
 	}
 
 	public void startAuto(int chosen) {

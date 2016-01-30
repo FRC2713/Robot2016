@@ -41,14 +41,13 @@ public class RobotMap {
 	public static final boolean INIT_FLYWHEEL = false;
 	public static final boolean INIT_HOOKARM = false;
 	public static final boolean INIT_LOADER = false;
-	public static final boolean INIT_LIGHTS = false;
+	public static final boolean INIT_LIGHTS = true;
 
 	public static final int DIPSWITCHCOUNT = 1;
 	public static final int DIPSWITCHSTARTPORT = 10;
 
-	public static final boolean USE_LIGHT_JAG = true;
-	public static final int RED_PWM_PORT = 1;
-	public static final int GREEN_PWM_PORT = 2;
-	public static final int BLUE_PWM_PORT = 3;
+	public static final int RED_DIO_PORT = 0;
+	public static final int GREEN_DIO_PORT = 1;
+	public static final int BLUE_DIO_PORT = 2;
 	
 }

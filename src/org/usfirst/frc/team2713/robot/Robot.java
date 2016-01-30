@@ -46,7 +46,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		initSubsystems();
-		imu.initImu();
+		//imu.initImu();
 		autonomousSwitches = new DigitalInput[RobotMap.DIPSWITCHCOUNT];
 		for (int i = 0; i < RobotMap.DIPSWITCHCOUNT; i++) {
 			autonomousSwitches[i] = new DigitalInput(i + RobotMap.DIPSWITCHSTARTPORT);
