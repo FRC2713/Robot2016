@@ -1,13 +1,6 @@
 
 package org.usfirst.frc.team2713.robot;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-
 import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
@@ -16,8 +9,11 @@ import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
-import com.analog.adis16448.frc.ADIS16448_IMU;
-
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -39,6 +35,16 @@ public class Robot extends IterativeRobot {
 	IMU imu = new IMU();
 
 	Command autonomousCommand;
+	
+	static {
+		try {
+			System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
+		} catch (Throwable t) {
+			t.printStackTrace();
+			System.out.println("OpenCV could not be loaded. Is it installed?");
+			System.exit(1);
+		}
+	}
 
 	/**
 	 * This function is run when the robot is first started up and should be
