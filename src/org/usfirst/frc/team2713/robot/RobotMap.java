@@ -45,6 +45,7 @@ public class RobotMap {
 	public static final boolean INIT_HOOKARM = false;
 	public static final boolean INIT_LOADER = false;
 	public static final boolean INIT_LIGHTS = false;
+	public static final boolean INIT_IMU = true;
 
 	public static final int DIPSWITCHCOUNT = 1;
 	public static final int DIPSWITCHSTARTPORT = 10;

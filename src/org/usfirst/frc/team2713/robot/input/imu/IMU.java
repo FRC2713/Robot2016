@@ -3,11 +3,13 @@ package org.usfirst.frc.team2713.robot.input.imu;
 import com.analog.adis16448.frc.ADIS16448_IMU;
 
 public class IMU {
-	ADIS16448_IMU imu = new ADIS16448_IMU();
+	
+	ADIS16448_IMU imu;
 
 	public void initImu() {
 		System.out.println("Calibarating IMU, do NOT touch the robot...");
-		imu.calibrate(); //Disable the  motors controls during this?
+		imu = new ADIS16448_IMU();
+		imu.calibrate();
 		System.out.println("Calibration Complete, feel free to move about the robot");
 	}
 	

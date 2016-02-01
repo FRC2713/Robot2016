@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot {
 	HookArmSubsystem hookarm;
 	LoaderSubsystem loader;
 	LightSubsystem lights;
-	IMU imu = new IMU();
+	IMU imu;
 
 	Command autonomousCommand;
 
@@ -66,6 +66,10 @@ public class Robot extends IterativeRobot {
 			hookarm = new HookArmSubsystem();
 		if (lights == null && RobotMap.INIT_LIGHTS)
 			lights = new LightSubsystem();
+		if(imu == null && RobotMap.INIT_IMU) {
+			imu = new IMU();
+			imu.initImu();
+		}
 	}
 
 	/**
