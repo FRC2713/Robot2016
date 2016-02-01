@@ -1,11 +1,7 @@
 package org.usfirst.frc.team2713.robot.commands;
 
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
-import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
-
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class GoForward extends Command{

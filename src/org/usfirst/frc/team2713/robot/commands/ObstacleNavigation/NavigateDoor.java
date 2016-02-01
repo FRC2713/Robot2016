@@ -6,7 +6,6 @@ import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 @Deprecated
 public class NavigateDoor extends CommandGroup {

@@ -5,7 +5,6 @@ import org.usfirst.frc.team2713.robot.commands.TankDrive;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive; 
-import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.command.Subsystem; 
 
 
@@ -65,6 +64,10 @@ public class DriveSubsystem extends Subsystem{
 	public void move(double polarity) {
 		left.set(polarity);
 		right.set(polarity);
+	}
+	
+	public void goTo(double x, double y, double z) { //In CM, 0,0,0 is the start point
+		//Use the IMU
 	}
 	
 
