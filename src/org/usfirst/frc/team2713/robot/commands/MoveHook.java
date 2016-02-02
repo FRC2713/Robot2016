@@ -5,11 +5,12 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveHook extends Command {
 
-	private double polarity;
 	HookArmSubsystem hookarm;
+	double polarity;
 	
 	public MoveHook(HookArmSubsystem hookarm, double polarity){
 		this.hookarm = hookarm;
+		this.polarity = polarity;
 		requires(hookarm);
 	}
 	@Override
@@ -20,9 +21,12 @@ public class MoveHook extends Command {
 
 	@Override
 	protected void execute() {
-		hookarm.moveArm(polarity);
-		// TODO Auto-generated method stub
-		
+		if(polarity > 0 && hookarm.arm.get() < Math.PI) {
+			hookarm.setAngle(hookarm.arm.get() + polarity * .01);
+		}
+		if(polarity < 0 && hookarm.arm.get() > 0) {
+			hookarm.setAngle(hookarm.arm.get() + polarity * .01);
+		}		
 	}
 
 	@Override
@@ -41,6 +45,6 @@ public class MoveHook extends Command {
 	protected void interrupted() {
 		// TODO Auto-generated method stub
 		
-	} //Will Use PID and a Potentiometer
+	}
 
 }
