@@ -44,9 +44,7 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		imu = new IMU();
 		initSubsystems();
-		imu.initImu();
 		autonomousSwitches = new DigitalInput[RobotMap.DIPSWITCHCOUNT];
 		for (int i = 0; i < RobotMap.DIPSWITCHCOUNT; i++) {
 			autonomousSwitches[i] = new DigitalInput(i + RobotMap.DIPSWITCHSTARTPORT);
@@ -57,20 +55,20 @@ public class Robot extends IterativeRobot {
 	
 
 	public void initSubsystems() {
+		if(imu == null && RobotMap.INIT_IMU) {
+			imu = new IMU();
+			imu.initImu();
+		}
 		if (flywheel == null && RobotMap.INIT_FLYWHEEL)
 			flywheel = new FlywheelSubsystem();
 		if (drive == null && RobotMap.INIT_DRIVE)
-			drive = new DriveSubsystem();
+			drive = new DriveSubsystem(oi, imu);
 		if (loader == null && RobotMap.INIT_LOADER)
 			loader = new LoaderSubsystem();
 		if (hookarm == null && RobotMap.INIT_HOOKARM)
 			hookarm = new HookArmSubsystem();
 		if (lights == null && RobotMap.INIT_LIGHTS)
 			lights = new LightSubsystem();
-		if(imu == null && RobotMap.INIT_IMU) {
-			imu = new IMU();
-			imu.initImu();
-		}
 	}
 
 	/**

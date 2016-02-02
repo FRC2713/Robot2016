@@ -2,6 +2,7 @@ package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.commands.TankDrive;
+import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive; 
@@ -15,9 +16,13 @@ public class DriveSubsystem extends Subsystem{
 	CANTalon left;
 	CANTalon leftback;
 	CANTalon rightback;
+	OI oi;
+	IMU imu;
 	
-	public DriveSubsystem(){
+	public DriveSubsystem(OI oi, IMU imu){
 		if(RobotMap.INIT_DRIVE){
+			this.imu = imu;
+			this.oi = oi;
 			left= new CANTalon(RobotMap.LEFT_TANK);
 			right= new CANTalon(RobotMap.RIGHT_TANK);
 			leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
@@ -27,7 +32,7 @@ public class DriveSubsystem extends Subsystem{
 	}
 	
 	public void startTeleop() {
-		new TankDrive(this, OI.xbox).start();
+		new TankDrive(this, OI.xbox, imu).start();
 	}
 	
 	public void startAuto(int chosen) {

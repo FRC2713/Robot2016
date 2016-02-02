@@ -22,7 +22,7 @@ public class LoaderSubsystem extends Subsystem {
 	
 	public LoaderSubsystem() {
 		if(RobotMap.INIT_LOADER) {
-			moveLoader = new CANTalon(RobotMap.LOAD_MOTOR);
+			moveLoader = new CANTalon(RobotMap.MOVE_LOAD_MOTOR);
 			ballLoader = new CANTalon(RobotMap.BALL_LOADER_MOTOR);
 			loadswitch = new DigitalInput(RobotMap.LOADER_LIMIT_SWITCH);
 			lockToShoot = new DigitalInput(RobotMap.LOCK_TO_SHOOT__LIMIT_SWITCH);
