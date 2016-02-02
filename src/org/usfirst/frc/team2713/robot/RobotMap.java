@@ -20,7 +20,7 @@ public class RobotMap {
 	public static final int SHOOTER_WHEEL_MOTOR = 6;
 	public static final int LOADER_WHEEL_MOTOR = 7;
 	public static final int LOAD_MOTOR = 8;
-	public static final int SWAP_MOTOR = 9;
+	public static final int BALL_LOADER_MOTOR = 9;
 	public static final int LIGHT_TALON = 10;
 	public static final int FRONT_LIMIT_SWITCH = 1;
 	public static final int LEFT_LIMIT_SWITCH = 2;
@@ -49,6 +49,8 @@ public class RobotMap {
 
 	public static final int DIPSWITCHCOUNT = 1;
 	public static final int DIPSWITCHSTARTPORT = 10;
+	
+	public static final int LOADER_LIMIT_SWITCH = 1;
 
 	public static final boolean USE_LIGHT_JAG = true;
 	public static final int RED_PWM_PORT = 1;

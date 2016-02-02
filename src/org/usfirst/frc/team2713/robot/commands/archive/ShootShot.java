@@ -14,8 +14,8 @@ public class ShootShot extends CommandGroup { //Not used
 		BallPhysics physics = new BallPhysics(flywheel);
 		double speed = physics.getWheelRPS();
 		addSequential(new SpinWheelControls(speed, flywheel.flywheelShooter));
-		addSequential(new MoveBallToShooter(loader.swap));
-		addSequential(new FinishShot(loader.swap, flywheel));
+		addSequential(new MoveBallToShooter(loader.ballLoader));
+		addSequential(new FinishShot(loader.ballLoader, flywheel));
 		
 	}
 	

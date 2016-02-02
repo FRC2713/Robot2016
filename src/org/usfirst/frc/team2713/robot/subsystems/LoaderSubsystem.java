@@ -12,17 +12,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class LoaderSubsystem extends Subsystem {
 
-	public static LoaderSubsystem loader;
-	CANTalon load;
-	public CANTalon swap;
+	CANTalon moveLoad;
+	public CANTalon ballLoader;
 	LoadBall loadCommand;
 	DigitalInput loadswitch;
 	
-	public LoaderSubsystem(){
-		if(RobotMap.INIT_LOADER){
-			loadswitch = new DigitalInput(1);
-			load = new CANTalon(RobotMap.LOAD_MOTOR);
-			swap = new CANTalon(RobotMap.SWAP_MOTOR);
+	public LoaderSubsystem() {
+		if(RobotMap.INIT_LOADER) {
+			loadswitch = new DigitalInput(RobotMap.LOADER_LIMIT_SWITCH);
+			moveLoad = new CANTalon(RobotMap.LOAD_MOTOR);
+			ballLoader = new CANTalon(RobotMap.BALL_LOADER_MOTOR);
 		}
 	}
 	
@@ -44,7 +43,7 @@ public class LoaderSubsystem extends Subsystem {
 	}
 
 	public void loadBall(double polarity) {
-		load.set(polarity);
+		moveLoad.set(polarity);
 		
 	}
 }
