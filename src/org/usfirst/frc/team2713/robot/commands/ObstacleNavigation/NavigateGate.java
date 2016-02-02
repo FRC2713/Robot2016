@@ -1,37 +1,19 @@
 package org.usfirst.frc.team2713.robot.commands.ObstacleNavigation;
 
-import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team2713.robot.commands.ArmPID;
+import org.usfirst.frc.team2713.robot.commands.GoForward;
+import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 
-public class NavigateGate extends Command {
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
-	@Override
-	protected void initialize() {
-		// TODO Auto-generated method stub
-		
-	}
+public class NavigateGate extends CommandGroup {
 
-	@Override
-	protected void execute() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	protected void end() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void interrupted() {
-		// TODO Auto-generated method stub
-		
-	}
+	public NavigateGate(DriveSubsystem drive, HookArmSubsystem hookarm) {
+		addSequential(new ArmPID(hookarm, 0));
+		addSequential(new GoForward(drive, .3, .5));
+		addParallel(new ArmPID(hookarm, Math.PI / 2));
+		addParallel(new GoForward(drive, 2, .5));
+	}	
 
 }

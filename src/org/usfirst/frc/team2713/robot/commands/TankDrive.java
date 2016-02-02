@@ -29,7 +29,6 @@ public class TankDrive extends Command {
 		polarity = -1;
 		System.out.println(imu.getAngle());
 		DriveSubsystem.TankDrive(xbox.getLeftY()*scaler*polarity, xbox.getRightY()*scaler*polarity, deadband);
-		
 	}
 
 	@Override

@@ -11,13 +11,14 @@ public class GoForward extends Command{
 	double time;
 	Timer timer;
 	
-	public GoForward(DriveSubsystem drive, double time1) {
+	public GoForward(DriveSubsystem drive, double time, double polarity) {
 		this.drive = drive;
-		requires(drive);
-		time=time1;
+		this.time = time;
+		this.polarity = polarity;
 		timer = new Timer();
 		timer.reset(); 
 	    timer.start(); 
+		requires(drive);
 
 	}
 	@Override
