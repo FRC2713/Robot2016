@@ -1,22 +1,20 @@
 package org.usfirst.frc.team2713.robot.input.imu;
 
 import com.analog.adis16448.frc.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IMU extends ADIS16448_IMU {
-	
-	public IMU() {
-		
-	}
 
 	public void initImu() {
 		calibrateIMU();
+		SmartDashboard.putData("IMU", this);
+		SmartDashboard.putNumber("IMU Angle", getAngle());
 	}
 	
 	public void calibrateIMU() {
 		System.out.println("Calibarating IMU, do NOT touch the robot...");
 		this.reset();
 		this.calibrate();
-		this.reset();
 		System.out.println("Calibration Complete, feel free to move about the robot");
 	}
 	
