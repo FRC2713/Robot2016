@@ -2,6 +2,8 @@ package org.usfirst.frc.team2713.robot.input.imu;
 
 import com.analog.adis16448.frc.ADIS16448_IMU;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class IMU {
 	ADIS16448_IMU imu;
 	
@@ -11,6 +13,7 @@ public class IMU {
 
 	public void initImu() {
 		calibrateIMU();
+		SmartDashboard.putData("IMU", imu); // Just incase we ever use SmartDashboard
 	}
 	
 	public void calibrateIMU() {
