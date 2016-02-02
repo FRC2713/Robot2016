@@ -70,10 +70,10 @@ public class OI {
 	
 	public void hookArmCommands(HookArmSubsystem hookarm) {
 			armup = new JoystickButton(xbox, 2);
-			armup.whileHeld(new MoveHook(hookarm, 1.0));
+			armup.whileHeld(new MoveHook(hookarm, 1));
 			armup.whenReleased(new MoveHook(hookarm, 0));
 			armdown = new JoystickButton(xbox, 3);
-			armdown.whileHeld(new MoveHook(hookarm, -1.0));
+			armdown.whileHeld(new MoveHook(hookarm, 1));
 			armdown.whenReleased(new MoveHook(hookarm, 0));
 	}
 	

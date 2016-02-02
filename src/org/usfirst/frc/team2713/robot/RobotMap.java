@@ -36,7 +36,7 @@ public class RobotMap {
 	public static final int ENCODER_PULSE = 256;
 	
 	//Arm PID Stuff
-	public static final double KpArm = .01;
+	public static final double KpArm = 1;
 	public static final double KiArm = .00;
 	public static final double KdArm = .0;
 
