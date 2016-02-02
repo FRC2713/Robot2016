@@ -1,8 +1,7 @@
 package org.usfirst.frc.team2713.robot;
 
-import org.usfirst.frc.team2713.robot.commands.LoadBall;
-
 import org.usfirst.frc.team2713.robot.commands.MoveHook;
+import org.usfirst.frc.team2713.robot.commands.ShootBall;
 import org.usfirst.frc.team2713.robot.commands.archive.ShootShot;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
@@ -16,7 +15,6 @@ public class OI {
 
 	public static XBoxController xbox;
 	public Joystick attack;
-	private JoystickButton loadin;
 	private JoystickButton loadout;
 	private JoystickButton shootButton;
 	private JoystickButton armup;
@@ -65,12 +63,9 @@ public class OI {
 	}
 	
 	public void loaderCommands(LoaderSubsystem loader) {
-		loadin = new JoystickButton(xbox, 5);
-		loadin.whileHeld(new LoadBall(loader, 1.0));
-		loadin.whenReleased(new LoadBall(loader, 0));
 		loadout = new JoystickButton(xbox, 6);
-		loadout.whileHeld(new LoadBall(loader, -1.0));
-		loadout.whenReleased(new LoadBall(loader, 0));
+		loadout.whenPressed(new ShootBall(loader));
+
 	}
 	
 	public void hookArmCommands(HookArmSubsystem hookarm) {

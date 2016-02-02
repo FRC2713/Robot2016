@@ -1,19 +1,17 @@
 package org.usfirst.frc.team2713.robot.commands;
+import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Command;
 
 
 public class LoadBall extends Command {
 
 	private double polarity = 1;
-	LoaderSubsystem load;
-	DigitalInput control;
+	LoaderSubsystem loader;
 
-	public LoadBall(LoaderSubsystem loader, double polarity) {
-		this.load = loader;
-		this.control = control;
+	public LoadBall(LoaderSubsystem loader) {
+		this.loader = loader;
 		requires(loader);
 	}
 	
@@ -27,10 +25,16 @@ public class LoadBall extends Command {
 
 	@Override
 	protected void execute() {
-		if(control.get()) {
-			load.loadBall(polarity);	
+		if(loader.loadswitch.get()) {
+			loader.loadBall(polarity);	
+			try {
+				Thread.sleep(RobotMap.TIME_TO_LOAD_BALL);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
-			load.loadBall(0);
+			loader.loadBall(0);
 		}
 	}
 
@@ -42,14 +46,12 @@ public class LoadBall extends Command {
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
-		
+		loader.loadBall(0);		
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
-		
+		loader.loadBall(0);		
 	}
 
 
