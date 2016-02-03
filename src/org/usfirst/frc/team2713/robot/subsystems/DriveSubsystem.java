@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveSubsystem extends Subsystem{
 
-	public static RobotDrive roboDrive;
+	public RobotDrive roboDrive;
 	public CANTalon right;
 	public CANTalon left;
 	public CANTalon leftback;
@@ -31,8 +31,23 @@ public class DriveSubsystem extends Subsystem{
 		}
 	}
 	
+	public DriveSubsystem(OI oi){
+		if(RobotMap.INIT_DRIVE){
+			this.oi = oi;
+			left= new CANTalon(RobotMap.LEFT_TANK);
+			right= new CANTalon(RobotMap.RIGHT_TANK);
+			leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
+			rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
+			roboDrive = new RobotDrive(left,leftback,right,rightback);
+		}
+	}
+	
 	public void startTeleop() {
-		new TankDrive(this, OI.xbox, imu).start();
+		if(imu != null) {
+			new TankDrive(this, OI.xbox, imu).start();
+		} else {
+			new TankDrive(this, OI.xbox).start();
+		}
 	}
 	
 	public void startAuto(int chosen) {
@@ -42,12 +57,6 @@ public class DriveSubsystem extends Subsystem{
 	public void startDisabled() {
 		
 	}
-	
-	public static void TankDrive(double left, double right, double deadband){
-		double ban = deadband; 
-		roboDrive.tankDrive(calcDeadband(left, ban), calcDeadband(right, ban)); 
-	}
-	
 	
 	private static double calcDeadband(double value, double deadband) { 
 		 	int sign = (value > 0 ? 1 : -1); // checks the sign of the value 
@@ -75,9 +84,15 @@ public class DriveSubsystem extends Subsystem{
 		//Use the IMU
 	}
 
-	public static void ArcadeDrive(double d, double rightY, double deadband) {
+	public void ArcadeDrive(double d, double rightY, double deadband) {
 		roboDrive.arcadeDrive(calcDeadband(d, deadband), calcDeadband(rightY, deadband));
 	}
+	
+	public void TankDrive(double left, double right, double deadband){
+		double ban = deadband; 
+		roboDrive.tankDrive(calcDeadband(left, ban), calcDeadband(right, ban)); 
+	}
+	
 	
 
 }

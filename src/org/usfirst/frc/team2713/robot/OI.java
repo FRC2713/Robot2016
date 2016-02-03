@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
 
 	public static XBoxController xbox;
-	public Joystick attack;
+	public static Joystick attack;
 	private JoystickButton loadout;
 	private JoystickButton shootButton;
 	private JoystickButton armup;
@@ -34,6 +34,7 @@ public class OI {
 			hookArmCommands(hookarm);
 		}
 	}
+
 	public OI(FlywheelSubsystem flywheel, HookArmSubsystem hookarm, LoaderSubsystem loader) {
 		initController();
 		if (RobotMap.INIT_LOADER) {
@@ -43,13 +44,13 @@ public class OI {
 		if (RobotMap.INIT_HOOKARM) {
 			hookArmCommands(hookarm);
 		}
-		
+
 		if (RobotMap.INIT_FLYWHEEL) {
 			flywheelCommands(flywheel);
 		}
 
 	}
-	
+
 	public void initController() {
 		for (int i = 0; i < 6; i++) {
 			Joystick test = new Joystick(i);
@@ -60,28 +61,37 @@ public class OI {
 				attack = new Joystick(i);
 			}
 		}
+		if (xbox == null) {
+			xbox = new XBoxController(RobotMap.BACKUP_XBOX_PORT); // Joystick
+																	// not
+																	// present
+																	// exception?
+		}
+		if (attack == null) {
+			attack = new Joystick(RobotMap.BACKUP_ATTACK_PORT);
+		}
 	}
-	
+
 	public void loaderCommands(LoaderSubsystem loader) {
 		loadout = new JoystickButton(xbox, 6);
 		loadout.whenPressed(new ShootBall(loader));
 
 	}
-	
+
 	public void hookArmCommands(HookArmSubsystem hookarm) {
-			armup = new JoystickButton(xbox, 2);
-			armup.whileHeld(new MoveHook(hookarm, 1));
-			armup.whenReleased(new MoveHook(hookarm, 0));
-			armdown = new JoystickButton(xbox, 3);
-			armdown.whileHeld(new MoveHook(hookarm, 1));
-			armdown.whenReleased(new MoveHook(hookarm, 0));
+		armup = new JoystickButton(xbox, 2);
+		armup.whileHeld(new MoveHook(hookarm, 1));
+		armup.whenReleased(new MoveHook(hookarm, 0));
+		armdown = new JoystickButton(xbox, 3);
+		armdown.whileHeld(new MoveHook(hookarm, 1));
+		armdown.whenReleased(new MoveHook(hookarm, 0));
 	}
-	
+
 	public void flywheelCommands(FlywheelSubsystem flywheel) {
-			System.out.println(xbox);
-			shootButton = new JoystickButton(xbox, 4);
-			// shootButton.whenPressed(new ShootShot(flywheel, loader));
-			shootButton.whenPressed(new ShootShot(flywheel));
+		System.out.println(xbox);
+		shootButton = new JoystickButton(xbox, 4);
+		// shootButton.whenPressed(new ShootShot(flywheel, loader));
+		shootButton.whenPressed(new ShootShot(flywheel));
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a

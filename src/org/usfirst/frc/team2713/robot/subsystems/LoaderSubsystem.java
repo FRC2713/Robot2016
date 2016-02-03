@@ -17,8 +17,8 @@ public class LoaderSubsystem extends Subsystem {
 	public CANTalon ballLoader;
 	LoadBall loadCommand;
 	ShootShot shootCommand;
-	public DigitalInput loadswitch;
-	public DigitalInput lockToShoot;
+	public DigitalInput loadswitch; //What if this isnt present? Backups!
+	public DigitalInput lockToShoot; //What if this isnt present? Backups!
 	
 	public LoaderSubsystem() {
 		if(RobotMap.INIT_LOADER) {

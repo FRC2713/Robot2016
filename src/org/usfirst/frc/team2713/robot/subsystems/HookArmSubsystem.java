@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class HookArmSubsystem extends Subsystem {
 	
-	HookArmSubsystem hookarm;
 	public CANTalon arm;
 	
 	public HookArmSubsystem(){
