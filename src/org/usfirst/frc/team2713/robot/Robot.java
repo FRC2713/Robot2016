@@ -1,11 +1,10 @@
 
 package org.usfirst.frc.team2713.robot;
 
-import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.videoio.VideoCapture;
 import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
+import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
@@ -30,11 +29,14 @@ public class Robot extends IterativeRobot {
 
 	public OI oi;
 	public DigitalInput[] autonomousSwitches;
-	DriveSubsystem drive;
-	FlywheelSubsystem flywheel;
-	HookArmSubsystem hookarm;
-	LoaderSubsystem loader;
-	LightSubsystem lights;
+	
+	private DriveSubsystem drive;
+	private FlywheelSubsystem flywheel;
+	private HookArmSubsystem hookarm;
+	private LoaderSubsystem loader;
+	private LightSubsystem lights;
+	private CameraSubsystem camera;
+	
 	IMU imu = new IMU();
 
 	Command autonomousCommand;
@@ -63,14 +65,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI(flywheel, hookarm, loader);
 		SmartDashboard.putData(Scheduler.getInstance());
 		
-		VideoCapture capture = new VideoCapture(RobotMap.CAMERA);
-		if(!capture.isOpened()) {
-			System.out.println("Camera not opened.");
-		} else {
-			Mat image = new Mat();
-			capture.read(image);
-			Imgcodecs.imwrite(String.format("%s/%d.jpg", System.getProperty("user.home"), System.currentTimeMillis()), image);
-		}
+		Imgcodecs.imwrite(String.format("%s/%d.jpg", System.getProperty("user.home"), System.currentTimeMillis()), camera.getImageMat());
 	}
 	
 
@@ -85,6 +80,8 @@ public class Robot extends IterativeRobot {
 			hookarm = new HookArmSubsystem();
 		if (lights == null && RobotMap.INIT_LIGHTS)
 			lights = new LightSubsystem();
+		if (camera == null && RobotMap.INIT_CAMERA)
+			camera = new CameraSubsystem();
 	}
 
 	/**
