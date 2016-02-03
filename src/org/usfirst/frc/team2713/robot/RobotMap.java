@@ -35,10 +35,12 @@ public class RobotMap {
 	public static final double KdWheel = 0.4;// * Math.random();
 	public static final int ENCODER_PULSE = 256;
 	
-	//Arm PID Stuff
+	//Arm Stuff
 	public static final double KpArm = 1;
 	public static final double KiArm = .00;
 	public static final double KdArm = .0;
+	public static final double ARM_LOWER_LIMIT = -0.17453;
+	public static final double ARM_UPPER_LIMIT = Math.PI;
 
 	
 	//Initilization stuff

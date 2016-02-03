@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2713.robot.commands;
 
+import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -21,10 +22,10 @@ public class MoveHook extends Command {
 
 	@Override
 	protected void execute() {
-		if(polarity > 0 && hookarm.arm.get() < Math.PI) {
+		if(polarity > 0 && hookarm.arm.get() < RobotMap.ARM_UPPER_LIMIT) {
 			hookarm.setAngle(hookarm.arm.get() + polarity * .01);
 		}
-		if(polarity < 0 && hookarm.arm.get() > 0) {
+		if(polarity < 0 && hookarm.arm.get() > RobotMap.ARM_LOWER_LIMIT) {
 			hookarm.setAngle(hookarm.arm.get() + polarity * .01);
 		}		
 	}
