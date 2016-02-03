@@ -1,8 +1,6 @@
-
 package org.usfirst.frc.team2713.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
