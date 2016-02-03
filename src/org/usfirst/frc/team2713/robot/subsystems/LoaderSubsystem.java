@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class LoaderSubsystem extends Subsystem {
 
-	CANTalon moveLoader;
-	CANTalon ballLoader;
+	public CANTalon moveLoader;
+	public CANTalon ballLoader;
 	LoadBall loadCommand;
 	ShootShot shootCommand;
 	public DigitalInput loadswitch;

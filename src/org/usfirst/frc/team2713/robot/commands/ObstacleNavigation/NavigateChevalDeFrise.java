@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class NavigateChevalDeFrise extends CommandGroup {
 
-
 	public NavigateChevalDeFrise(DriveSubsystem drive, HookArmSubsystem hookarm) {
 		this.addSequential(new ArmPID(hookarm, RobotMap.ARM_LOWER_LIMIT));
 		this.addSequential(new GoForward(drive, 1, 2));

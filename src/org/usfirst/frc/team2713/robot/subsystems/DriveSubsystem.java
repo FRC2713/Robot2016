@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveSubsystem extends Subsystem{
 
 	public static RobotDrive roboDrive;
-	CANTalon right;
-	CANTalon left;
-	CANTalon leftback;
-	CANTalon rightback;
+	public CANTalon right;
+	public CANTalon left;
+	public CANTalon leftback;
+	public CANTalon rightback;
 	OI oi;
 	IMU imu;
 	
