@@ -1,20 +1,28 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
+import static org.opencv.core.Core.inRange;
+import static org.opencv.imgproc.Imgproc.CHAIN_APPROX_SIMPLE;
+import static org.opencv.imgproc.Imgproc.COLOR_BGR2HLS;
+import static org.opencv.imgproc.Imgproc.RETR_LIST;
+import static org.opencv.imgproc.Imgproc.boundingRect;
+import static org.opencv.imgproc.Imgproc.cvtColor;
+import static org.opencv.imgproc.Imgproc.findContours;
+import static org.opencv.imgproc.Imgproc.resize;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Size;
 import org.opencv.videoio.VideoCapture;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.RobotMap.ColorThreshold;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import static org.opencv.imgproc.Imgproc.*;
-import static org.opencv.core.Core.inRange;
-
 public class CameraSubsystem extends Subsystem {
+	private static final Size IMAGE_SIZE = new Size(320, 240);
 	private VideoCapture capture;
 	
 	public CameraSubsystem() {
@@ -36,6 +44,7 @@ public class CameraSubsystem extends Subsystem {
 	public Mat getImageMat() {
 		Mat mat = new Mat();
 		capture.read(mat);
+		resize(mat, mat, IMAGE_SIZE);
 		return mat;
 	}
 	
