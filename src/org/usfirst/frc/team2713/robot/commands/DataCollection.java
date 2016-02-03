@@ -72,7 +72,7 @@ public class DataCollection extends Command {
 			loaderTotal.add(Math.abs(loader.moveLoader.get()) + Math.abs(loader.ballLoader.get()));
 		}
 		if(light != null) {
-			lightTotal.add(light.red.get() + light.green.get() + light.blue.get());
+			//lightTotal.add(light.red. + light.green.get() + light.blue.get());
 		}
 		if(flywheel != null) {
 			flywheelTotal.add(Math.abs(flywheel.flywheelShooter.getBusVoltage()));
