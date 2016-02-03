@@ -61,16 +61,18 @@ public class RobotMap {
 	public static final int LOCK_TO_SHOOT__LIMIT_SWITCH = 0;
 	public static final int FRONT_LIMIT_SWITCH = 1;
 	public static final int LEFT_LIMIT_SWITCH = 2;
-	
-	//Light Stuff
-	public static final boolean USE_LIGHT_JAG = true;
-	public static final int RED_PWM_PORT = 1;
-	public static final int GREEN_PWM_PORT = 2;
-	public static final int BLUE_PWM_PORT = 3;
+
+	//Light ports
+	public static final int RED_DIO_PORT = 0;
+	public static final int GREEN_DIO_PORT = 1;
+	public static final int BLUE_DIO_PORT = 2;
 	
 	//Loader Timings
 	public static final int TIME_TO_LOWER_LOADER = 200;
 	public static final int TIME_TO_RELEASE_BALL = 200;
 	public static final int TIME_TO_LOAD_BALL = 200;
+	
+	
+	public static boolean CART_OR_TANK = true;
 	
 }
