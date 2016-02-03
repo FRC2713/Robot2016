@@ -24,7 +24,6 @@ public class Lights extends Command {
 		Random random = new Random();
 		lights.setColor(new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
 	}
-
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub

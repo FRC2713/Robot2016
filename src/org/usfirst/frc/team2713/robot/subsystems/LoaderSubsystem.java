@@ -19,6 +19,7 @@ public class LoaderSubsystem extends Subsystem {
 	ShootShot shootCommand;
 	public DigitalInput loadswitch; //What if this isnt present? Backups!
 	public DigitalInput lockToShoot; //What if this isnt present? Backups!
+	public LightSubsystem lights;
 	
 	public LoaderSubsystem() {
 		if(RobotMap.INIT_LOADER) {
@@ -63,7 +64,7 @@ public class LoaderSubsystem extends Subsystem {
 		if(loadCommand != null) {
 			loadCommand.cancel();
 		}
-		loadCommand = new LoadBall(this);
+		loadCommand = new LoadBall(this, lights);
 		loadCommand.start();
 	}
 }

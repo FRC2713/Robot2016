@@ -1,6 +1,8 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.OI;
+
+import org.usfirst.frc.team2713.robot.commands.ArcadeDrive;
 import org.usfirst.frc.team2713.robot.commands.TankDrive;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import org.usfirst.frc.team2713.robot.RobotMap;
@@ -44,9 +46,9 @@ public class DriveSubsystem extends Subsystem{
 	
 	public void startTeleop() {
 		if(imu != null) {
-			new TankDrive(this, OI.xbox, imu).start();
+			new ArcadeDrive(this, OI.xbox, imu).start();
 		} else {
-			new TankDrive(this, OI.xbox).start();
+			new ArcadeDrive(this, OI.xbox).start();
 		}
 	}
 	
