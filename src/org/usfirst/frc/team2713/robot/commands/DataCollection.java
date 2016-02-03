@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DataCollection extends Command {
 	DriveSubsystem drive;
 	HookArmSubsystem hookarm;
-	LoaderSubsystem loader; 
+	LoaderSubsystem loader;
 	LightSubsystem light;
 	FlywheelSubsystem flywheel;
 	ArrayList<Double> batteryVoltage;
@@ -28,56 +28,58 @@ public class DataCollection extends Command {
 	ArrayList<Double> lightTotal;
 	ArrayList<Double> driveTotal;
 
-	public DataCollection(DriveSubsystem drive, HookArmSubsystem hookarm, LoaderSubsystem loader, 
-			LightSubsystem light, FlywheelSubsystem flywheel) {
+	public DataCollection(DriveSubsystem drive, HookArmSubsystem hookarm, LoaderSubsystem loader, LightSubsystem light,
+			FlywheelSubsystem flywheel) {
 		this.drive = drive;
 		this.hookarm = hookarm;
 		this.loader = loader;
 		this.light = light;
 		this.flywheel = flywheel;
 		batteryVoltage = new ArrayList<Double>();
-		if(drive != null) {
+		if (drive != null) {
 			driveTotal = new ArrayList<Double>();
 		}
-		if(hookarm != null) {
+		if (hookarm != null) {
 			armTotal = new ArrayList<Double>();
 		}
-		if(loader != null) {
+		if (loader != null) {
 			loaderTotal = new ArrayList<Double>();
 		}
-		if(light != null) {
+		if (light != null) {
 			lightTotal = new ArrayList<Double>();
 		}
-		if(flywheel != null) {
+		if (flywheel != null) {
 			flywheelTotal = new ArrayList<Double>();
-		}	
+		}
 	}
-	
+
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void execute() {
 		batteryVoltage.add(DriverStation.getInstance().getBatteryVoltage());
-		if(drive != null) {
-			driveTotal.add(Math.abs(drive.left.get()) + Math.abs(drive.right.get()) + Math.abs(drive.leftback.get()) + Math.abs(drive.rightback.get()));
+		if (drive != null) {
+			driveTotal.add(Math.abs(drive.left.get()) + Math.abs(drive.right.get()) + Math.abs(drive.leftback.get())
+					+ Math.abs(drive.rightback.get()));
 		}
-		if(hookarm != null) {
+		if (hookarm != null) {
 			armTotal.add(Math.abs(hookarm.arm.getBusVoltage()));
 		}
-		if(loader != null) {
+		if (loader != null) {
 			loaderTotal.add(Math.abs(loader.moveLoader.get()) + Math.abs(loader.ballLoader.get()));
 		}
-		if(light != null) {
-			//lightTotal.add(light.red. + light.green.get() + light.blue.get());
+		if (light != null) {
+			// lightTotal.add(light.red. + light.green.get() +
+			// light.blue.get());
 		}
-		if(flywheel != null) {
+		if (flywheel != null) {
 			flywheelTotal.add(Math.abs(flywheel.flywheelShooter.getBusVoltage()));
 		}
-		
+
 	}
 
 	@Override
@@ -89,32 +91,72 @@ public class DataCollection extends Command {
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void interrupted() {
-		
+
 	}
 
 	public void outputDataToCSV() {
-		File output = new File("output.csv");
+		File output = new File("/home/lvuser/output.csv");
 		FileWriter write = null;
 		try {
 			write = new FileWriter(output);
+			PrintWriter print = new PrintWriter(write);
+			print.println("Battery Voltage,Arm Power,Loader Power,Flywheel Power,Light Power,Drive Power");
+			for (int i = 0; i < batteryVoltage.size(); i++) {
+				if (batteryVoltage != null) {
+					try {
+						print.print(batteryVoltage.get(i) + ",");
+					} catch (IndexOutOfBoundsException ex) {
+
+					}
+				}
+				if (armTotal != null) {
+					try {
+						print.print(armTotal.get(i) + ",");
+					} catch (IndexOutOfBoundsException ex) {
+
+					}
+				}
+				if (loaderTotal != null) {
+					try {
+						print.print(loaderTotal.get(i) + ",");
+					} catch (IndexOutOfBoundsException ex) {
+
+					}
+				}
+				if (flywheelTotal != null) {
+					try {
+						print.print(flywheelTotal.get(i) + ",");
+					} catch (IndexOutOfBoundsException ex) {
+
+					}
+				}
+				if (lightTotal != null) {
+					try {
+						print.print(lightTotal.get(i) + ",");
+					} catch (IndexOutOfBoundsException ex) {
+
+					}
+				}
+				if (driveTotal != null) {
+					try {
+						print.print(driveTotal.get(i));
+					} catch (IndexOutOfBoundsException ex) {
+
+					}
+				}
+				print.println("");
+			}
+			print.flush();
+			print.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		PrintWriter print = new PrintWriter(write);
-		for(int i = 0; i < batteryVoltage.size(); i++) {
-			print.print('"' + batteryVoltage.get(i) + '"');
-			if(i != batteryVoltage.size() - 1) {
-				print.print(",");
-			}
-		}
-		print.println("");
-		print.close();
 	}
-	
+
 }

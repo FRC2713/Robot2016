@@ -12,7 +12,7 @@ public class ArcadeDrive extends Command{
 	XBoxController xbox;
 	IMU imu;
 	
-	public ArcadeDrive(DriveSubsystem drive, XBoxController xbox, IMU imu){
+	public ArcadeDrive(DriveSubsystem drive, XBoxController xbox, IMU imu) {
 		this.drive = drive;
 		this.xbox = xbox;
 		this.imu = imu;
