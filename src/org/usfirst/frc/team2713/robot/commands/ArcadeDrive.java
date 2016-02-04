@@ -41,6 +41,7 @@ public class ArcadeDrive extends Command{
 		polarity = -1;
 		System.out.println(imu.getAngle());
 		drive.ArcadeDrive(OI.xbox.getLeftY()*scaler*polarity,OI.xbox.getRightX()*scaler*polarity, deadband);
+		
 	}
 
 	@Override
