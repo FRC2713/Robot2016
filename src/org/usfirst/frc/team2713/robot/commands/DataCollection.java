@@ -79,7 +79,12 @@ public class DataCollection extends Command {
 		if (flywheel != null) {
 			flywheelTotal.add(Math.abs(flywheel.flywheelShooter.getBusVoltage()));
 		}
-
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -90,16 +95,15 @@ public class DataCollection extends Command {
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
-
+		outputDataToCSV();
 	}
 
 	@Override
 	protected void interrupted() {
-
+		outputDataToCSV();
 	}
 
-	public void outputDataToCSV() {
+	private void outputDataToCSV() {
 		File output = new File("/home/lvuser/output.csv");
 		FileWriter write = null;
 		try {

@@ -50,7 +50,6 @@ public class Robot extends IterativeRobot {
 		}
 		oi = new OI(flywheel, hookarm, loader);
 		SmartDashboard.putData(Scheduler.getInstance());
-		new DataCollection(drive, hookarm, loader, lights, flywheel).start();
 	}
 	
 
@@ -145,6 +144,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
+		new DataCollection(drive, hookarm, loader, lights, flywheel).start();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
