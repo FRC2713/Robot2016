@@ -19,7 +19,7 @@ public class DriveSubsystem extends Subsystem{
 	public CANTalon leftback;
 	public CANTalon rightback;
 	OI oi;
-	IMU imu;
+	public IMU imu;
 	
 	public DriveSubsystem(OI oi, IMU imu){
 		if(RobotMap.INIT_DRIVE){

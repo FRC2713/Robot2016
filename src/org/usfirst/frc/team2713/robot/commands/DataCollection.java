@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
@@ -20,6 +21,7 @@ public class DataCollection extends Command {
 	HookArmSubsystem hookarm;
 	LoaderSubsystem loader;
 	LightSubsystem light;
+	IMU imu;
 	FlywheelSubsystem flywheel;
 	ArrayList<Double> batteryVoltage;
 	ArrayList<Double> armTotal;
@@ -27,30 +29,23 @@ public class DataCollection extends Command {
 	ArrayList<Double> flywheelTotal;
 	ArrayList<Double> lightTotal;
 	ArrayList<Double> driveTotal;
+	ArrayList<Double> imuData;
 
 	public DataCollection(DriveSubsystem drive, HookArmSubsystem hookarm, LoaderSubsystem loader, LightSubsystem light,
-			FlywheelSubsystem flywheel) {
+			FlywheelSubsystem flywheel, IMU imu) {
 		this.drive = drive;
 		this.hookarm = hookarm;
 		this.loader = loader;
 		this.light = light;
 		this.flywheel = flywheel;
+		this.imu = imu;
 		batteryVoltage = new ArrayList<Double>();
-		if (drive != null) {
-			driveTotal = new ArrayList<Double>();
-		}
-		if (hookarm != null) {
-			armTotal = new ArrayList<Double>();
-		}
-		if (loader != null) {
-			loaderTotal = new ArrayList<Double>();
-		}
-		if (light != null) {
-			lightTotal = new ArrayList<Double>();
-		}
-		if (flywheel != null) {
-			flywheelTotal = new ArrayList<Double>();
-		}
+		driveTotal = new ArrayList<Double>();
+		armTotal = new ArrayList<Double>();
+		loaderTotal = new ArrayList<Double>();
+		lightTotal = new ArrayList<Double>();
+		flywheelTotal = new ArrayList<Double>();
+		imuData = new ArrayList<Double>();
 	}
 
 	@Override
@@ -65,22 +60,42 @@ public class DataCollection extends Command {
 		if (drive != null) {
 			driveTotal.add(Math.abs(drive.left.get()) + Math.abs(drive.right.get()) + Math.abs(drive.leftback.get())
 					+ Math.abs(drive.rightback.get()));
+		} else {
+			driveTotal.add(0.0);
 		}
+		
 		if (hookarm != null) {
 			armTotal.add(Math.abs(hookarm.arm.getBusVoltage()));
+		} else {
+			armTotal.add(0.0);
 		}
+		
 		if (loader != null) {
 			loaderTotal.add(Math.abs(loader.moveLoader.get()) + Math.abs(loader.ballLoader.get()));
+		} else {
+			loaderTotal.add(0.0);
 		}
+		
 		if (light != null) {
 			// lightTotal.add(light.red. + light.green.get() +
 			// light.blue.get());
+		} else {
+			lightTotal.add(0.0);
 		}
+		
 		if (flywheel != null) {
 			flywheelTotal.add(Math.abs(flywheel.flywheelShooter.getBusVoltage()));
+		} else {
+			flywheelTotal.add(0.0);
+		}
+		
+		if (imu != null) {
+			imuData.add((imu.getYaw()));
+		} else {
+			imuData.add(0.0);
 		}
 		try {
-			Thread.sleep(200);
+			Thread.sleep(20);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -109,7 +124,7 @@ public class DataCollection extends Command {
 		try {
 			write = new FileWriter(output);
 			PrintWriter print = new PrintWriter(write);
-			print.println("Battery Voltage,Arm Power,Loader Power,Flywheel Power,Light Power,Drive Power");
+			print.println("Battery Voltage,Arm Power,Loader Power,Flywheel Power,Light Power,Drive Power,IMU Yaw");
 			for (int i = 0; i < batteryVoltage.size(); i++) {
 				if (batteryVoltage != null) {
 					try {
@@ -148,7 +163,14 @@ public class DataCollection extends Command {
 				}
 				if (driveTotal != null) {
 					try {
-						print.print(driveTotal.get(i));
+						print.print(driveTotal.get(i) +",");
+					} catch (IndexOutOfBoundsException ex) {
+
+					}
+				}
+				if (imu != null) {
+					try {
+						print.print(imu.getYaw());
 					} catch (IndexOutOfBoundsException ex) {
 
 					}
