@@ -55,7 +55,7 @@ public class RobotMap {
 	public static final int BLUE_PWM_PORT = 3;
 	
 	public static final int CAMERA = 0;
-	public static final int CAMERA_VIEW_ANGLE = 60; //Just a guess for now.
+	public static final int CAMERA_VIEW_ANGLE = 52;
 	
 	public enum ColorThreshold {
 		HIGH_GOAL(new Scalar(35D, 64D, 48D, 0D), new Scalar(93D, 144D, 255D, 0D));
