@@ -7,8 +7,7 @@ public class IMU extends ADIS16448_IMU {
 
 	public void initImu() {
 		calibrateIMU();
-		SmartDashboard.putData("IMU", this);
-		SmartDashboard.putNumber("IMU Angle", getAngle());
+		refreshDashboard();
 	}
 	
 	public void calibrateIMU() {
@@ -24,6 +23,11 @@ public class IMU extends ADIS16448_IMU {
 		//	angle = angle - 360; // The gyro by default goes over 360 (ex. 360 -> 361 -> 362 etc.)
 		//}
 		return angle;
+	}
+	
+	public void refreshDashboard() {
+		SmartDashboard.putData("IMU", this);
+		SmartDashboard.putNumber("IMU Angle", getAngle());
 	}
 
 }
