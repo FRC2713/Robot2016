@@ -18,8 +18,7 @@ public class IMU extends ADIS16448_IMU {
 	
 	public void initImu() {
 		calibrateIMU();
-		SmartDashboard.putData("IMU", this);
-		SmartDashboard.putNumber("IMU Angle", getAngle());
+		refreshDashboard();
 	}
 	
 	public void calibrateIMU() {
@@ -49,6 +48,11 @@ public class IMU extends ADIS16448_IMU {
 		double angle = super.getAngle();
 		angle -= angleOffset;
 		return angle;
+	}
+	
+	public void refreshDashboard() {
+		SmartDashboard.putData("IMU", this);
+		SmartDashboard.putNumber("IMU Angle", getAngle());
 	}
 
 	public double getAccelX() {

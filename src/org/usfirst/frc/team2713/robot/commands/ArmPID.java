@@ -30,7 +30,7 @@ public class ArmPID extends Command {
 
 	@Override
 	protected void execute() {
-		lights.setColor(Color.BLUE);
+		lights.setColor(Color.GREEN);
 	}
 
 	@Override
