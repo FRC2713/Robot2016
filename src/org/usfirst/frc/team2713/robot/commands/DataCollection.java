@@ -30,6 +30,8 @@ public class DataCollection extends Command {
 	ArrayList<Double> lightTotal;
 	ArrayList<Double> driveTotal;
 	ArrayList<Double> imuData;
+	ArrayList<Double> timeData;
+	double startTime;
 
 	public DataCollection(DriveSubsystem drive, HookArmSubsystem hookarm, LoaderSubsystem loader, LightSubsystem light,
 			FlywheelSubsystem flywheel, IMU imu) {
@@ -46,12 +48,12 @@ public class DataCollection extends Command {
 		lightTotal = new ArrayList<Double>();
 		flywheelTotal = new ArrayList<Double>();
 		imuData = new ArrayList<Double>();
+		timeData = new ArrayList<Double>();
 	}
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-
+		startTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -90,10 +92,12 @@ public class DataCollection extends Command {
 		}
 		
 		if (imu != null) {
-			imuData.add((imu.getYaw()));
+			System.out.println(imu.currentXPossition);
+			imuData.add((imu.currentXPossition));
 		} else {
 			imuData.add(0.0);
 		}
+		timeData.add(System.currentTimeMillis() - startTime);
 		try {
 			Thread.sleep(20);
 		} catch (InterruptedException e) {
@@ -124,8 +128,13 @@ public class DataCollection extends Command {
 		try {
 			write = new FileWriter(output);
 			PrintWriter print = new PrintWriter(write);
-			print.println("Battery Voltage,Arm Power,Loader Power,Flywheel Power,Light Power,Drive Power,IMU Yaw");
+			print.println("Time,Battery Voltage,Arm Power,Loader Power,Flywheel Power,Light Power,Drive Power,IMU Yaw");
 			for (int i = 0; i < batteryVoltage.size(); i++) {
+				try {
+					print.print(timeData.get(i) + ",");
+				} catch (IndexOutOfBoundsException ex) {
+
+				}
 				if (batteryVoltage != null) {
 					try {
 						print.print(batteryVoltage.get(i) + ",");
@@ -163,14 +172,14 @@ public class DataCollection extends Command {
 				}
 				if (driveTotal != null) {
 					try {
-						print.print(driveTotal.get(i) +",");
+						print.print(driveTotal.get(i) + ",");
 					} catch (IndexOutOfBoundsException ex) {
 
 					}
 				}
 				if (imu != null) {
 					try {
-						print.print(imu.getYaw());
+						print.print(imuData.get(i) + ",");
 					} catch (IndexOutOfBoundsException ex) {
 
 					}

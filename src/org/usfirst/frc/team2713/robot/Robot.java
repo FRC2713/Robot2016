@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team2713.robot.commands.DataCollection;
 import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
+import org.usfirst.frc.team2713.robot.commands.IntegrateMovement;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
@@ -35,6 +36,7 @@ public class Robot extends IterativeRobot {
 	LoaderSubsystem loader;
 	LightSubsystem lights;
 	IMU imu;
+	IntegrateMovement integrater;
 
 	Command autonomousCommand;
 
@@ -57,6 +59,7 @@ public class Robot extends IterativeRobot {
 		if(imu == null && RobotMap.INIT_IMU) {
 			imu = new IMU();
 			imu.initImu();
+			integrater = new IntegrateMovement(imu);
 		}
 		if (flywheel == null && RobotMap.INIT_FLYWHEEL)
 			flywheel = new FlywheelSubsystem();
@@ -141,6 +144,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		integrater();
 	}
 
 	public void teleopInit() {
@@ -169,6 +173,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		integrater();
 	}
 
 	/**
@@ -176,5 +181,11 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testPeriodic() {
 		LiveWindow.run();
+	}
+	
+	public void integrater() {
+		if(integrater != null) {
+			integrater.execute();
+		}
 	}
 }
