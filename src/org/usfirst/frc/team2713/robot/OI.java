@@ -66,10 +66,7 @@ public class OI {
 			}
 		}
 		if (xbox == null) {
-			xbox = new XBoxController(RobotMap.BACKUP_XBOX_PORT); // Joystick
-																	// not
-																	// present
-																	// exception?
+			xbox = new XBoxController(RobotMap.BACKUP_XBOX_PORT); // Joystick not present exception?
 		}
 		if (attack == null) {
 			attack = new Joystick(RobotMap.BACKUP_ATTACK_PORT);
