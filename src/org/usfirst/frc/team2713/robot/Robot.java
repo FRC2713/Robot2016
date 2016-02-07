@@ -9,6 +9,7 @@ import org.usfirst.frc.team2713.robot.commands.DataCollection;
 import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2713.robot.commands.IntegrateMovement;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
+import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
@@ -33,13 +34,14 @@ public class Robot extends IterativeRobot {
 
 	public OI oi;
 	public DigitalInput[] autonomousSwitches;
-	DriveSubsystem drive;
-	FlywheelSubsystem flywheel;
-	HookArmSubsystem hookarm;
-	LoaderSubsystem loader;
-	LightSubsystem lights;
-	IMU imu;
-	IntegrateMovement integrater;
+	private DriveSubsystem drive;
+	private FlywheelSubsystem flywheel;
+	private HookArmSubsystem hookarm;
+	private LoaderSubsystem loader;
+	private LightSubsystem lights;
+	private CameraSubsystem camera;
+	private IMU imu;
+	private IntegrateMovement integrater;
 
 	Command autonomousCommand;
 	
@@ -47,8 +49,14 @@ public class Robot extends IterativeRobot {
 		try {
 			System.setOut(new PrintStream(new FileOutputStream(new File("/home/lvuser", System.currentTimeMillis() + ".log"))));
 			System.setErr(new PrintStream(new FileOutputStream(new File("/home/lvuser", System.currentTimeMillis() + ".err"))));
+			
+			System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		} catch (SecurityException|UnsatisfiedLinkError|NullPointerException e) {
+			e.printStackTrace();
+			System.out.println("OpenCV could not be loaded. Is it installed?");
+			System.exit(1);
 		}
 	}
 
@@ -83,6 +91,8 @@ public class Robot extends IterativeRobot {
 			hookarm = new HookArmSubsystem();
 		if (lights == null && RobotMap.INIT_LIGHTS)
 			lights = new LightSubsystem();
+		if (camera == null && RobotMap.INIT_CAMERA)
+			camera = new CameraSubsystem();
 	}
 
 	/**
@@ -201,3 +211,4 @@ public class Robot extends IterativeRobot {
 		}
 	}
 }
+

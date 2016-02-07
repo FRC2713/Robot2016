@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2713.robot;
 
+import org.opencv.core.Scalar;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -53,6 +55,7 @@ public class RobotMap {
 	public static final boolean INIT_LOADER = false;
 	public static final boolean INIT_LIGHTS = false;
 	public static final boolean INIT_IMU = true;
+	public static final boolean INIT_CAMERA = true;
 
 	
 	//Dip Switch Stuff
@@ -75,4 +78,25 @@ public class RobotMap {
 	public static final int TIME_TO_RELEASE_BALL = 200;
 	public static final int TIME_TO_LOAD_BALL = 200;
 	
+	public static final int CAMERA = 0;
+	public static final int CAMERA_VIEW_ANGLE = 52;
+	
+	public enum ColorThreshold {
+		HIGH_GOAL(new Scalar(35D, 64D, 48D, 0D), new Scalar(93D, 144D, 255D, 0D));
+		
+		private Scalar lowValues, highValues;
+		
+		private ColorThreshold(Scalar lowValues, Scalar highValues) {
+			this.lowValues = lowValues;
+			this.highValues = highValues;
+		}
+		
+		public Scalar getLowValues() {
+			return lowValues;
+		}
+		
+		public Scalar getHighValues() {
+			return highValues;
+		}
+	}
 }
