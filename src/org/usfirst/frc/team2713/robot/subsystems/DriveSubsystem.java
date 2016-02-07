@@ -45,7 +45,7 @@ public class DriveSubsystem extends Subsystem{
 	}
 	
 	public void startTeleop() {
-			new ArcadeDrive(this, OI.xbox, imu).start();
+			new TankDrive(this, OI.xbox, imu).start();
 	}
 	
 	public void startAuto(int chosen) {
