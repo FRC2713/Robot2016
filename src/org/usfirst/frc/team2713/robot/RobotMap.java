@@ -11,6 +11,9 @@ public class RobotMap {
 	// following variables to use with your drivetrain subsystem.
 	// public static int leftMotor = 1;
 	// public static int rightMotor = 2;
+	
+	// Operator Options
+	public static final boolean isTank = true; // Else Arcade Drive
 
 	//Talon stuff
 	public static final int LEFT_TANK = 1;
