@@ -1,15 +1,7 @@
 package org.usfirst.frc.team2713.robot;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-
 import org.usfirst.frc.team2713.robot.commands.DataCollection;
 import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
-import org.usfirst.frc.team2713.robot.commands.IntegrateMovement;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
@@ -17,6 +9,11 @@ import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -36,7 +33,6 @@ public class Robot extends IterativeRobot {
 	LoaderSubsystem loader;
 	LightSubsystem lights;
 	IMU imu;
-	IntegrateMovement integrater;
 
 	Command autonomousCommand;
 
@@ -56,11 +52,8 @@ public class Robot extends IterativeRobot {
 	
 
 	public void initSubsystems() {
-		if(imu == null && RobotMap.INIT_IMU) {
+		if(imu == null && RobotMap.INIT_IMU)
 			imu = new IMU();
-			imu.initImu();
-			integrater = new IntegrateMovement(imu);
-		}
 		if (flywheel == null && RobotMap.INIT_FLYWHEEL)
 			flywheel = new FlywheelSubsystem();
 		if (drive == null && RobotMap.INIT_DRIVE)
@@ -143,8 +136,8 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
+		imu.calculatePosition();
 		Scheduler.getInstance().run();
-		integrater();
 	}
 
 	public void teleopInit() {
@@ -172,8 +165,8 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		imu.calculatePosition();
 		Scheduler.getInstance().run();
-		integrater();
 	}
 
 	/**
@@ -181,11 +174,5 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testPeriodic() {
 		LiveWindow.run();
-	}
-	
-	public void integrater() {
-		if(integrater != null) {
-			integrater.execute();
-		}
 	}
 }

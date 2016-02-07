@@ -92,11 +92,13 @@ public class DataCollection extends Command {
 		}
 		
 		if (imu != null) {
-			System.out.println(imu.currentXPossition);
-			imuData.add((imu.currentXPossition));
+			imu.calculatePosition();
+			System.out.println(imu.getPositionX());
+			imuData.add((imu.getPositionX()));
 		} else {
 			imuData.add(0.0);
 		}
+		
 		timeData.add(System.currentTimeMillis() - startTime);
 		try {
 			Thread.sleep(20);

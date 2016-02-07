@@ -5,49 +5,70 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IMU extends ADIS16448_IMU {
 
-	double angleOffset;
-	double accelrationXOffset;
-	double accelrationYOffset;
-	double accelrationZOffset;
-	public Double velocityX = 0.0;
-	public Double velocityY = 0.0;
-	public Double velocityZ = 0.0;
-	public Double currentXPossition = 0.0;
-	public Double currentYPossition = 0.0;
-	public Double currentZPossition = 0.0;
+	private double angleOffset;
+	private double accelerationXOffset;
+	private double accelerationYOffset;
+	private double accelerationZOffset;
+	private double velocityX;
+	private double velocityY;
+	private double velocityZ;
+	private double positionX;
+	private double positionY;
+	private double positionZ;
+	private double lastCalcTime;
 	
-	public void initImu() {
-		calibrateIMU();
-		refreshDashboard();
+	public IMU() {
+		super();
+		reset();
+		calculatePosition();
 	}
 	
-	public void calibrateIMU() {
-		System.out.println("Calibarating IMU, do NOT touch the robot...");
-		this.calibrate();
-		this.reset();
-		System.out.println("Calibration Complete, feel free to move about the robot");
+	public void calculatePosition() {
+		long currentTime = System.currentTimeMillis() / 1000;
+		double dt = currentTime - lastCalcTime;
+		
+		velocityX += getAccelX() * dt;
+		velocityY += getAccelY() * dt;
+		velocityZ += getAccelZ() * dt;
+		positionX += velocityX * dt;
+		positionY += velocityY * dt;
+		positionZ += velocityZ * dt;
+		
+		lastCalcTime = currentTime; 
 	}
 	
+	@Override
 	public void reset() {
 		super.reset();
-		double averageNum = 10;
+		
+		angleOffset = 0D;
+		accelerationXOffset = 0D;
+		accelerationYOffset = 0D;
+		accelerationZOffset = 0D;
+		velocityX = 0D;
+		velocityY = 0D;
+		velocityZ = 0D;
+		positionX = 0D;
+		positionY = 0D;
+		positionZ = 0D;
+		lastCalcTime = System.currentTimeMillis();
+		
+		int averageNum = 10;
 		for(int i = 0; i < averageNum; i++) {
-			angleOffset = super.getAngle();
+			angleOffset += super.getAngle();
 			//accelrationXOffset = super.getAccelX() + -3.3333335e-12;
-			accelrationXOffset += super.getAccelX();
-			accelrationYOffset = super.getAccelY();
-			accelrationZOffset = super.getAccelZ();
+			accelerationXOffset += super.getAccelX();
+			accelerationYOffset += super.getAccelY();
+			accelerationZOffset += super.getAccelZ();
 		}
-		angleOffset /= averageNum;
-		accelrationXOffset /= averageNum;
-		accelrationYOffset /= averageNum;
-		accelrationZOffset /= averageNum;
+		angleOffset /= (double) averageNum;
+		accelerationXOffset /= (double) averageNum;
+		accelerationYOffset /= (double) averageNum;
+		accelerationZOffset /= (double) averageNum;
 	}
 	
 	public double getAngle(){
-		double angle = super.getAngle();
-		angle -= angleOffset;
-		return angle;
+		return super.getAngle() - angleOffset;
 	}
 	
 	public void refreshDashboard() {
@@ -55,16 +76,42 @@ public class IMU extends ADIS16448_IMU {
 		SmartDashboard.putNumber("IMU Angle", getAngle());
 	}
 
+	@Override
 	public double getAccelX() {
-		return super.getAccelX() - accelrationXOffset;
+		return super.getAccelX() - accelerationXOffset;
 	}
 	
+	@Override
 	public double getAccelY() {
-		return super.getAccelY() - accelrationYOffset;
+		return super.getAccelY() - accelerationYOffset;
 	}
 	
+	@Override
 	public double getAccelZ() {
-		return super.getAccelZ() - accelrationZOffset;
+		return super.getAccelZ() - accelerationZOffset;
 	}
 	
+	public double getVelocityX() {
+		return velocityX;
+	}
+	
+	public double getVelocityY() {
+		return velocityY;
+	}
+	
+	public double getVelocityZ() {
+		return velocityZ;
+	}
+	
+	public double getPositionX() {
+		return positionX;
+	}
+	
+	public double getPositionY() {
+		return positionY;
+	}
+	
+	public double getPositionZ() {
+		return positionZ;
+	}
 }
