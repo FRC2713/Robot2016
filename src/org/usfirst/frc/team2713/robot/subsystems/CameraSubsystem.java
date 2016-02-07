@@ -14,8 +14,10 @@ import java.util.List;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Rect;
 import org.opencv.core.Size;
 import org.opencv.videoio.VideoCapture;
+import org.opencv.videoio.Videoio;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.RobotMap.ColorThreshold;
 
@@ -27,6 +29,20 @@ public class CameraSubsystem extends Subsystem {
 	
 	public CameraSubsystem() {
 		capture = new VideoCapture(RobotMap.CAMERA);
+		
+		/*
+		 * Rant time.
+		 * 
+		 * The Microsoft Lifecam 3000 does not like having its exposure set.
+		 * Changing the value a slight bit gives an insane change in exposure.
+		 * Move the value up? Sometimes it goes down.
+		 * Whatever. This setting works. Dealing with it.
+		 * Oh, and, remember to use a version of OpenCV which supports these values.
+		 * ...we had to make our own.
+		 */
+		capture.set(Videoio.CAP_PROP_EXPOSURE_AUTO, 0.34D); // 0.34 * 3 is about 1, the Manual setting.
+		capture.set(Videoio.CAP_PROP_EXPOSURE_ABSOLUTE, 0D); // Sets exposure to 5, the minimum.
+		
 		if (!capture.isOpened()) {
 			throw new RuntimeException("Camera capture couldn't be started.");
 		}
@@ -84,5 +100,23 @@ public class CameraSubsystem extends Subsystem {
 	public double findDistanceToContour(MatOfPoint contour, double targetWidth) {
 		double apparentWidth = boundingRect(contour).width;
 		return (targetWidth * 160) / (2 * apparentWidth * Math.tan(RobotMap.CAMERA_VIEW_ANGLE));
+	}
+	
+	/**
+	 * Approximates angle to the center of a contour using its contour's width.
+	 * 
+	 * This function probably won't be very accurate, as the function
+	 * used to approximate distance relies on the contour being in the center
+	 * of view. This function will be used when it is very close, but not exact.
+	 * 
+	 * @param contour Contour to find the angle to the center of.
+	 * @param targetWidth Real width of the object.
+	 * @return The approximate angle from the contour's center.
+	 */
+	public double approximateAngleToContourCenter(MatOfPoint contour, double targetWidth) {
+		Rect rect = boundingRect(contour);
+		double apparentWidth = rect.width;
+		double apparentDistance = (rect.x - apparentWidth/2) - IMAGE_SIZE.width/2;
+		return Math.atan((apparentDistance * (targetWidth / apparentWidth))/findDistanceToContour(contour, targetWidth));
 	}
 }
