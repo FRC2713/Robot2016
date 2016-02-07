@@ -75,7 +75,4 @@ public class RobotMap {
 	public static final int TIME_TO_RELEASE_BALL = 200;
 	public static final int TIME_TO_LOAD_BALL = 200;
 	
-	
-	public static boolean CART_OR_TANK = true;
-	
 }
