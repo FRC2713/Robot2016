@@ -1,7 +1,9 @@
 package org.usfirst.frc.team2713.robot.input.imu;
 
 import com.analog.adis16448.frc.ADIS16448_IMU;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.tables.ITable;
 
 public class IMU extends ADIS16448_IMU {
 
@@ -67,13 +69,13 @@ public class IMU extends ADIS16448_IMU {
 		accelerationZOffset /= (double) averageNum;
 	}
 	
+	@Override
 	public double getAngle(){
 		return super.getAngle() - angleOffset;
 	}
 	
 	public void refreshDashboard() {
 		SmartDashboard.putData("IMU", this);
-		SmartDashboard.putNumber("IMU Angle", getAngle());
 	}
 
 	@Override
@@ -113,5 +115,19 @@ public class IMU extends ADIS16448_IMU {
 	
 	public double getPositionZ() {
 		return positionZ;
+	}
+	
+	@Override
+	public void updateTable() {
+		super.updateTable();
+		ITable table = getTable();
+		if (table != null) {
+			table.putNumber("VelocityX", getVelocityX());
+			table.putNumber("VelocityY", getVelocityY());
+			table.putNumber("VelocityZ", getVelocityZ());
+			table.putNumber("PositionX", getPositionX());
+			table.putNumber("PositionY", getPositionY());
+			table.putNumber("PositionZ", getPositionZ());
+		}
 	}
 }
