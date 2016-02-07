@@ -1,11 +1,9 @@
 package org.usfirst.frc.team2713.robot;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
 import org.usfirst.frc.team2713.robot.commands.DataCollection;
 import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
@@ -17,6 +15,11 @@ import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -39,6 +42,15 @@ public class Robot extends IterativeRobot {
 	IntegrateMovement integrater;
 
 	Command autonomousCommand;
+	
+	static {
+		try {
+			System.setOut(new PrintStream(new FileOutputStream(new File("/home/lvuser", System.currentTimeMillis() + ".log"))));
+			System.setErr(new PrintStream(new FileOutputStream(new File("/home/lvuser", System.currentTimeMillis() + ".err"))));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -133,7 +145,7 @@ public class Robot extends IterativeRobot {
 		switch (chosen) {
 		case 0:
 			autonomousCommand = new ExampleCommand();
-		}
+		}	
 
 		if (autonomousCommand != null)
 			autonomousCommand.start();

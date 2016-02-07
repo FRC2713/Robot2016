@@ -80,17 +80,17 @@ public class OI {
 	}
 
 	public void hookArmCommands(HookArmSubsystem hookarm) {
-		armup = new JoystickButton(xbox, 2);
+		armup = new JoystickButton(xbox, 4);
 		armup.whileHeld(new MoveHook(hookarm, 1));
 		armup.whenReleased(new MoveHook(hookarm, 0));
-		armdown = new JoystickButton(xbox, 3);
+		armdown = new JoystickButton(xbox, 1);
 		armdown.whileHeld(new MoveHook(hookarm, 1));
 		armdown.whenReleased(new MoveHook(hookarm, 0));
 	}
 
 	public void flywheelCommands(FlywheelSubsystem flywheel) {
 		System.out.println(xbox);
-		shootButton = new JoystickButton(xbox, 4);
+		shootButton = new JoystickButton(xbox, 3);
 		// shootButton.whenPressed(new ShootShot(flywheel, loader));
 		shootButton.whenPressed(new ShootShot(flywheel));
 	}
