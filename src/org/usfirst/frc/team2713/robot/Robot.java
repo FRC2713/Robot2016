@@ -133,7 +133,7 @@ public class Robot extends IterativeRobot {
 		switch (chosen) {
 		case 0:
 			autonomousCommand = new ExampleCommand();
-		}
+		}	
 
 		if (autonomousCommand != null)
 			autonomousCommand.start();

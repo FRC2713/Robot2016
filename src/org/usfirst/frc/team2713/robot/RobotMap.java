@@ -44,7 +44,7 @@ public class RobotMap {
 
 	
 	//Initilization stuff
-	public static final boolean INIT_DRIVE = false;
+	public static final boolean INIT_DRIVE = true;
 	public static final boolean INIT_FLYWHEEL = false;
 	public static final boolean INIT_HOOKARM = false;
 	public static final boolean INIT_LOADER = false;

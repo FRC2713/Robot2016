@@ -45,11 +45,7 @@ public class DriveSubsystem extends Subsystem{
 	}
 	
 	public void startTeleop() {
-		if(imu != null) {
 			new ArcadeDrive(this, OI.xbox, imu).start();
-		} else {
-			new ArcadeDrive(this, OI.xbox).start();
-		}
 	}
 	
 	public void startAuto(int chosen) {
