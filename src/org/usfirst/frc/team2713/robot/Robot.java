@@ -72,6 +72,13 @@ public class Robot extends IterativeRobot {
 		}
 		oi = new OI(flywheel, hookarm, loader);
 		SmartDashboard.putData(Scheduler.getInstance());
+		
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if (camera != null) camera.releaseCamera();
+			}
+		}));
 	}
 	
 

@@ -119,4 +119,8 @@ public class CameraSubsystem extends Subsystem {
 		double apparentDistance = (rect.x - apparentWidth/2) - IMAGE_SIZE.width/2;
 		return Math.atan((apparentDistance * (targetWidth / apparentWidth))/findDistanceToContour(contour, targetWidth));
 	}
+	
+	public void releaseCamera() {
+		capture.release();
+	}
 }
