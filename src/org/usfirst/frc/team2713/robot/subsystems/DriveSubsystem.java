@@ -54,12 +54,12 @@ public class DriveSubsystem extends Subsystem{
 				new SetColor(lights, Color.GREEN);
 			} else {
 				new ArcadeDrive(this, OI.xbox, imu).start();
-				new SetColor(lights, Color.GREEN);
+				new SetColor(lights, Color.YELLOW);
 			}
 		} else {
 			if (RobotMap.isTank){
 				new TankDrive(this, OI.xbox).start();
-				new SetColor(lights, Color.YELLOW);
+				new SetColor(lights, Color.GREEN);
 			} else {
 				new ArcadeDrive(this, OI.xbox).start();
 				new SetColor(lights, Color.YELLOW);
