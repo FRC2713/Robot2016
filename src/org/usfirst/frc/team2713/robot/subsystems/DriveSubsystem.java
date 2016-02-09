@@ -4,6 +4,8 @@ import org.usfirst.frc.team2713.robot.OI;
 
 import org.usfirst.frc.team2713.robot.commands.ArcadeDrive;
 import org.usfirst.frc.team2713.robot.commands.TankDrive;
+import org.usfirst.frc.team2713.robot.commands.lights.Color;
+import org.usfirst.frc.team2713.robot.commands.lights.SetColor;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -20,6 +22,7 @@ public class DriveSubsystem extends Subsystem{
 	public CANTalon rightback;
 	OI oi;
 	public IMU imu;
+	LightSubsystem lights = new LightSubsystem();
 	
 	public DriveSubsystem(OI oi, IMU imu){
 		if(RobotMap.INIT_DRIVE){
@@ -48,14 +51,18 @@ public class DriveSubsystem extends Subsystem{
 		if(imu != null) {
 			if (RobotMap.isTank){
 				new TankDrive(this, OI.xbox, imu).start();
+				new SetColor(lights, Color.GREEN);
 			} else {
 				new ArcadeDrive(this, OI.xbox, imu).start();
+				new SetColor(lights, Color.GREEN);
 			}
 		} else {
 			if (RobotMap.isTank){
 				new TankDrive(this, OI.xbox).start();
+				new SetColor(lights, Color.YELLOW);
 			} else {
 				new ArcadeDrive(this, OI.xbox).start();
+				new SetColor(lights, Color.YELLOW);
 			}
 		}
 	}
