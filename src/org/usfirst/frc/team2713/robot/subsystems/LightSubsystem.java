@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.commands.LightManager;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -20,7 +21,7 @@ public class LightSubsystem extends Subsystem {
 	public void startTeleop() {
 	}
 	
-	public void setColor(Color color) {
+	protected void setColor(Color color) {
 		red.set(color.getRed() > 127); // "Temporary" method, only shuts colors off/on
 		green.set(color.getGreen() > 127);
 		blue.set(color.getBlue() > 127);

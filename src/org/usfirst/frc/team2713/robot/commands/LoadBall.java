@@ -1,7 +1,6 @@
 package org.usfirst.frc.team2713.robot.commands;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
-import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem.Color;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,9 +10,9 @@ public class LoadBall extends Command {
 
 	private double polarity = 1;
 	LoaderSubsystem loader;
-	LightSubsystem lights;
-
-	public LoadBall(LoaderSubsystem loader, LightSubsystem lights) {
+	LightManager lights;
+	
+	public LoadBall(LoaderSubsystem loader, LightManager lights) {
 		this.lights = lights;
 		this.loader = loader;
 		requires(loader);
@@ -30,8 +29,8 @@ public class LoadBall extends Command {
 	@Override
 	protected void execute() {
 		if(loader.loadswitch.get()) {
+			lights.grabBall();
 			loader.loadBall(polarity);	
-			lights.setColor(Color.YELLOW);
 			try {
 				Thread.sleep(RobotMap.TIME_TO_LOAD_BALL);
 			} catch (InterruptedException e) {

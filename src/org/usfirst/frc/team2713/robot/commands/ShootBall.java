@@ -8,9 +8,11 @@ public class ShootBall extends Command {
 	
 	LoaderSubsystem loader;
 	boolean shouldFinish = false;
+	LightManager lightManager;
 	
-	public ShootBall(LoaderSubsystem loader) {
+	public ShootBall(LoaderSubsystem loader, LightManager lightManager) {
 		this.loader = loader;
+		this.lightManager = lightManager;
 	}	
 	
 	@Override
@@ -45,6 +47,7 @@ public class ShootBall extends Command {
 			e.printStackTrace();
 		}
 		loader.moveLoader(0);
+		lightManager.releaseBall();
 		loader.startLoadCommand();
 		return true;
 	}

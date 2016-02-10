@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import org.usfirst.frc.team2713.robot.commands.DataCollection;
 import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2713.robot.commands.IntegrateMovement;
+import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
@@ -38,13 +39,13 @@ public class Robot extends IterativeRobot {
 	private FlywheelSubsystem flywheel;
 	private HookArmSubsystem hookarm;
 	private LoaderSubsystem loader;
-	private LightSubsystem lights;
+	private LightManager lights;
 	private CameraSubsystem camera;
 	private IMU imu;
 	private IntegrateMovement integrater;
+	//Find a way to get alliance side color
 
 	Command autonomousCommand;
-	
 	static {
 		try {
 			System.setOut(new PrintStream(new FileOutputStream(new File("/home/lvuser", System.currentTimeMillis() + ".log"))));
@@ -70,7 +71,7 @@ public class Robot extends IterativeRobot {
 		for (int i = 0; i < RobotMap.DIPSWITCHCOUNT; i++) {
 			autonomousSwitches[i] = new DigitalInput(i + RobotMap.DIPSWITCHSTARTPORT);
 		}
-		oi = new OI(flywheel, hookarm, loader);
+		oi = new OI(flywheel, hookarm, loader, lights);
 		SmartDashboard.putData(Scheduler.getInstance());
 		
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -88,18 +89,18 @@ public class Robot extends IterativeRobot {
 			imu.initImu();
 			integrater = new IntegrateMovement(imu);
 		}
+		if (lights == null && RobotMap.INIT_LIGHTS)
+			lights = new LightManager(false);
+		if (camera == null && RobotMap.INIT_CAMERA)
+			camera = new CameraSubsystem();
 		if (flywheel == null && RobotMap.INIT_FLYWHEEL)
 			flywheel = new FlywheelSubsystem();
 		if (drive == null && RobotMap.INIT_DRIVE)
 			drive = new DriveSubsystem(oi, imu);
 		if (loader == null && RobotMap.INIT_LOADER)
-			loader = new LoaderSubsystem();
+			loader = new LoaderSubsystem(lights);
 		if (hookarm == null && RobotMap.INIT_HOOKARM)
 			hookarm = new HookArmSubsystem();
-		if (lights == null && RobotMap.INIT_LIGHTS)
-			lights = new LightSubsystem();
-		if (camera == null && RobotMap.INIT_CAMERA)
-			camera = new CameraSubsystem();
 	}
 
 	/**
@@ -116,7 +117,7 @@ public class Robot extends IterativeRobot {
 			hookarm.startDisabled();
 		if (loader != null)
 			loader.startDisabled();
-		if (lights != null)
+		if (lights != null) 
 			lights.startDisabled();
 	}
 
@@ -136,6 +137,7 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
+		lights.startAuto();
 		Scheduler.getInstance().run();
 		int chosen = 0;
 		for (int i = 0; i < autonomousSwitches.length; i++) {
@@ -174,9 +176,11 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		integrater();
+		lights.managerLights();
 	}
 
 	public void teleopInit() {
+		lights.startTeleop();
 		new DataCollection(drive, hookarm, loader, lights, flywheel, imu).start();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
@@ -203,6 +207,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		integrater();
+		lights.managerLights();
 	}
 
 	/**
