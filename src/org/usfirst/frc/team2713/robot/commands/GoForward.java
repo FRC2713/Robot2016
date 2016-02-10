@@ -23,14 +23,12 @@ public class GoForward extends Command{
 	}
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
 		timer.reset();
 		timer.start();
 	}
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
 		if ((timer.get() < time)) {
 			drive.move(1);
 		} else {

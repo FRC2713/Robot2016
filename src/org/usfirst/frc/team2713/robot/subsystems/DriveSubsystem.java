@@ -1,15 +1,15 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.OI;
-
+import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.ArcadeDrive;
 import org.usfirst.frc.team2713.robot.commands.TankDrive;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
-import org.usfirst.frc.team2713.robot.RobotMap;
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.RobotDrive; 
-import edu.wpi.first.wpilibj.command.Subsystem; 
+import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem.Color;
 
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.command.Subsystem; 
 
 public class DriveSubsystem extends Subsystem{
 
@@ -20,6 +20,7 @@ public class DriveSubsystem extends Subsystem{
 	public CANTalon rightback;
 	OI oi;
 	public IMU imu;
+	LightSubsystem lights = new LightSubsystem();
 	
 	public DriveSubsystem(OI oi, IMU imu){
 		if(RobotMap.INIT_DRIVE){
@@ -45,10 +46,12 @@ public class DriveSubsystem extends Subsystem{
 	}
 	
 	public void startTeleop() {
-		if(imu != null) {
-			new ArcadeDrive(this, OI.xbox, imu).start();
+		if (RobotMap.isTank) { //No need to see if imu is null here. This is checked in the classes themselves
+			new TankDrive(this, OI.xbox, imu).start();
+			lights.setColor(Color.GREEN);
 		} else {
-			new ArcadeDrive(this, OI.xbox).start();
+			new ArcadeDrive(this, OI.xbox, imu).start();
+			lights.setColor(Color.YELLOW);
 		}
 	}
 	
@@ -83,7 +86,7 @@ public class DriveSubsystem extends Subsystem{
 	}
 	
 	public void goTo(double x, double y, double z) { //In CM, 0,0,0 is the start point
-		//Use the IMU
+		//TODO Use the IMU
 	}
 
 	public void ArcadeDrive(double d, double rightY, double deadband) {

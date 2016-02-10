@@ -1,14 +1,11 @@
 package org.usfirst.frc.team2713.robot;
 
 import org.usfirst.frc.team2713.robot.commands.MoveHook;
-
-import org.usfirst.frc.team2713.robot.commands.lights.SetColor;
 import org.usfirst.frc.team2713.robot.commands.ShootBall;
 import org.usfirst.frc.team2713.robot.commands.archive.ShootShot;
-import org.usfirst.frc.team2713.robot.commands.lights.Color;
+import org.usfirst.frc.team2713.robot.exceptions.ControllerNotFound;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
-import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
@@ -24,10 +21,23 @@ public class OI {
 	private JoystickButton armup;
 	private JoystickButton armdown;
 
-	public XBoxController getXbox() {
-		return xbox;
-	}
+	public XBoxController getXbox() throws ControllerNotFound {
+		if (xbox != null){
+			return xbox;
+		} else {
+			throw new ControllerNotFound("XBox Controller not Found");
+		}
+	} 
 
+	public Joystick getJoystick() throws ControllerNotFound {
+		if (attack != null){
+			return attack;
+		} else {
+			throw new ControllerNotFound("Attack Controller not Found");
+		}
+	} 
+	
+	
 	public OI(HookArmSubsystem hookarm, LoaderSubsystem loader) {
 		initController();
 		if (RobotMap.INIT_LOADER) {
@@ -66,10 +76,7 @@ public class OI {
 			}
 		}
 		if (xbox == null) {
-			xbox = new XBoxController(RobotMap.BACKUP_XBOX_PORT); // Joystick
-																	// not
-																	// present
-																	// exception?
+			xbox = new XBoxController(RobotMap.BACKUP_XBOX_PORT); // Joystick not present exception?
 		}
 		if (attack == null) {
 			attack = new Joystick(RobotMap.BACKUP_ATTACK_PORT);
@@ -83,17 +90,17 @@ public class OI {
 	}
 
 	public void hookArmCommands(HookArmSubsystem hookarm) {
-		armup = new JoystickButton(xbox, 2);
+		armup = new JoystickButton(xbox, 4);
 		armup.whileHeld(new MoveHook(hookarm, 1));
 		armup.whenReleased(new MoveHook(hookarm, 0));
-		armdown = new JoystickButton(xbox, 3);
+		armdown = new JoystickButton(xbox, 1);
 		armdown.whileHeld(new MoveHook(hookarm, 1));
 		armdown.whenReleased(new MoveHook(hookarm, 0));
 	}
 
 	public void flywheelCommands(FlywheelSubsystem flywheel) {
 		System.out.println(xbox);
-		shootButton = new JoystickButton(xbox, 4);
+		shootButton = new JoystickButton(xbox, 3);
 		// shootButton.whenPressed(new ShootShot(flywheel, loader));
 		shootButton.whenPressed(new ShootShot(flywheel));
 	}

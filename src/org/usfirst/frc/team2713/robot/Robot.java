@@ -1,8 +1,14 @@
 package org.usfirst.frc.team2713.robot;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 import org.usfirst.frc.team2713.robot.commands.DataCollection;
 import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
+import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
@@ -27,14 +33,30 @@ public class Robot extends IterativeRobot {
 
 	public OI oi;
 	public DigitalInput[] autonomousSwitches;
-	DriveSubsystem drive;
-	FlywheelSubsystem flywheel;
-	HookArmSubsystem hookarm;
-	LoaderSubsystem loader;
-	LightSubsystem lights;
-	IMU imu;
+	private DriveSubsystem drive;
+	private FlywheelSubsystem flywheel;
+	private HookArmSubsystem hookarm;
+	private LoaderSubsystem loader;
+	private LightSubsystem lights;
+	private CameraSubsystem camera;
+	private IMU imu;
 
 	Command autonomousCommand;
+	
+	static {
+		try {
+			System.setOut(new PrintStream(new FileOutputStream(new File("/home/lvuser", System.currentTimeMillis() + ".log"))));
+			System.setErr(new PrintStream(new FileOutputStream(new File("/home/lvuser", System.currentTimeMillis() + ".err"))));
+			
+			System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (SecurityException|UnsatisfiedLinkError|NullPointerException e) {
+			e.printStackTrace();
+			System.out.println("OpenCV could not be loaded. Is it installed?");
+			System.exit(1);
+		}
+	}
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -48,6 +70,13 @@ public class Robot extends IterativeRobot {
 		}
 		oi = new OI(flywheel, hookarm, loader);
 		SmartDashboard.putData(Scheduler.getInstance());
+		
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if (camera != null) camera.releaseCamera();
+			}
+		}));
 	}
 	
 
@@ -64,6 +93,8 @@ public class Robot extends IterativeRobot {
 			hookarm = new HookArmSubsystem();
 		if (lights == null && RobotMap.INIT_LIGHTS)
 			lights = new LightSubsystem();
+		if (camera == null && RobotMap.INIT_CAMERA)
+			camera = new CameraSubsystem();
 	}
 
 	/**
@@ -126,7 +157,7 @@ public class Robot extends IterativeRobot {
 		switch (chosen) {
 		case 0:
 			autonomousCommand = new ExampleCommand();
-		}
+		}	
 
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -176,3 +207,4 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run();
 	}
 }
+

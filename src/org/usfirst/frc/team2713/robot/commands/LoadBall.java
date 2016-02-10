@@ -1,7 +1,7 @@
 package org.usfirst.frc.team2713.robot.commands;
 import org.usfirst.frc.team2713.robot.RobotMap;
-import org.usfirst.frc.team2713.robot.commands.lights.Color;
 import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem.Color;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
