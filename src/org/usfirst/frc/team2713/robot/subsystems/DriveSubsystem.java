@@ -1,17 +1,15 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.OI;
-
+import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.ArcadeDrive;
 import org.usfirst.frc.team2713.robot.commands.TankDrive;
-import org.usfirst.frc.team2713.robot.commands.lights.Color;
-import org.usfirst.frc.team2713.robot.commands.lights.SetColor;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
-import org.usfirst.frc.team2713.robot.RobotMap;
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.RobotDrive; 
-import edu.wpi.first.wpilibj.command.Subsystem; 
+import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem.Color;
 
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.command.Subsystem; 
 
 public class DriveSubsystem extends Subsystem{
 
@@ -48,22 +46,12 @@ public class DriveSubsystem extends Subsystem{
 	}
 	
 	public void startTeleop() {
-		if(imu != null) {
-			if (RobotMap.isTank){
-				new TankDrive(this, OI.xbox, imu).start();
-				new SetColor(lights, Color.GREEN);
-			} else {
-				new ArcadeDrive(this, OI.xbox, imu).start();
-				new SetColor(lights, Color.YELLOW);
-			}
+		if (RobotMap.isTank) { //No need to see if imu is null here. This is checked in the classes themselves
+			new TankDrive(this, OI.xbox, imu).start();
+			lights.setColor(Color.GREEN);
 		} else {
-			if (RobotMap.isTank){
-				new TankDrive(this, OI.xbox).start();
-				new SetColor(lights, Color.GREEN);
-			} else {
-				new ArcadeDrive(this, OI.xbox).start();
-				new SetColor(lights, Color.YELLOW);
-			}
+			new ArcadeDrive(this, OI.xbox, imu).start();
+			lights.setColor(Color.YELLOW);
 		}
 	}
 	

@@ -18,11 +18,6 @@ public class TankDrive extends Command {
 		this.imu = imu;
 	}
 
-	public TankDrive(DriveSubsystem drive, XBoxController xbox) {
-		this.drive = drive;
-		this.xbox = xbox;
-	}
-
 	double scaler;
 	double deadband;
 	double polarity;

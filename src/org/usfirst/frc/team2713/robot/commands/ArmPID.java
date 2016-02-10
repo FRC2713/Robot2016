@@ -1,8 +1,8 @@
 package org.usfirst.frc.team2713.robot.commands;
 
-import org.usfirst.frc.team2713.robot.commands.lights.Color;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem.Color;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -37,7 +37,6 @@ public class ArmPID extends Command {
 	@Override
 	protected boolean isFinished() {
 		if ((hookarm.arm.get() - .2) <= angle && (hookarm.arm.get() - .2) >= angle) {
-			
 			return true;
 		}
 		return false;
