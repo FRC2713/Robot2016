@@ -3,6 +3,7 @@ package org.usfirst.frc.team2713.robot;
 import org.usfirst.frc.team2713.robot.commands.MoveHook;
 
 import org.usfirst.frc.team2713.robot.commands.lights.SetColor;
+import org.usfirst.frc.team2713.robot.exceptions.ControllerNotFound;
 import org.usfirst.frc.team2713.robot.commands.ShootBall;
 import org.usfirst.frc.team2713.robot.commands.archive.ShootShot;
 import org.usfirst.frc.team2713.robot.commands.lights.Color;
@@ -24,10 +25,23 @@ public class OI {
 	private JoystickButton armup;
 	private JoystickButton armdown;
 
-	public XBoxController getXbox() {
-		return xbox;
-	}
+	public XBoxController getXbox() throws ControllerNotFound {
+		if (xbox != null){
+			return xbox;
+		} else {
+			throw new ControllerNotFound("XBox Controller not Found");
+		}
+	} 
 
+	public Joystick getJoystick() throws ControllerNotFound {
+		if (attack != null){
+			return attack;
+		} else {
+			throw new ControllerNotFound("Attack Controller not Found");
+		}
+	} 
+	
+	
 	public OI(HookArmSubsystem hookarm, LoaderSubsystem loader) {
 		initController();
 		if (RobotMap.INIT_LOADER) {
