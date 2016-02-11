@@ -3,7 +3,6 @@ package org.usfirst.frc.team2713.robot.input.imu;
 import com.analog.adis16448.frc.ADIS16448_IMU;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.tables.ITable;
 
 public class IMU extends ADIS16448_IMU {
 
@@ -11,32 +10,10 @@ public class IMU extends ADIS16448_IMU {
 	private double accelerationXOffset;
 	private double accelerationYOffset;
 	private double accelerationZOffset;
-	private double velocityX;
-	private double velocityY;
-	private double velocityZ;
-	private double positionX;
-	private double positionY;
-	private double positionZ;
-	private double lastCalcTime;
 	
 	public IMU() {
 		super();
 		reset();
-		calculatePosition();
-	}
-	
-	public void calculatePosition() {
-		long currentTime = System.currentTimeMillis() / 1000;
-		double dt = currentTime - lastCalcTime;
-		
-		velocityX += getAccelX() * dt;
-		velocityY += getAccelY() * dt;
-		velocityZ += getAccelZ() * dt;
-		positionX += velocityX * dt;
-		positionY += velocityY * dt;
-		positionZ += velocityZ * dt;
-		
-		lastCalcTime = currentTime; 
 	}
 	
 	@Override
@@ -47,13 +24,6 @@ public class IMU extends ADIS16448_IMU {
 		accelerationXOffset = 0D;
 		accelerationYOffset = 0D;
 		accelerationZOffset = 0D;
-		velocityX = 0D;
-		velocityY = 0D;
-		velocityZ = 0D;
-		positionX = 0D;
-		positionY = 0D;
-		positionZ = 0D;
-		lastCalcTime = System.currentTimeMillis();
 		
 		int averageNum = 10;
 		for(int i = 0; i < averageNum; i++) {
@@ -91,43 +61,5 @@ public class IMU extends ADIS16448_IMU {
 	@Override
 	public double getAccelZ() {
 		return super.getAccelZ() - accelerationZOffset;
-	}
-	
-	public double getVelocityX() {
-		return velocityX;
-	}
-	
-	public double getVelocityY() {
-		return velocityY;
-	}
-	
-	public double getVelocityZ() {
-		return velocityZ;
-	}
-	
-	public double getPositionX() {
-		return positionX;
-	}
-	
-	public double getPositionY() {
-		return positionY;
-	}
-	
-	public double getPositionZ() {
-		return positionZ;
-	}
-	
-	@Override
-	public void updateTable() {
-		super.updateTable();
-		ITable table = getTable();
-		if (table != null) {
-			table.putNumber("VelocityX", getVelocityX());
-			table.putNumber("VelocityY", getVelocityY());
-			table.putNumber("VelocityZ", getVelocityZ());
-			table.putNumber("PositionX", getPositionX());
-			table.putNumber("PositionY", getPositionY());
-			table.putNumber("PositionZ", getPositionZ());
-		}
 	}
 }

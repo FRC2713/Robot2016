@@ -92,9 +92,7 @@ public class DataCollection extends Command {
 		}
 		
 		if (imu != null) {
-			imu.calculatePosition();
-			System.out.println(imu.getPositionX());
-			imuData.add((imu.getPositionX()));
+			imuData.add((imu.getAngle()));
 		} else {
 			imuData.add(0.0);
 		}
