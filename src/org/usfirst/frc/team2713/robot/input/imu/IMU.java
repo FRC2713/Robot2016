@@ -1,70 +1,65 @@
 package org.usfirst.frc.team2713.robot.input.imu;
 
 import com.analog.adis16448.frc.ADIS16448_IMU;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IMU extends ADIS16448_IMU {
 
-	double angleOffset;
-	double accelrationXOffset;
-	double accelrationYOffset;
-	double accelrationZOffset;
-	public Double velocityX = 0.0;
-	public Double velocityY = 0.0;
-	public Double velocityZ = 0.0;
-	public Double currentXPossition = 0.0;
-	public Double currentYPossition = 0.0;
-	public Double currentZPossition = 0.0;
+	private double angleOffset;
+	private double accelerationXOffset;
+	private double accelerationYOffset;
+	private double accelerationZOffset;
 	
-	public void initImu() {
-		calibrateIMU();
-		refreshDashboard();
+	public IMU() {
+		super();
+		reset();
 	}
 	
-	public void calibrateIMU() {
-		System.out.println("Calibarating IMU, do NOT touch the robot...");
-		this.calibrate();
-		this.reset();
-		System.out.println("Calibration Complete, feel free to move about the robot");
-	}
-	
+	@Override
 	public void reset() {
 		super.reset();
-		double averageNum = 10;
+		
+		angleOffset = 0D;
+		accelerationXOffset = 0D;
+		accelerationYOffset = 0D;
+		accelerationZOffset = 0D;
+		
+		int averageNum = 10;
 		for(int i = 0; i < averageNum; i++) {
-			angleOffset = super.getAngle();
+			angleOffset += super.getAngle();
 			//accelrationXOffset = super.getAccelX() + -3.3333335e-12;
-			accelrationXOffset += super.getAccelX();
-			accelrationYOffset = super.getAccelY();
-			accelrationZOffset = super.getAccelZ();
+			accelerationXOffset += super.getAccelX();
+			accelerationYOffset += super.getAccelY();
+			accelerationZOffset += super.getAccelZ();
 		}
-		angleOffset /= averageNum;
-		accelrationXOffset /= averageNum;
-		accelrationYOffset /= averageNum;
-		accelrationZOffset /= averageNum;
+		angleOffset /= (double) averageNum;
+		accelerationXOffset /= (double) averageNum;
+		accelerationYOffset /= (double) averageNum;
+		accelerationZOffset /= (double) averageNum;
 	}
 	
+	@Override
 	public double getAngle(){
-		double angle = super.getAngle();
-		angle -= angleOffset;
-		return angle;
+		return super.getAngle() - angleOffset;
 	}
 	
 	public void refreshDashboard() {
 		SmartDashboard.putData("IMU", this);
-		SmartDashboard.putNumber("IMU Angle", getAngle());
 	}
 
+	@Override
 	public double getAccelX() {
-		return super.getAccelX() - accelrationXOffset;
+		return super.getAccelX() - accelerationXOffset;
 	}
 	
+	@Override
 	public double getAccelY() {
-		return super.getAccelY() - accelrationYOffset;
+		return super.getAccelY() - accelerationYOffset;
 	}
 	
+	@Override
 	public double getAccelZ() {
-		return super.getAccelZ() - accelrationZOffset;
+		return super.getAccelZ() - accelerationZOffset;
 	}
-	
 }

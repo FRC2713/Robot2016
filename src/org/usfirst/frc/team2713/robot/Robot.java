@@ -6,14 +6,11 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 
 import org.usfirst.frc.team2713.robot.commands.DataCollection;
-import org.usfirst.frc.team2713.robot.commands.ExampleCommand;
-import org.usfirst.frc.team2713.robot.commands.IntegrateMovement;
 import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
-import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
@@ -42,7 +39,6 @@ public class Robot extends IterativeRobot {
 	private LightManager lights;
 	private CameraSubsystem camera;
 	private IMU imu;
-	private IntegrateMovement integrater;
 	//Find a way to get alliance side color
 
 	Command autonomousCommand;
@@ -84,11 +80,8 @@ public class Robot extends IterativeRobot {
 	
 
 	public void initSubsystems() {
-		if(imu == null && RobotMap.INIT_IMU) {
+		if(imu == null && RobotMap.INIT_IMU)
 			imu = new IMU();
-			imu.initImu();
-			integrater = new IntegrateMovement(imu);
-		}
 		if (lights == null && RobotMap.INIT_LIGHTS)
 			lights = new LightManager(false);
 		if (camera == null && RobotMap.INIT_CAMERA)
@@ -170,7 +163,6 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		integrater();
 		lights.managerLights();
 	}
 
@@ -201,7 +193,6 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		integrater();
 		lights.managerLights();
 	}
 
@@ -210,12 +201,6 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testPeriodic() {
 		LiveWindow.run();
-	}
-	
-	public void integrater() {
-		if(integrater != null) {
-			integrater.execute();
-		}
 	}
 }
 
