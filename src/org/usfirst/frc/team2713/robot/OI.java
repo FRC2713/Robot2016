@@ -1,15 +1,11 @@
 package org.usfirst.frc.team2713.robot;
 
 import org.usfirst.frc.team2713.robot.commands.MoveHook;
-
-import org.usfirst.frc.team2713.robot.commands.lights.SetColor;
 import org.usfirst.frc.team2713.robot.exceptions.ControllerNotFound;
 import org.usfirst.frc.team2713.robot.commands.ShootBall;
 import org.usfirst.frc.team2713.robot.commands.archive.ShootShot;
-import org.usfirst.frc.team2713.robot.commands.lights.Color;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
-import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
@@ -17,7 +13,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
-
 	public static XBoxController xbox;
 	public static Joystick attack;
 	private JoystickButton loadout;
@@ -26,19 +21,11 @@ public class OI {
 	private JoystickButton armdown;
 
 	public XBoxController getXbox() throws ControllerNotFound {
-		if (xbox != null){
-			return xbox;
-		} else {
-			throw new ControllerNotFound("XBox Controller not Found");
-		}
+		return xbox;
 	} 
 
 	public Joystick getJoystick() throws ControllerNotFound {
-		if (attack != null){
-			return attack;
-		} else {
-			throw new ControllerNotFound("Attack Controller not Found");
-		}
+		return attack;
 	} 
 	
 	
@@ -66,10 +53,9 @@ public class OI {
 		if (RobotMap.INIT_FLYWHEEL) {
 			flywheelCommands(flywheel);
 		}
-
 	}
 
-	public void initController() {
+	public void initController() throws ControllerNotFound {
 		for (int i = 0; i < 6; i++) {
 			Joystick test = new Joystick(i);
 			if (test.getName().equals(RobotMap.XBOX_NAME)) {
@@ -80,17 +66,18 @@ public class OI {
 			}
 		}
 		if (xbox == null) {
-			xbox = new XBoxController(RobotMap.BACKUP_XBOX_PORT); // Joystick not present exception?
+			xbox = new XBoxController(RobotMap.BACKUP_XBOX_PORT);
+			throw new ControllerNotFound("XBox Controller not Found, is it attached?");
 		}
 		if (attack == null) {
 			attack = new Joystick(RobotMap.BACKUP_ATTACK_PORT);
+			throw new ControllerNotFound("Attack Controller not Found, is it attached?");
 		}
 	}
 
 	public void loaderCommands(LoaderSubsystem loader) {
 		loadout = new JoystickButton(xbox, 6);
 		loadout.whenPressed(new ShootBall(loader));
-
 	}
 
 	public void hookArmCommands(HookArmSubsystem hookarm) {

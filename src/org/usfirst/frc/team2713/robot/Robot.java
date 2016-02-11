@@ -157,12 +157,7 @@ public class Robot extends IterativeRobot {
 			loader.startAuto(chosen);
 		
 		if (lights != null)
-			lights.startAuto(chosen);
-
-		switch (chosen) {
-		case 0:
-			autonomousCommand = new ExampleCommand();
-		}	
+			lights.startAuto(chosen);	
 
 		if (autonomousCommand != null)
 			autonomousCommand.start();

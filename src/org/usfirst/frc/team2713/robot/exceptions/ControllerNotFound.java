@@ -1,6 +1,6 @@
 package org.usfirst.frc.team2713.robot.exceptions;
 
-public class ControllerNotFound extends Exception {
+public class ControllerNotFound extends RuntimeException {
 
 	private static final long serialVersionUID = 8772415862L; //LUNA
 	
