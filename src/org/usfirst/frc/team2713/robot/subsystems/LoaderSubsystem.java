@@ -1,9 +1,7 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
-
-
-
+import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.commands.LoadBall;
 import org.usfirst.frc.team2713.robot.commands.archive.ShootShot;
 
@@ -17,51 +15,50 @@ public class LoaderSubsystem extends Subsystem {
 	public CANTalon ballLoader;
 	LoadBall loadCommand;
 	ShootShot shootCommand;
-	public DigitalInput loadswitch; //What if this isnt present? Backups!
-	public DigitalInput lockToShoot; //What if this isnt present? Backups!
-	public LightSubsystem lights;
-	
-	public LoaderSubsystem() {
-		if(RobotMap.INIT_LOADER) {
-			moveLoader = new CANTalon(RobotMap.MOVE_LOAD_MOTOR);
-			ballLoader = new CANTalon(RobotMap.BALL_LOADER_MOTOR);
-			loadswitch = new DigitalInput(RobotMap.LOADER_LIMIT_SWITCH);
-			lockToShoot = new DigitalInput(RobotMap.LOCK_TO_SHOOT__LIMIT_SWITCH);
-		}
+	public DigitalInput loadswitch; // What if this isnt present? Backups!
+	public DigitalInput lockToShoot; // What if this isnt present? Backups!
+	LightManager lights;
+
+	public LoaderSubsystem(LightManager lights) {
+		moveLoader = new CANTalon(RobotMap.MOVE_LOAD_MOTOR);
+		ballLoader = new CANTalon(RobotMap.BALL_LOADER_MOTOR);
+		loadswitch = new DigitalInput(RobotMap.LOADER_LIMIT_SWITCH);
+		lockToShoot = new DigitalInput(RobotMap.LOCK_TO_SHOOT__LIMIT_SWITCH);
+		this.lights = lights;
 	}
-	
+
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void startTeleop() {
-		startLoadCommand(); //Needed?
+		startLoadCommand(); // Needed?
 	}
-	
+
 	public void startAuto(int chosen) {
 		startLoadCommand();
 	}
-	
+
 	public void startDisabled() {
-		
+
 	}
 
 	public void loadBall(double polarity) {
 		ballLoader.set(polarity);
 	}
-	
+
 	public void moveLoader(double polarity) {
 		moveLoader.set(polarity);
 	}
-	
+
 	public void stopLoadCommand() {
 		loadCommand.cancel();
 	}
-	
+
 	public void startLoadCommand() {
-		if(loadCommand != null) {
+		if (loadCommand != null) {
 			loadCommand.cancel();
 		}
 		loadCommand = new LoadBall(this, lights);

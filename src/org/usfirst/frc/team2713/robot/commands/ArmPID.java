@@ -1,9 +1,6 @@
 package org.usfirst.frc.team2713.robot.commands;
 
-import org.usfirst.frc.team2713.robot.commands.lights.Color;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
-import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ArmPID extends Command {
@@ -11,17 +8,12 @@ public class ArmPID extends Command {
 	
 	HookArmSubsystem hookarm;
 	double angle;
-	LightSubsystem lights;
+	LightManager lightManager;
 	
-	public ArmPID(HookArmSubsystem hookarm, double angle) {
+	public ArmPID(HookArmSubsystem hookarm, double angle, LightManager lightManager) {
 		this.hookarm = hookarm;
 		this.angle = angle;
-	} 
-	
-	public ArmPID(HookArmSubsystem hookarm2, double armLowerLimit, LightSubsystem lights) {
-		this.hookarm = hookarm;
-		this.angle = angle;
-		this.lights = lights;
+		this.lightManager = lightManager;
 	}
 
 	@Override
@@ -31,13 +23,13 @@ public class ArmPID extends Command {
 
 	@Override
 	protected void execute() {
-		lights.setColor(Color.GREEN);
+
 	}
 
 	@Override
 	protected boolean isFinished() {
 		if ((hookarm.arm.get() - .2) <= angle && (hookarm.arm.get() - .2) >= angle) {
-			
+			lightManager.finishPID();
 			return true;
 		}
 		return false;

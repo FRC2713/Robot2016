@@ -68,10 +68,11 @@ public class RobotMap {
 	public static final int FRONT_LIMIT_SWITCH = 1;
 	public static final int LEFT_LIMIT_SWITCH = 2;
 
-	//Light ports
+	//Light stuff
 	public static final int RED_DIO_PORT = 0;
 	public static final int GREEN_DIO_PORT = 1;
 	public static final int BLUE_DIO_PORT = 2;
+	public static final boolean doMatchDance = true;
 	
 	//Loader Timings
 	public static final int TIME_TO_LOWER_LOADER = 200;

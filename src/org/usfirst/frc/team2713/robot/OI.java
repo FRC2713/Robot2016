@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2713.robot;
 
+import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.commands.MoveHook;
 import org.usfirst.frc.team2713.robot.exceptions.ControllerNotFound;
 import org.usfirst.frc.team2713.robot.commands.ShootBall;
@@ -19,6 +20,7 @@ public class OI {
 	private JoystickButton shootButton;
 	private JoystickButton armup;
 	private JoystickButton armdown;
+	private LightManager lights;
 
 	public XBoxController getXbox() throws ControllerNotFound {
 		return xbox;
@@ -27,21 +29,10 @@ public class OI {
 	public Joystick getJoystick() throws ControllerNotFound {
 		return attack;
 	} 
-	
-	
-	public OI(HookArmSubsystem hookarm, LoaderSubsystem loader) {
-		initController();
-		if (RobotMap.INIT_LOADER) {
-			loaderCommands(loader);
-		}
 
-		if (RobotMap.INIT_HOOKARM) {
-			hookArmCommands(hookarm);
-		}
-	}
-
-	public OI(FlywheelSubsystem flywheel, HookArmSubsystem hookarm, LoaderSubsystem loader) {
+	public OI(FlywheelSubsystem flywheel, HookArmSubsystem hookarm, LoaderSubsystem loader, LightManager lights) {
 		initController();
+		this.lights = lights;
 		if (RobotMap.INIT_LOADER) {
 			loaderCommands(loader);
 		}
@@ -77,7 +68,7 @@ public class OI {
 
 	public void loaderCommands(LoaderSubsystem loader) {
 		loadout = new JoystickButton(xbox, 6);
-		loadout.whenPressed(new ShootBall(loader));
+		loadout.whenPressed(new ShootBall(loader, lights));
 	}
 
 	public void hookArmCommands(HookArmSubsystem hookarm) {
