@@ -1,10 +1,5 @@
 package org.usfirst.frc.team2713.robot;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-
 import org.usfirst.frc.team2713.robot.commands.DataCollection;
 import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
@@ -44,12 +39,7 @@ public class Robot extends IterativeRobot {
 	Command autonomousCommand;
 	static {
 		try {
-			System.setOut(new PrintStream(new FileOutputStream(new File("/home/lvuser", System.currentTimeMillis() + ".log"))));
-			System.setErr(new PrintStream(new FileOutputStream(new File("/home/lvuser", System.currentTimeMillis() + ".err"))));
-			
 			System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (SecurityException|UnsatisfiedLinkError|NullPointerException e) {
 			e.printStackTrace();
 			System.out.println("OpenCV could not be loaded. Is it installed?");
