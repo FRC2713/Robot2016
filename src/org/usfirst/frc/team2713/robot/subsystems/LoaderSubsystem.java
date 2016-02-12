@@ -7,9 +7,8 @@ import org.usfirst.frc.team2713.robot.commands.archive.ShootShot;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class LoaderSubsystem extends Subsystem {
+public class LoaderSubsystem extends BaseSubsystem {
 
 	public CANTalon moveLoader;
 	public CANTalon ballLoader;
@@ -33,16 +32,14 @@ public class LoaderSubsystem extends Subsystem {
 
 	}
 
+	@Override
 	public void startTeleop() {
 		startLoadCommand(); // Needed?
 	}
 
+	@Override
 	public void startAuto(int chosen) {
 		startLoadCommand();
-	}
-
-	public void startDisabled() {
-
 	}
 
 	public void loadBall(double polarity) {

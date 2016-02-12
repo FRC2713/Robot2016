@@ -1,12 +1,10 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
-import org.usfirst.frc.team2713.robot.commands.LightManager;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class LightSubsystem extends Subsystem {
+public class LightSubsystem extends BaseSubsystem {
 
 	private DigitalOutput red;
 	private DigitalOutput green;
@@ -18,27 +16,14 @@ public class LightSubsystem extends Subsystem {
 		blue = new DigitalOutput(RobotMap.BLUE_DIO_PORT);
 	}
 
-	public void startTeleop() {
-	}
-	
 	protected void setColor(Color color) {
 		red.set(color.getRed() > 127); // "Temporary" method, only shuts colors off/on
 		green.set(color.getGreen() > 127);
 		blue.set(color.getBlue() > 127);
 	}
 
-	public void startAuto(int chosen) {
-
-	}
-
-	public void startDisabled() {
-
-	}
-
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-
 	}
 
 	// Java on the RoboRIO apparently doesn't have this class in AWT.

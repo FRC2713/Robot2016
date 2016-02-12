@@ -5,11 +5,11 @@ import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.ArcadeDrive;
 import org.usfirst.frc.team2713.robot.commands.TankDrive;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class DriveSubsystem extends Subsystem {
+public class DriveSubsystem extends BaseSubsystem {
 
 	public RobotDrive roboDrive;
 	public CANTalon right;
@@ -30,6 +30,7 @@ public class DriveSubsystem extends Subsystem {
 		roboDrive = new RobotDrive(left, leftback, right, rightback);
 	}
 
+	@Override
 	public void startTeleop() {
 		if (RobotMap.isTank) { // No need to see if imu is null here. This is
 								// checked in the classes themselves
@@ -37,14 +38,6 @@ public class DriveSubsystem extends Subsystem {
 		} else {
 			new ArcadeDrive(this, OI.xbox, imu).start();
 		}
-	}
-
-	public void startAuto(int chosen) {
-
-	}
-
-	public void startDisabled() {
-
 	}
 
 	private static double calcDeadband(double value, double deadband) {
@@ -66,11 +59,6 @@ public class DriveSubsystem extends Subsystem {
 	public void move(double polarity) {
 		left.set(polarity);
 		right.set(polarity);
-	}
-
-	public void goTo(double x, double y, double z) { // In CM, 0,0,0 is the
-														// start point
-		// TODO Use the IMU
 	}
 
 	public void ArcadeDrive(double d, double rightY, double deadband) {

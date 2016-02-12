@@ -21,9 +21,7 @@ import org.opencv.videoio.Videoio;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.RobotMap.ColorThreshold;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
-
-public class CameraSubsystem extends Subsystem {
+public class CameraSubsystem extends BaseSubsystem {
 	private static final Size IMAGE_SIZE = new Size(320, 240);
 	private VideoCapture capture;
 	

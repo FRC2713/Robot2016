@@ -3,11 +3,10 @@ package org.usfirst.frc.team2713.robot.subsystems;
 import org.usfirst.frc.team2713.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.PIDSourceType;
 
-public class HookArmSubsystem extends Subsystem {
+public class HookArmSubsystem extends BaseSubsystem {
 
 	public CANTalon arm;
 
@@ -22,20 +21,6 @@ public class HookArmSubsystem extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void startTeleop() {
-
-	}
-
-	public void startAuto(int chosen) {
-
-	}
-
-	public void startDisabled() {
-
 	}
 
 	public void setAngle(double angle) {
