@@ -30,22 +30,22 @@ public class DriveSubsystem extends BaseSubsystem {
 		this.oi = oi;
 		
 		try {
-			left = new CANTalon(RobotMap.LEFT_TANK);
-			right = new CANTalon(RobotMap.RIGHT_TANK);
-			
-			leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
-			leftback.setControlMode(TalonControlMode.Follower.value);
-			leftback.set(RobotMap.LEFT_TANK);
-			
 			rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
-			rightback.setControlMode(TalonControlMode.Follower.value);
-			rightback.set(RobotMap.RIGHT_TANK);
+			leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
+			
+			left = new CANTalon(RobotMap.LEFT_TANK);
+			left.setControlMode(TalonControlMode.Follower.value);
+			left.set(RobotMap.LEFT_TANK_BACK);
+			
+			right = new CANTalon(RobotMap.RIGHT_TANK);
+			right.setControlMode(TalonControlMode.Follower.value);
+			right.set(RobotMap.RIGHT_TANK_BACK);
 		} catch(CANMessageNotFoundException ex) {
 			ex.printStackTrace();
 			return;
 		}
 		
-		roboDrive = new RobotDrive(left, right);
+		roboDrive = new RobotDrive(leftback, rightback);
 	}
 
 	@Override
