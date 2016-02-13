@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2713.robot.commands.driveCommands;
 
-import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
@@ -27,10 +26,7 @@ public class TankDrive extends Command {
 		scaler = 1.0;
 		deadband = 0.1;
 		polarity = -1;
-		if (imu != null) {
-			System.out.println(imu.getAngle());
-		}
-		drive.TankDrive(xbox.getLeftY() * scaler * polarity, xbox.getRightY() * scaler * polarity, deadband);
+		drive.tankDrive(xbox.getLeftY() * scaler * polarity, xbox.getRightY() * scaler * polarity, deadband);
 	}
 
 	@Override

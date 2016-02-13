@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
-	public static XBoxController xbox;
-	public static Joystick gamepad;
+	private XBoxController xbox;
+	private Joystick gamepad;
 	private JoystickButton loadout;
 	private JoystickButton shootButton;
 	private JoystickButton armup;
@@ -25,11 +25,11 @@ public class OI {
 	private JoystickButton loaddown;
 	private LightManager lights;
 
-	public XBoxController getXbox() throws ControllerNotFound {
+	public XBoxController getXbox() {
 		return xbox;
 	} 
 
-	public Joystick getJoystick() throws ControllerNotFound {
+	public Joystick getJoystick() {
 		return gamepad;
 	} 
 
