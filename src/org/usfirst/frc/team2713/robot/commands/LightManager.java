@@ -49,14 +49,24 @@ public class LightManager extends LightSubsystem {
 		}
 	}
 
-	public void startAuto() {
+	
+	@Override
+	public void startAuto(int chosen) {
 		autoOrTeleop = true;
 		timeCommandStarted = System.currentTimeMillis();
 	}
-
+		
+	@Override
 	public void startTeleop() {
 		autoOrTeleop = false;
 		timeCommandStarted = System.currentTimeMillis();
+	}
+	
+	@Override
+	public void startDisabled() {
+		if(!autoOrTeleop) {
+			finishMatch();
+		}
 	}
 
 	public void finishPID() {
@@ -97,11 +107,5 @@ public class LightManager extends LightSubsystem {
 			}
 		}
 	}
-	
-	@Override
-	public void startDisabled() {
-		if(autoOrTeleop) {
-			finishMatch();
-		}
-	}
+
 }
