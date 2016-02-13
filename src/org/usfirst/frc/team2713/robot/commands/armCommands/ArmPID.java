@@ -2,6 +2,8 @@ package org.usfirst.frc.team2713.robot.commands.armCommands;
 
 import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
+
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ArmPID extends Command {
@@ -19,6 +21,7 @@ public class ArmPID extends Command {
 
 	@Override
 	protected void initialize() {
+		hookarm.arm.changeControlMode(TalonControlMode.Position);
 		hookarm.setAngle(angle);
 	}
 

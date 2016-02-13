@@ -49,7 +49,8 @@ public class RobotMap {
 
 	//Drive Stuff
 	public static final int RIGHT_FRONT_WHEEL_ENCODER = 4;
-	
+	public static final double FRONT_RIGHT_WHEEL_DIAMETER = 1;
+
 	//Initilization stuff
 	public static final boolean INIT_DRIVE = true;
 	public static final boolean INIT_FLYWHEEL = false;
@@ -59,7 +60,6 @@ public class RobotMap {
 	public static final boolean INIT_IMU = true;
 	public static final boolean INIT_CAMERA = true;
 
-	
 	//Dip Switch Stuff
 	public static final int DIPSWITCHCOUNT = 1;
 	public static final int DIPSWITCHSTARTPORT = 0;
@@ -81,8 +81,10 @@ public class RobotMap {
 	public static final int TIME_TO_RELEASE_BALL = 200;
 	public static final int TIME_TO_LOAD_BALL = 200;
 	
+	//Camera Stuff
 	public static final int CAMERA = 0;
 	public static final int CAMERA_VIEW_ANGLE = 52;
+
 	
 	public enum ColorThreshold {
 		HIGH_GOAL(new Scalar(35D, 64D, 48D, 0D), new Scalar(93D, 144D, 255D, 0D));

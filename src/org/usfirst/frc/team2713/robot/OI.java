@@ -4,6 +4,7 @@ import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.exceptions.ControllerNotFound;
 import org.usfirst.frc.team2713.robot.commands.archive.ShootShot;
 import org.usfirst.frc.team2713.robot.commands.armCommands.MoveHook;
+import org.usfirst.frc.team2713.robot.commands.grabberCommands.ManualLoadBall;
 import org.usfirst.frc.team2713.robot.commands.grabberCommands.ShootBall;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
@@ -15,11 +16,13 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
 	public static XBoxController xbox;
-	public static Joystick attack;
+	public static Joystick gamepad;
 	private JoystickButton loadout;
 	private JoystickButton shootButton;
 	private JoystickButton armup;
 	private JoystickButton armdown;
+	private JoystickButton loadup;
+	private JoystickButton loaddown;
 	private LightManager lights;
 
 	public XBoxController getXbox() throws ControllerNotFound {
@@ -27,7 +30,7 @@ public class OI {
 	} 
 
 	public Joystick getJoystick() throws ControllerNotFound {
-		return attack;
+		return gamepad;
 	} 
 
 	public OI(FlywheelSubsystem flywheel, HookArmSubsystem hookarm, LoaderSubsystem loader, LightManager lights) {
@@ -55,7 +58,7 @@ public class OI {
 			}
 			
 			if (test.getName().equals(RobotMap.ATTACK_NAME)) {
-				attack = new Joystick(i);
+				gamepad = new Joystick(i);
 				return;
 			}
 		}
@@ -66,13 +69,19 @@ public class OI {
 	public void loaderCommands(LoaderSubsystem loader) {
 		loadout = new JoystickButton(xbox, 6);
 		loadout.whenPressed(new ShootBall(loader, lights));
+		loadup = new JoystickButton(gamepad, 6);
+		loadup.whileHeld(new ManualLoadBall(loader, 1));
+		loadup.whenReleased(new ManualLoadBall(loader, 0));
+		loaddown = new JoystickButton(gamepad, 6);
+		loaddown.whileHeld(new ManualLoadBall(loader, -1));
+		loaddown.whenReleased(new ManualLoadBall(loader, 0));
 	}
 
 	public void hookArmCommands(HookArmSubsystem hookarm) {
-		armup = new JoystickButton(xbox, 4);
+		armup = new JoystickButton(gamepad, 4);
 		armup.whileHeld(new MoveHook(hookarm, 1));
 		armup.whenReleased(new MoveHook(hookarm, 0));
-		armdown = new JoystickButton(xbox, 1);
+		armdown = new JoystickButton(gamepad, 1);
 		armdown.whileHeld(new MoveHook(hookarm, 1));
 		armdown.whenReleased(new MoveHook(hookarm, 0));
 	}

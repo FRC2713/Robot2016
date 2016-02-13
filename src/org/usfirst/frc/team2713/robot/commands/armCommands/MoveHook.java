@@ -2,6 +2,8 @@ package org.usfirst.frc.team2713.robot.commands.armCommands;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
+
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveHook extends Command {
@@ -16,18 +18,14 @@ public class MoveHook extends Command {
 	}
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		
+		hookarm.arm.changeControlMode(TalonControlMode.Speed);
 	}
 
 	@Override
 	protected void execute() {
-		if(polarity > 0 && hookarm.arm.get() < RobotMap.ARM_UPPER_LIMIT) {
-			hookarm.setAngle(hookarm.arm.get() + polarity * .01);
-		}
-		if(polarity < 0 && hookarm.arm.get() > RobotMap.ARM_LOWER_LIMIT) {
-			hookarm.setAngle(hookarm.arm.get() + polarity * .01);
-		}		
+		if(hookarm.arm.get() < RobotMap.ARM_UPPER_LIMIT && hookarm.arm.get() > RobotMap.ARM_LOWER_LIMIT) {
+			hookarm.setAngle(polarity);
+		}	
 	}
 
 	@Override

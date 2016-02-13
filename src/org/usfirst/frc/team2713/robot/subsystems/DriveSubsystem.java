@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 public class DriveSubsystem extends BaseSubsystem {
 
 	public Encoder rightFrontWheelEncoder;
+	public Double distanceTraveled;
 	public RobotDrive roboDrive;
 	public CANTalon right;
 	public CANTalon left;
@@ -31,6 +32,7 @@ public class DriveSubsystem extends BaseSubsystem {
 		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
 		roboDrive = new RobotDrive(left, leftback, right, rightback);
 		rightFrontWheelEncoder = new Encoder(RobotMap.RIGHT_FRONT_WHEEL_ENCODER, RobotMap.RIGHT_FRONT_WHEEL_ENCODER+1);
+		rightFrontWheelEncoder.setDistancePerPulse(RobotMap.FRONT_RIGHT_WHEEL_DIAMETER);
 	}
 
 	@Override
