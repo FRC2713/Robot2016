@@ -50,7 +50,7 @@ public class OI {
 		for (int i = 0; i < 6; i++) {
 			Joystick test = new Joystick(i);
 			if (test.getName().equals(RobotMap.XBOX_NAME)) {
-				xbox = (XBoxController) test;
+				xbox = new XBoxController(i);
 				return;
 			}
 			
