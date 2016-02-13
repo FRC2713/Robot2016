@@ -18,7 +18,7 @@ public class GoForward extends Command{
 		this.distance = distance;
 		this.polarity = polarity;
 		requires(drive);
-	}
+	}   
 	
 	@Override
 	protected void initialize() {
