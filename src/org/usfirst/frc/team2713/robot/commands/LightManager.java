@@ -2,8 +2,6 @@ package org.usfirst.frc.team2713.robot.commands;
 
 import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
 
-import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem.Color;
-
 public class LightManager extends LightSubsystem {
 
 	Boolean redOrBlue;
@@ -51,7 +49,7 @@ public class LightManager extends LightSubsystem {
 
 	
 	@Override
-	public void startAuto(int chosen) {
+	public void startAuto(int defense, int startPos, boolean isRed, boolean leftGoal) {
 		autoOrTeleop = true;
 		timeCommandStarted = System.currentTimeMillis();
 	}

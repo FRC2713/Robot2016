@@ -43,7 +43,7 @@ public class LoaderSubsystem extends BaseSubsystem {
 	}
 
 	@Override
-	public void startAuto(int chosen) {
+	public void startAuto(int defense, int startPos, boolean isRed, boolean leftGoal) {
 		startLoadCommand();
 	}
 

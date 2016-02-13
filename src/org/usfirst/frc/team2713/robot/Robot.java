@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public OI oi;
-	public DigitalInput[] autonomousSwitches;
+	private DigitalInput[] autonomousSwitches;
 	private DriveSubsystem drive;
 	private FlywheelSubsystem flywheel;
 	private HookArmSubsystem hookarm;
@@ -53,11 +53,14 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		initSubsystems();
+		
 		autonomousSwitches = new DigitalInput[RobotMap.DIPSWITCHCOUNT];
 		for (int i = 0; i < RobotMap.DIPSWITCHCOUNT; i++) {
 			autonomousSwitches[i] = new DigitalInput(i + RobotMap.DIPSWITCHSTARTPORT);
 		}
+		
 		oi = new OI(flywheel, hookarm, loader, lights);
+		
 		SmartDashboard.putData(Scheduler.getInstance());
 		
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -121,27 +124,88 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousInit() {
 		Scheduler.getInstance().run();
-		int chosen = 0;
-		for (int i = 0; i < autonomousSwitches.length; i++) {
-			if (autonomousSwitches[i].get()) {
-				chosen = i;
-				break;
+		
+		int defense = 0;
+		int startPos = 0;
+		boolean isRed = false;
+		boolean leftGoal = false;
+		for (int i = 0; i < RobotMap.DIPSWITCHCOUNT; i++) {
+			boolean bit = new DigitalInput(i + RobotMap.DIPSWITCHSTARTPORT).get();
+			int asNum = bit ? 1 : 0;
+			
+			if (i <= 3) {
+				defense |= (asNum << i);
+			}
+			
+			if ((i == 4 || i == 5) && defense != 0) {
+				startPos |= (asNum << (i - 4));
+			}
+			
+			if (i == 6) {
+				isRed = bit;
+			}
+			
+			if (i == 7) {
+				leftGoal = bit;
 			}
 		}
+		if (defense == 0) {
+			startPos = 1;
+		} else {
+			startPos += 2;
+		}
+		
+		// Start of debug messages
+		String defenseStr;
+		switch (defense) {
+		case 0:
+			defenseStr = "Low bar";
+			break;
+		case 1:
+			defenseStr = "Portcullis";
+			break;
+		case 2:
+			defenseStr = "Cheval de Frise";
+			break;
+		case 3:
+			defenseStr = "Ramparts";
+			break;
+		case 4:
+			defenseStr = "Moat";
+			break;
+		case 5:
+			defenseStr = "Drawbridge";
+			break;
+		case 6:
+			defenseStr = "Sally Port";
+			break;
+		case 7:
+			defenseStr = "Rock Wall";
+			break;
+		case 8:
+			defenseStr = "Rough Terrain";
+			break;
+		default:
+			defenseStr = "";
+			break;
+		}
+		System.out.printf("Defense: %s\nPosition: %d", defenseStr, startPos);
+		// End of debug messages
+		
 		if (flywheel != null)
-			flywheel.startAuto(chosen);
+			flywheel.startAuto(defense, startPos, isRed, leftGoal);
 
 		if (drive != null)
-			drive.startAuto(chosen);
+			drive.startAuto(defense, startPos, isRed, leftGoal);
 
 		if (hookarm != null)
-			hookarm.startAuto(chosen);
+			hookarm.startAuto(defense, startPos, isRed, leftGoal);
 
 		if (loader != null)
-			loader.startAuto(chosen);
+			loader.startAuto(defense, startPos, isRed, leftGoal);
 		
 		if (lights != null)
-			lights.startAuto(chosen);	
+			lights.startAuto(defense, startPos, isRed, leftGoal);	
 
 		if (autonomousCommand != null)
 			autonomousCommand.start();
