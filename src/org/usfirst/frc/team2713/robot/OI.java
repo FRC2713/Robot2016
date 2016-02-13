@@ -50,20 +50,17 @@ public class OI {
 		for (int i = 0; i < 6; i++) {
 			Joystick test = new Joystick(i);
 			if (test.getName().equals(RobotMap.XBOX_NAME)) {
-				xbox = new XBoxController(i);
+				xbox = (XBoxController) test;
+				return;
 			}
+			
 			if (test.getName().equals(RobotMap.ATTACK_NAME)) {
 				attack = new Joystick(i);
+				return;
 			}
 		}
-		if (xbox == null) {
-			xbox = new XBoxController(RobotMap.BACKUP_XBOX_PORT);
-			throw new ControllerNotFound("XBox Controller not Found, is it attached?");
-		}
-		if (attack == null) {
-			attack = new Joystick(RobotMap.BACKUP_ATTACK_PORT);
-			throw new ControllerNotFound("Attack Controller not Found, is it attached?");
-		}
+		
+		throw new ControllerNotFound("No controller found. Is one attached?");
 	}
 
 	public void loaderCommands(LoaderSubsystem loader) {
