@@ -24,7 +24,7 @@ public class GoToWaypoint extends CommandGroup {
 			angle = Math.acos(xDistance / distance);
 		}
 		this.addSequential(new GoToAngle(drive, angle));
-		this.addSequential(new GoForward(drive, distance, 1));
+		this.addSequential(new GoForward(drive, distance, 1, true));
 	}
 	
 }

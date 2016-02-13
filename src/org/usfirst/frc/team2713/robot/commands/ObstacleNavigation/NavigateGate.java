@@ -14,7 +14,7 @@ public class NavigateGate extends CommandGroup {
 	public NavigateGate(DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lightManager) {
 		addSequential(new ArmPID(hookarm, 0, lightManager));
 		addParallel(new ArmPID(hookarm, Math.PI / 2, lightManager));
-		addParallel(new GoForward(drive, RobotMap.GATE_DISTANCE, RobotMap.SPEED_TO_DO_GATE));
+		addParallel(new GoForward(drive, RobotMap.GATE_DISTANCE, RobotMap.SPEED_TO_DO_GATE, false));
 	}	
 
 }
