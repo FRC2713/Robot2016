@@ -2,8 +2,8 @@ package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.LightManager;
-import org.usfirst.frc.team2713.robot.commands.LoadBall;
 import org.usfirst.frc.team2713.robot.commands.archive.ShootShot;
+import org.usfirst.frc.team2713.robot.commands.grabberCommands.LoadBall;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;

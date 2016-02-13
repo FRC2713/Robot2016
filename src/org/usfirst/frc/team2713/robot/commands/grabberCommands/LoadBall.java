@@ -1,5 +1,6 @@
-package org.usfirst.frc.team2713.robot.commands;
+package org.usfirst.frc.team2713.robot.commands.grabberCommands;
 import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 

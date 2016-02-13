@@ -47,6 +47,8 @@ public class RobotMap {
 	public static final double ARM_LOWER_LIMIT = -0.17453;
 	public static final double ARM_UPPER_LIMIT = Math.PI;
 
+	//Drive Stuff
+	public static final int RIGHT_FRONT_WHEEL_ENCODER = 4;
 	
 	//Initilization stuff
 	public static final boolean INIT_DRIVE = true;

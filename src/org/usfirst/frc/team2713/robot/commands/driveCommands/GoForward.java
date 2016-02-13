@@ -1,38 +1,35 @@
-package org.usfirst.frc.team2713.robot.commands;
+package org.usfirst.frc.team2713.robot.commands.driveCommands;
 
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
-import edu.wpi.first.wpilibj.Timer;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class GoForward extends Command{
 
 	DriveSubsystem drive;
 	double polarity;
-	double time;
-	Timer timer;
+	double distance;
+	boolean isFinished = false;
 	
-	public GoForward(DriveSubsystem drive, double time, double polarity) {
+	public GoForward(DriveSubsystem drive, double distance, double polarity) {
 		this.drive = drive;
-		this.time = time;
+		this.distance = distance;
 		this.polarity = polarity;
-		timer = new Timer();
-		timer.reset(); 
-	    timer.start(); 
 		requires(drive);
 
 	}
 	@Override
 	protected void initialize() {
-		timer.reset();
-		timer.start();
+		drive.rightFrontWheelEncoder.reset();
 	}
 
 	@Override
 	protected void execute() {
-		if ((timer.get() < time)) {
-			drive.move(1);
+		if ((drive.rightFrontWheelEncoder.get() < distance)) {
+			drive.move((distance - drive.rightFrontWheelEncoder.get() / distance) * polarity);
 		} else {
 			drive.move(0);
+			isFinished = true;
 		}
 
 	}
@@ -40,7 +37,7 @@ public class GoForward extends Command{
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
-		return false;
+		return isFinished;
 	}
 
 	@Override

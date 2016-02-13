@@ -2,15 +2,17 @@ package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.RobotMap;
-import org.usfirst.frc.team2713.robot.commands.ArcadeDrive;
-import org.usfirst.frc.team2713.robot.commands.TankDrive;
+import org.usfirst.frc.team2713.robot.commands.driveCommands.ArcadeDrive;
+import org.usfirst.frc.team2713.robot.commands.driveCommands.TankDrive;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 public class DriveSubsystem extends BaseSubsystem {
 
+	public Encoder rightFrontWheelEncoder;
 	public RobotDrive roboDrive;
 	public CANTalon right;
 	public CANTalon left;
@@ -28,6 +30,7 @@ public class DriveSubsystem extends BaseSubsystem {
 		leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
 		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
 		roboDrive = new RobotDrive(left, leftback, right, rightback);
+		rightFrontWheelEncoder = new Encoder(RobotMap.RIGHT_FRONT_WHEEL_ENCODER, RobotMap.RIGHT_FRONT_WHEEL_ENCODER+1);
 	}
 
 	@Override
@@ -58,9 +61,18 @@ public class DriveSubsystem extends BaseSubsystem {
 
 	public void move(double polarity) {
 		left.set(polarity);
+		leftback.set(polarity);
 		right.set(polarity);
+		rightback.set(polarity);
 	}
 
+	public void rotate(double polarity) {
+		left.set(polarity);
+		leftback.set(polarity);
+		right.set(-polarity);		
+		rightback.set(-polarity);		
+	}
+	
 	public void ArcadeDrive(double d, double rightY, double deadband) {
 		roboDrive.arcadeDrive(calcDeadband(d, deadband), calcDeadband(rightY, deadband));
 	}
