@@ -46,10 +46,12 @@ public class RobotMap {
 	public static final double KdArm = .0;
 	public static final double ARM_LOWER_LIMIT = -0.17453;
 	public static final double ARM_UPPER_LIMIT = Math.PI;
+	public static final double ARM_ANGLE_STOP_POINT = .2;
 
 	//Drive Stuff
 	public static final int RIGHT_FRONT_WHEEL_ENCODER = 4;
 	public static final double FRONT_RIGHT_WHEEL_DIAMETER = 1;
+	public static final double ACCELERATION_STOP_POINT = 0;
 
 	//Initilization stuff
 	public static final boolean INIT_DRIVE = true;
@@ -84,6 +86,11 @@ public class RobotMap {
 	//Camera Stuff
 	public static final int CAMERA = 0;
 	public static final int CAMERA_VIEW_ANGLE = 52;
+
+	//Obstacle Timings
+	public static final double CHEVAL_DE_FRISE_DISTANCE = 2;
+	public static final double SPEED_TO_DO_GATE = .5;
+	public static final double GATE_DISTANCE = 2;
 
 	
 	public enum ColorThreshold {

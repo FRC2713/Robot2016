@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2713.robot.commands.armCommands;
 
+import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 
@@ -32,7 +33,7 @@ public class ArmPID extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		if ((hookarm.arm.get() - .2) <= angle && (hookarm.arm.get() - .2) >= angle) {
+		if ((hookarm.arm.get() - RobotMap.ARM_ANGLE_STOP_POINT) <= angle && (hookarm.arm.get() -  RobotMap.ARM_ANGLE_STOP_POINT) >= angle) {
 			lightManager.finishPID();
 			return true;
 		}

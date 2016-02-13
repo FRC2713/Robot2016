@@ -13,7 +13,7 @@ public class NavigateChevalDeFrise extends CommandGroup {
 
 	public NavigateChevalDeFrise(DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lightManager) {
 		this.addSequential(new ArmPID(hookarm, RobotMap.ARM_LOWER_LIMIT, lightManager));
-		this.addSequential(new GoForward(drive, 1, 2));
+		this.addSequential(new GoForward(drive, RobotMap.CHEVAL_DE_FRISE_DISTANCE, 1));
 	}
 
 }

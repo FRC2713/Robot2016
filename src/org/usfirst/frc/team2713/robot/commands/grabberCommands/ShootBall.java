@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2713.robot.commands.grabberCommands;
 
+import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 
@@ -34,7 +35,7 @@ public class ShootBall extends Command {
 		loader.moveLoader(0);
 		loader.loadBall(-1);
 		try {
-			Thread.sleep(500);
+			Thread.sleep(RobotMap.TIME_TO_RELEASE_BALL);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -42,7 +43,7 @@ public class ShootBall extends Command {
 		loader.loadBall(0);
 		loader.moveLoader(-1);
 		try {
-			Thread.sleep(200);
+			Thread.sleep(RobotMap.TIME_TO_LOWER_LOADER);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
