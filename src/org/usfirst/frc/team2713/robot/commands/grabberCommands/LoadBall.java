@@ -1,7 +1,8 @@
 package org.usfirst.frc.team2713.robot.commands.grabberCommands;
+
 import org.usfirst.frc.team2713.robot.RobotMap;
+
 import org.usfirst.frc.team2713.robot.commands.LightManager;
-import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -30,7 +31,9 @@ public class LoadBall extends Command {
 	@Override
 	protected void execute() {
 		if(loader.loadswitch.get()) {
-			lights.grabBall();
+			if(lights != null) {
+				lights.grabBall();
+			}
 			loader.loadBall(polarity);	
 			try {
 				Thread.sleep(RobotMap.TIME_TO_LOAD_BALL);

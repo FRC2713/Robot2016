@@ -23,6 +23,9 @@ public class GoToAngle extends Command{
 
 	@Override
 	protected void execute() {
+		if(drive.imu == null) {
+			isFinished = true;
+		}
 		if ((drive.imu.getAngle() > angle + 4 || drive.imu.getAngle() < angle - 4)) {
 			drive.rotate((angle - drive.imu.getAngle()) / 180.0);
 		} else if ((drive.imu.getAngle() < angle + 4 && drive.imu.getAngle() > angle - 4)) {

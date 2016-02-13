@@ -5,14 +5,19 @@ import org.usfirst.frc.team2713.robot.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.can.CANMessageNotFoundException;
 
 public class HookArmSubsystem extends BaseSubsystem {
 
 	public CANTalon arm;
 
 	public HookArmSubsystem() {
-		arm = new CANTalon(RobotMap.ARM_MOTOR); // As long as distance per pulse
+		try {
+			arm = new CANTalon(RobotMap.ARM_MOTOR); // As long as distance per pulse
 												// is 1
+		} catch(CANMessageNotFoundException ex) {
+			return;
+		}
 		arm.configEncoderCodesPerRev(RobotMap.ENCODER_PULSE);
 		arm.setPID(RobotMap.KpArm, RobotMap.KiArm, RobotMap.KdArm);
 		arm.setPIDSourceType(PIDSourceType.kRate);

@@ -63,11 +63,13 @@ public class GoForward extends Command {
 	}
 
 	public boolean isStuck() {
-		double acceleration = Math
-				.sqrt(drive.imu.getAccelX() * drive.imu.getAccelX() + drive.imu.getAccelY() * drive.imu.getAccelY());
-		if (acceleration - RobotMap.ACCELERATION_STOP_POINT < 0
-				&& acceleration + RobotMap.ACCELERATION_STOP_POINT > 0) {
-			return true;
+		if (drive.imu != null) {
+			double acceleration = Math.sqrt(
+					drive.imu.getAccelX() * drive.imu.getAccelX() + drive.imu.getAccelY() * drive.imu.getAccelY());
+			if (acceleration - RobotMap.ACCELERATION_STOP_POINT < 0
+					&& acceleration + RobotMap.ACCELERATION_STOP_POINT > 0) {
+				return true;
+			}
 		}
 		return false;
 	}

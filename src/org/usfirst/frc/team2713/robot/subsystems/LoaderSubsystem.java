@@ -7,6 +7,7 @@ import org.usfirst.frc.team2713.robot.commands.grabberCommands.LoadBall;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.can.CANMessageNotFoundException;
 
 public class LoaderSubsystem extends BaseSubsystem {
 
@@ -19,8 +20,12 @@ public class LoaderSubsystem extends BaseSubsystem {
 	LightManager lights;
 
 	public LoaderSubsystem(LightManager lights) {
-		moveLoader = new CANTalon(RobotMap.MOVE_LOAD_MOTOR);
-		ballLoader = new CANTalon(RobotMap.BALL_LOADER_MOTOR);
+		try {
+			moveLoader = new CANTalon(RobotMap.MOVE_LOAD_MOTOR);
+			ballLoader = new CANTalon(RobotMap.BALL_LOADER_MOTOR);
+		} catch (CANMessageNotFoundException ex) {
+			return;
+		}
 		loadswitch = new DigitalInput(RobotMap.LOADER_LIMIT_SWITCH);
 		lockToShoot = new DigitalInput(RobotMap.LOCK_TO_SHOOT__LIMIT_SWITCH);
 		this.lights = lights;

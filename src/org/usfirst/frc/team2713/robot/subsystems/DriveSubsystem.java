@@ -9,6 +9,7 @@ import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.can.CANMessageNotFoundException;
 
 public class DriveSubsystem extends BaseSubsystem {
 
@@ -26,10 +27,14 @@ public class DriveSubsystem extends BaseSubsystem {
 	public DriveSubsystem(OI oi, IMU imu) {
 		this.imu = imu;
 		this.oi = oi;
-		left = new CANTalon(RobotMap.LEFT_TANK);
-		right = new CANTalon(RobotMap.RIGHT_TANK);
-		leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
-		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
+		try {
+			left = new CANTalon(RobotMap.LEFT_TANK);
+			right = new CANTalon(RobotMap.RIGHT_TANK);
+			leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
+			rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
+		} catch(CANMessageNotFoundException ex) {
+			return;
+		}
 		roboDrive = new RobotDrive(left, leftback, right, rightback);
 		rightFrontWheelEncoder = new Encoder(RobotMap.RIGHT_FRONT_WHEEL_ENCODER, RobotMap.RIGHT_FRONT_WHEEL_ENCODER+1);
 		rightFrontWheelEncoder.setDistancePerPulse(RobotMap.FRONT_RIGHT_WHEEL_DIAMETER);
@@ -37,11 +42,13 @@ public class DriveSubsystem extends BaseSubsystem {
 
 	@Override
 	public void startTeleop() {
-		if (RobotMap.isTank) { // No need to see if imu is null here. This is
-								// checked in the classes themselves
-			new TankDrive(this, OI.xbox, imu).start();
-		} else {
-			new ArcadeDrive(this, OI.xbox, imu).start();
+		if (OI.xbox != null) {
+			if (RobotMap.isTank) { // No need to see if imu is null here. This
+									// is
+									// checked in the classes themselves
+			} else {
+				new ArcadeDrive(this, OI.xbox, imu).start();
+			}
 		}
 	}
 
