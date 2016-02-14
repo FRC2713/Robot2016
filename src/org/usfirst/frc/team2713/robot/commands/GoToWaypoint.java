@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2713.robot.commands;
 
+import java.awt.Point;
+
 import org.usfirst.frc.team2713.robot.commands.driveCommands.GoForward;
 import org.usfirst.frc.team2713.robot.commands.driveCommands.GoToAngle;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
@@ -8,9 +10,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class GoToWaypoint extends CommandGroup {
 
-	public GoToWaypoint(DriveSubsystem drive, double waypointX, double waypointY, double lastX, double lastY) {
-		double yDistance = waypointY - lastY;
-		double xDistance = waypointX - lastX;
+	public GoToWaypoint(DriveSubsystem drive, Point destination, Point myLocation) {
+		double yDistance = destination.y - myLocation.y;
+		double xDistance = destination.x - myLocation.y;
 		double distance = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
 		double angle = drive.imu.getAngle();
 		if(distance != 0) {
