@@ -7,6 +7,7 @@ import org.usfirst.frc.team2713.robot.commands.driveCommands.TankDrive;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.can.CANMessageNotFoundException;
@@ -27,27 +28,33 @@ public class DriveSubsystem extends BaseSubsystem {
 	public DriveSubsystem(OI oi, IMU imu) {
 		this.imu = imu;
 		this.oi = oi;
+		
 		try {
-			left = new CANTalon(RobotMap.LEFT_TANK);
-			right = new CANTalon(RobotMap.RIGHT_TANK);
-			leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
 			rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
+			leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
+			
+			left = new CANTalon(RobotMap.LEFT_TANK);
+			left.setControlMode(TalonControlMode.Follower.value);
+			left.set(RobotMap.LEFT_TANK_BACK);
+			
+			right = new CANTalon(RobotMap.RIGHT_TANK);
+			right.setControlMode(TalonControlMode.Follower.value);
+			right.set(RobotMap.RIGHT_TANK_BACK);
 		} catch(CANMessageNotFoundException ex) {
+			ex.printStackTrace();
 			return;
 		}
-		roboDrive = new RobotDrive(left, leftback, right, rightback);
-		rightFrontWheelEncoder = new Encoder(RobotMap.RIGHT_FRONT_WHEEL_ENCODER, RobotMap.RIGHT_FRONT_WHEEL_ENCODER+1);
-		rightFrontWheelEncoder.setDistancePerPulse(RobotMap.FRONT_RIGHT_WHEEL_DIAMETER);
+		
+		roboDrive = new RobotDrive(leftback, rightback);
 	}
 
 	@Override
 	public void startTeleop() {
-		if (OI.xbox != null) {
-			if (RobotMap.isTank) { // No need to see if imu is null here. This
-									// is
-									// checked in the classes themselves
+		if (oi.getXbox() != null) {
+			if (RobotMap.isTank) {
+				new TankDrive(this, oi.getXbox(), imu).start();
 			} else {
-				new ArcadeDrive(this, OI.xbox, imu).start();
+				new ArcadeDrive(this, oi.getXbox(), imu).start();
 			}
 		}
 	}
@@ -70,23 +77,19 @@ public class DriveSubsystem extends BaseSubsystem {
 
 	public void move(double polarity) {
 		left.set(polarity);
-		leftback.set(polarity);
 		right.set(polarity);
-		rightback.set(polarity);
 	}
 
 	public void rotate(double polarity) {
 		left.set(polarity);
-		leftback.set(polarity);
 		right.set(-polarity);		
-		rightback.set(-polarity);		
 	}
 	
-	public void ArcadeDrive(double d, double rightY, double deadband) {
+	public void arcadeDrive(double d, double rightY, double deadband) {
 		roboDrive.arcadeDrive(calcDeadband(d, deadband), calcDeadband(rightY, deadband));
 	}
 
-	public void TankDrive(double left, double right, double deadband) {
+	public void tankDrive(double left, double right, double deadband) {
 		double ban = deadband;
 		roboDrive.tankDrive(calcDeadband(left, ban), calcDeadband(right, ban));
 	}

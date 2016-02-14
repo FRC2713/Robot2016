@@ -30,14 +30,10 @@ public class ArcadeDrive extends Command{
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
 		scaler =1.0;
 		deadband = 0.1;
 		polarity = -1;
-		if (imu != null) {
-			System.out.println(imu.getAngle());
-		}
-		drive.ArcadeDrive(OI.xbox.getLeftY()*scaler*polarity,OI.xbox.getRightX()*scaler*polarity, deadband);
+		drive.arcadeDrive(xbox.getLeftY()*scaler*polarity, xbox.getRightX()*scaler*polarity, deadband);
 	}
 
 	@Override

@@ -49,8 +49,6 @@ public class RobotMap {
 	public static final double ARM_ANGLE_STOP_POINT = .2;
 
 	//Drive Stuff
-	public static final int RIGHT_FRONT_WHEEL_ENCODER = 4;
-	public static final double FRONT_RIGHT_WHEEL_DIAMETER = 1;
 	public static final double ACCELERATION_STOP_POINT = 0;
 
 	//Initilization stuff
