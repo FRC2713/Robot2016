@@ -49,7 +49,8 @@ public class RobotMap {
 	public static final double ARM_ANGLE_STOP_POINT = .2;
 
 	//Drive Stuff
-	public static final double ACCELERATION_STOP_POINT = 0;
+	public static final double ACCELERATION_STOP_POINT = .1;
+	public static final double IS_TILTED_CONSTANT = .1;
 
 	//Initilization stuff
 	public static final boolean INIT_DRIVE = true;
@@ -85,10 +86,12 @@ public class RobotMap {
 	public static final int CAMERA = 0;
 	public static final int CAMERA_VIEW_ANGLE = 52;
 
-	//Obstacle Timings
+	//Obstacle Settings
 	public static final double CHEVAL_DE_FRISE_DISTANCE = 2;
 	public static final double SPEED_TO_DO_GATE = .5;
 	public static final double GATE_DISTANCE = 2;
+	public static final double LOW_BAR_DISTANCE = 0;
+	public static final double SMALL_RAMP_DISTANCE = 0;
 
 	
 	public enum ColorThreshold {

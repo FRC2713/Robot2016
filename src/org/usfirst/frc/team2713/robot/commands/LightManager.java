@@ -10,6 +10,7 @@ public class LightManager extends LightSubsystem {
 	boolean finishedPID;
 	double timePIDFinished;
 	boolean ballGrabbed;
+	boolean tilted;
 
 	public LightManager(Boolean redOrBlue) {
 		super();
@@ -29,6 +30,8 @@ public class LightManager extends LightSubsystem {
 			} else {
 				setColor(Color.MAGENTA);
 			}
+		} else if(tilted) {
+			setColor(Color.GREEN);
 		} else if (ballGrabbed) {
 			setColor(Color.PINK);
 		} else if (finishedPID) {
@@ -78,6 +81,10 @@ public class LightManager extends LightSubsystem {
 
 	public void releaseBall() {
 		ballGrabbed = false;
+	}
+	
+	public void setTilted(boolean tilted) {
+		
 	}
 
 	public void finishMatch() {
