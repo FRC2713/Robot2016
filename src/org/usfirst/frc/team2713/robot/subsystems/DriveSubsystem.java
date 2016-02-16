@@ -34,11 +34,11 @@ public class DriveSubsystem extends BaseSubsystem {
 			leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
 			
 			left = new CANTalon(RobotMap.LEFT_TANK);
-			left.setControlMode(TalonControlMode.Follower.value);
+			left.changeControlMode(TalonControlMode.Follower);
 			left.set(RobotMap.LEFT_TANK_BACK);
 			
 			right = new CANTalon(RobotMap.RIGHT_TANK);
-			right.setControlMode(TalonControlMode.Follower.value);
+			right.changeControlMode(TalonControlMode.Follower);
 			right.set(RobotMap.RIGHT_TANK_BACK);
 		} catch(CANMessageNotFoundException ex) {
 			ex.printStackTrace();
@@ -50,6 +50,8 @@ public class DriveSubsystem extends BaseSubsystem {
 
 	@Override
 	public void startTeleop() {
+		rightback.changeControlMode(TalonControlMode.PercentVbus);
+		leftback.changeControlMode(TalonControlMode.PercentVbus);
 		if (oi.getXbox() != null) {
 			if (RobotMap.isTank) {
 				new TankDrive(this, oi.getXbox(), imu).start();
@@ -57,6 +59,12 @@ public class DriveSubsystem extends BaseSubsystem {
 				new ArcadeDrive(this, oi.getXbox(), imu).start();
 			}
 		}
+	}
+	
+	@Override
+	public void startAuto(int defense, int startPos, boolean isRed, boolean leftGoal) {
+		rightback.changeControlMode(TalonControlMode.Position);
+		leftback.changeControlMode(TalonControlMode.Position);
 	}
 
 	private static double calcDeadband(double value, double deadband) {
@@ -76,13 +84,13 @@ public class DriveSubsystem extends BaseSubsystem {
 	}
 
 	public void move(double polarity) {
-		left.set(polarity);
-		right.set(polarity);
+		leftback.set(polarity);
+		rightback.set(polarity);
 	}
 
 	public void rotate(double polarity) {
-		left.set(polarity);
-		right.set(-polarity);		
+		leftback.set(polarity);
+		rightback.set(-polarity);		
 	}
 	
 	public void arcadeDrive(double d, double rightY, double deadband) {
