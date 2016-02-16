@@ -92,7 +92,11 @@ public class RobotMap {
 	public static final double GATE_DISTANCE = 2;
 	public static final double LOW_BAR_DISTANCE = 0;
 	public static final double SMALL_RAMP_DISTANCE = 0;
-
+	
+	//Robot Dimensions
+	public static final double ROBOT_WIDTH = 31.5; //From side to side
+	public static final double ROBOT_LENGTH = 28.31; //Front to back
+	public static final double ROBOT_HEIGHT = 13.883;
 	
 	public enum ColorThreshold {
 		HIGH_GOAL(new Scalar(35D, 64D, 48D, 0D), new Scalar(93D, 144D, 255D, 0D));
