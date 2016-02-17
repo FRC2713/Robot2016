@@ -1,8 +1,8 @@
 package org.usfirst.frc.team2713.robot.commands.autonomous;
 
-import java.awt.Point;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.WayPoit;
 import org.usfirst.frc.team2713.robot.commands.GoToWaypoint;
 import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateBumpyObstacle;
@@ -21,21 +21,21 @@ public class AutonomosCommand extends CommandGroup {
 
 	public AutonomosCommand(int startPos, int defense, boolean leftGoal, DriveSubsystem drive, LoaderSubsystem loader, HookArmSubsystem hookarm, FlywheelSubsystem flywheel, LightManager lights) {
 		manageDefenses(defense, drive, hookarm, lights);
-		Point myLocation = new Point(startPos * 121, 192);
+		WayPoit myLocation = new WayPoit(startPos * 121, 192);
 		if(leftGoal) {
-			Point destination = new Point(10, 192);
+			WayPoit destination = new WayPoit(10, 192);
 			this.addSequential(new GoToWaypoint(drive, destination, myLocation));
-			destination = new Point(10, 86);
+			destination = new WayPoit(10, 86);
 			this.addSequential(new GoToWaypoint(drive, destination, myLocation));
-			destination = new Point(160, 50); //Adjust Espcially
+			destination = new WayPoit(160, 50); //Adjust Espcially
 			this.addSequential(new GoToWaypoint(drive, destination, myLocation));
 			this.addSequential(new ShootBall(loader, lights));
 		} else {
-			Point destination = new Point(309, 192);
+			WayPoit destination = new WayPoit(309, 192);
 			this.addSequential(new GoToWaypoint(drive, destination, myLocation));
-			destination = new Point(309, 86);
+			destination = new WayPoit(309, 86);
 			this.addSequential(new GoToWaypoint(drive, destination, myLocation));
-			destination = new Point(160, 50); //Adjust Espcially
+			destination = new WayPoit(160, 50); //Adjust Espcially
 			this.addSequential(new GoToWaypoint(drive, destination, myLocation));
 			this.addSequential(new ShootBall(loader, lights));
 		}
