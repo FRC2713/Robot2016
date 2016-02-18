@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.OI;
+import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.driveCommands.ArcadeDrive;
 import org.usfirst.frc.team2713.robot.commands.driveCommands.TankDrive;
@@ -21,13 +22,13 @@ public class DriveSubsystem extends BaseSubsystem {
 	public CANTalon left;
 	public CANTalon leftback;
 	public CANTalon rightback;
-	OI oi;
+	private Robot robot;
 	public IMU imu;
 	LightSubsystem lights = new LightSubsystem();
 
-	public DriveSubsystem(OI oi, IMU imu) {
+	public DriveSubsystem(Robot robot, IMU imu) {
 		this.imu = imu;
-		this.oi = oi;
+		this.robot = robot;
 		
 		try {
 			rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
@@ -52,11 +53,11 @@ public class DriveSubsystem extends BaseSubsystem {
 	public void startTeleop() {
 		rightback.changeControlMode(TalonControlMode.PercentVbus);
 		leftback.changeControlMode(TalonControlMode.PercentVbus);
-		if (oi.getXbox() != null) {
+		if (robot.getOI().getXbox() != null) {
 			if (RobotMap.isTank) {
-				new TankDrive(this, oi.getXbox(), imu).start();
+				new TankDrive(this, robot.getOI().getXbox(), imu).start();
 			} else {
-				new ArcadeDrive(this, oi.getXbox(), imu).start();
+				new ArcadeDrive(this, robot.getOI().getXbox(), imu).start();
 			}
 		}
 	}

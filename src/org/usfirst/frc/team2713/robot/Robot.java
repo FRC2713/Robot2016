@@ -83,7 +83,7 @@ public class Robot extends IterativeRobot {
 		if (flywheel == null && RobotMap.INIT_FLYWHEEL)
 			flywheel = new FlywheelSubsystem();
 		if (drive == null && RobotMap.INIT_DRIVE)
-			drive = new DriveSubsystem(oi, imu);
+			drive = new DriveSubsystem(this, imu);
 		if (loader == null && RobotMap.INIT_LOADER)
 			loader = new LoaderSubsystem(lights);
 		if (hookarm == null && RobotMap.INIT_HOOKARM)
@@ -258,6 +258,10 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testPeriodic() {
 		LiveWindow.run();
+	}
+	
+	public OI getOI() {
+		return oi;
 	}
 }
 
