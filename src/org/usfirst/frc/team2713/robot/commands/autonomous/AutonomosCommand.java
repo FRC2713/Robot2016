@@ -2,8 +2,8 @@ package org.usfirst.frc.team2713.robot.commands.autonomous;
 
 
 import org.usfirst.frc.team2713.robot.RobotMap;
-import org.usfirst.frc.team2713.robot.WayPoit;
-import org.usfirst.frc.team2713.robot.commands.GoToWaypoint;
+import org.usfirst.frc.team2713.robot.WayPoitMap;
+import org.usfirst.frc.team2713.robot.commands.GoToWayPoit;
 import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateBumpyObstacle;
 import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateChevalDeFrise;
@@ -20,25 +20,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutonomosCommand extends CommandGroup {
 
 	public AutonomosCommand(int startPos, int defense, boolean leftGoal, DriveSubsystem drive, LoaderSubsystem loader, HookArmSubsystem hookarm, FlywheelSubsystem flywheel, LightManager lights) {
-		manageDefenses(defense, drive, hookarm, lights);
-		WayPoit myLocation = new WayPoit(startPos * 121, 192);
-		if(leftGoal) {
-			WayPoit destination = new WayPoit(10, 192);
-			this.addSequential(new GoToWaypoint(drive, destination, myLocation));
-			destination = new WayPoit(10, 86);
-			this.addSequential(new GoToWaypoint(drive, destination, myLocation));
-			destination = new WayPoit(160, 50); //Adjust Espcially
-			this.addSequential(new GoToWaypoint(drive, destination, myLocation));
-			this.addSequential(new ShootBall(loader, lights));
-		} else {
-			WayPoit destination = new WayPoit(309, 192);
-			this.addSequential(new GoToWaypoint(drive, destination, myLocation));
-			destination = new WayPoit(309, 86);
-			this.addSequential(new GoToWaypoint(drive, destination, myLocation));
-			destination = new WayPoit(160, 50); //Adjust Espcially
-			this.addSequential(new GoToWaypoint(drive, destination, myLocation));
-			this.addSequential(new ShootBall(loader, lights));
-		}
+		this.addSequential(new GoToWayPoit(drive, WayPoitMap.One));
+		manageDefenses(defense, drive, hookarm, lights); 
+		this.addSequential(new GoToWayPoit(drive, WayPoitMap.GoalPoit[leftGoal ? 0 : 1][startPos]));
+		this.addSequential(new ShootBall(loader, lights));
 	}
 	
 	public void manageDefenses(int defense, DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lights) {
