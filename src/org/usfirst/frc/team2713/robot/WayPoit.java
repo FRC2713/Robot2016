@@ -5,7 +5,7 @@ public class WayPoit {
 public double ang;
 public double d;
 
-	public WayPoit(double ang, double d){
+	public WayPoit(double d, double ang){
 		this.ang = ang;
 		this.d = d;
 	}
