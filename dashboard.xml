@@ -1,0 +1,28 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="Obstacle Chooser" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="-3" y="35"/>
+	</widget>
+	<widget field="Scheduler" type="Scheduler" class="edu.wpi.first.smartdashboard.gui.elements.Scheduler">
+		<location x="39" y="2"/>
+		<height>30</height>
+	</widget>
+	<widget field="Possition Chooser" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="205" y="106"/>
+	</widget>
+	<widget field="Do Nothing Selector" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="203" y="39"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.WebcamViewerExtension">
+		<location x="297" y="163"/>
+	</static-widget>
+	<widget field="Test" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="476" y="2"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
+		<location x="0" y="0"/>
+	</static-widget>
+</dashboard>
+<live-window>
+</live-window>
+</xml>
