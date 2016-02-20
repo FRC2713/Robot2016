@@ -68,7 +68,7 @@ public class LightManager extends LightSubsystem {
 	
 	@Override
 	public void startDisabled() {
-		if(!autoOrTeleop) {
+		if(autoOrTeleop != null && !autoOrTeleop) {
 			finishMatch();
 		}
 	}

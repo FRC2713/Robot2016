@@ -9,11 +9,10 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ArmPID extends Command {
 
-	
 	HookArmSubsystem hookarm;
 	double angle;
 	LightManager lightManager;
-	
+
 	public ArmPID(HookArmSubsystem hookarm, double angle, LightManager lightManager) {
 		this.hookarm = hookarm;
 		this.angle = angle;
@@ -33,8 +32,11 @@ public class ArmPID extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		if ((hookarm.arm.get() - RobotMap.ARM_ANGLE_STOP_POINT) <= angle && (hookarm.arm.get() -  RobotMap.ARM_ANGLE_STOP_POINT) >= angle) {
-			lightManager.finishPID();
+		if ((hookarm.arm.get() - RobotMap.ARM_ANGLE_STOP_POINT) <= angle
+				&& (hookarm.arm.get() - RobotMap.ARM_ANGLE_STOP_POINT) >= angle) {
+			if (lightManager != null) {
+				lightManager.finishPID();
+			}
 			return true;
 		}
 		return false;
@@ -43,13 +45,13 @@ public class ArmPID extends Command {
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

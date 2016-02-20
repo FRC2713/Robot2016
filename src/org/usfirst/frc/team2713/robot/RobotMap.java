@@ -15,7 +15,7 @@ public class RobotMap {
 	// public static int rightMotor = 2;
 	
 	// Operator Options
-	public static final boolean isTank = true; // Else Arcade Drive
+	public static final boolean isTank = false; // Else Arcade Drive
 
 	//Talon stuff
 	public static final int LEFT_TANK = 1;
@@ -35,12 +35,6 @@ public class RobotMap {
 	public static final int BACKUP_XBOX_PORT = 2;
 	public static final int BACKUP_ATTACK_PORT = 3;
 	
-	//Flywheel Stuff
-	public static final double KpWheel = 3.5;// * Math.random(); //5 is in my mind
-	public static final double KiWheel = .04;// * Math.random();
-	public static final double KdWheel = 0.4;// * Math.random();
-	public static final int ENCODER_PULSE = 256;
-	
 	//Arm Stuff
 	public static final double KpArm = 1;
 	public static final double KiArm = .00;
@@ -48,6 +42,7 @@ public class RobotMap {
 	public static final double ARM_LOWER_LIMIT = -0.17453;
 	public static final double ARM_UPPER_LIMIT = Math.PI;
 	public static final double ARM_ANGLE_STOP_POINT = .2;
+	public static final int ENCODER_PULSE = 256;
 
 	//Drive Stuff
 	public static final double ACCELERATION_STOP_POINT = .1;
@@ -55,28 +50,21 @@ public class RobotMap {
 
 	//Initilization stuff
 	public static final boolean INIT_DRIVE = true;
-	public static final boolean INIT_FLYWHEEL = false;
-	public static final boolean INIT_HOOKARM = false;
-	public static final boolean INIT_LOADER = false;
-	public static final boolean INIT_LIGHTS = false;
+	public static final boolean INIT_HOOKARM = true;
+	public static final boolean INIT_LOADER = true;
+	public static final boolean INIT_LIGHTS = true;
 	public static final boolean INIT_IMU = true;
 	public static final boolean INIT_CAMERA = true;
 	public static final boolean INIT_SMART_DASHBOARD = true;
-
-	//Dip Switch Stuff
-	public static final int DIPSWITCHCOUNT = 1;
-	public static final int DIPSWITCHSTARTPORT = 0;
 	
 	//Limit Switches
-	public static final int LOADER_LIMIT_SWITCH = 1;
-	public static final int LOCK_TO_SHOOT__LIMIT_SWITCH = 0;
-	public static final int FRONT_LIMIT_SWITCH = 1;
-	public static final int LEFT_LIMIT_SWITCH = 2;
+	public static final int LOADER_LIMIT_SWITCH = 0;
+	public static final int LOCK_TO_SHOOT__LIMIT_SWITCH = 1;
 
 	//Light stuff
-	public static final int RED_DIO_PORT = 0;
-	public static final int GREEN_DIO_PORT = 1;
-	public static final int BLUE_DIO_PORT = 2;
+	public static final int RED_DIO_PORT = 2;
+	public static final int GREEN_DIO_PORT = 3;
+	public static final int BLUE_DIO_PORT = 4;
 	public static final boolean doMatchDance = true;
 	
 	//Loader Timings

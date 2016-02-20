@@ -27,6 +27,7 @@ public class TankDrive extends Command {
 		deadband = 0.1;
 		polarity = -1;
 		drive.tankDrive(xbox.getLeftY() * scaler * polarity, xbox.getRightY() * scaler * polarity, deadband);
+		drive.powerTotal = Math.abs(xbox.getLeftY()) + 2 * Math.abs(xbox.getRightY());	
 	}
 
 	@Override

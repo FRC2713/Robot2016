@@ -2,6 +2,7 @@ package org.usfirst.frc.team2713.robot.commands.autonomous;
 
 
 import org.usfirst.frc.team2713.robot.RobotMap;
+
 import org.usfirst.frc.team2713.robot.WayPoitMap;
 import org.usfirst.frc.team2713.robot.commands.GoToWayPoit;
 import org.usfirst.frc.team2713.robot.commands.LightManager;
@@ -13,13 +14,12 @@ import org.usfirst.frc.team2713.robot.commands.grabberCommands.ShootBall;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
-import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonomosCommand extends CommandGroup {
 
-	public AutonomosCommand(int startPos, int defense, boolean leftGoal, DriveSubsystem drive, LoaderSubsystem loader, HookArmSubsystem hookarm, FlywheelSubsystem flywheel, LightManager lights) {
+	public AutonomosCommand(int startPos, int defense, boolean leftGoal, DriveSubsystem drive, LoaderSubsystem loader, HookArmSubsystem hookarm, LightManager lights) {
 		this.addSequential(new GoToWayPoit(drive, WayPoitMap.One));
 		manageDefenses(defense, drive, hookarm, lights); 
 		this.addSequential(new GoToWayPoit(drive, WayPoitMap.GoalPoit[leftGoal ? 0 : 1][startPos]));

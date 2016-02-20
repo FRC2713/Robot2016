@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2713.robot.commands;
 
 import java.io.File;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,7 +12,6 @@ import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
-import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,11 +22,9 @@ public class DataCollection extends Command {
 	LoaderSubsystem loader;
 	LightSubsystem light;
 	IMU imu;
-	FlywheelSubsystem flywheel;
 	ArrayList<Double> batteryVoltage;
 	ArrayList<Double> armTotal;
 	ArrayList<Double> loaderTotal;
-	ArrayList<Double> flywheelTotal;
 	ArrayList<Double> lightTotal;
 	ArrayList<Double> driveTotal;
 	ArrayList<Double> imuData;
@@ -34,19 +32,17 @@ public class DataCollection extends Command {
 	double startTime;
 
 	public DataCollection(DriveSubsystem drive, HookArmSubsystem hookarm, LoaderSubsystem loader, LightSubsystem light,
-			FlywheelSubsystem flywheel, IMU imu) {
+			IMU imu) {
 		this.drive = drive;
 		this.hookarm = hookarm;
 		this.loader = loader;
 		this.light = light;
-		this.flywheel = flywheel;
 		this.imu = imu;
 		batteryVoltage = new ArrayList<Double>();
 		driveTotal = new ArrayList<Double>();
 		armTotal = new ArrayList<Double>();
 		loaderTotal = new ArrayList<Double>();
 		lightTotal = new ArrayList<Double>();
-		flywheelTotal = new ArrayList<Double>();
 		imuData = new ArrayList<Double>();
 		timeData = new ArrayList<Double>();
 	}
@@ -84,12 +80,6 @@ public class DataCollection extends Command {
 			lightTotal.add(0.0);
 		}
 		
-		if (flywheel != null) {
-			flywheelTotal.add(Math.abs(flywheel.flywheelShooter.getBusVoltage()));
-		} else {
-			flywheelTotal.add(0.0);
-		}
-		
 		if (imu != null) {
 			imuData.add((imu.getAngle()));
 		} else {
@@ -98,7 +88,7 @@ public class DataCollection extends Command {
 		
 		timeData.add(System.currentTimeMillis() - startTime);
 		try {
-			Thread.sleep(20);
+			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -155,13 +145,7 @@ public class DataCollection extends Command {
 
 					}
 				}
-				if (flywheelTotal != null) {
-					try {
-						print.print(flywheelTotal.get(i) + ",");
-					} catch (IndexOutOfBoundsException ex) {
 
-					}
-				}
 				if (lightTotal != null) {
 					try {
 						print.print(lightTotal.get(i) + ",");

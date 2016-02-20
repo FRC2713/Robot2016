@@ -1,7 +1,5 @@
 package org.usfirst.frc.team2713.robot;
 
-import org.usfirst.frc.team2713.robot.commands.DataCollection;
-
 import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomosCommand;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
@@ -9,9 +7,7 @@ import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
-import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -29,7 +25,6 @@ public class Robot extends IterativeRobot {
 
 	public OI oi;
 	private DriveSubsystem drive;
-	private FlywheelSubsystem flywheel;
 	private HookArmSubsystem hookarm;
 	private LoaderSubsystem loader;
 	private LightManager lights;
@@ -59,7 +54,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		initSubsystems();
 
-		oi = new OI(flywheel, hookarm, loader, lights, drive);
+		oi = new OI(hookarm, loader, lights, drive);
 
 		SmartDashboard.putData(Scheduler.getInstance());
 
@@ -79,8 +74,6 @@ public class Robot extends IterativeRobot {
 			camera = new CameraSubsystem();
 		if (lights == null && RobotMap.INIT_LIGHTS)
 			lights = new LightManager();
-		if (flywheel == null && RobotMap.INIT_FLYWHEEL)
-			flywheel = new FlywheelSubsystem();
 		if (drive == null && RobotMap.INIT_DRIVE) {
 			try {
 				drive = new DriveSubsystem(this, imu);
@@ -116,7 +109,6 @@ public class Robot extends IterativeRobot {
 			doNothing.addObject("Do Nothing", true);
 			SmartDashboard.putData("Do Nothing Selector", doNothing);
 			System.out.println("Dashboard Turned On");
-		
 		}
 	
 	}
@@ -127,8 +119,6 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	public void disabledInit() {
-		if (flywheel != null)
-			flywheel.startDisabled();
 		if (drive != null)
 			drive.startDisabled();
 		if (hookarm != null)
@@ -200,8 +190,6 @@ public class Robot extends IterativeRobot {
 		System.out.printf("Defense: %s\nPosition: %d", defenseStr, startPos);
 		// End of debug messages
 		if (!shouldDoNothing) {
-			if (flywheel != null)
-				flywheel.startAuto(defense, startPos, isRed, leftGoal);
 
 			if (drive != null)
 				drive.startAuto(defense, startPos, isRed, leftGoal);
@@ -214,7 +202,7 @@ public class Robot extends IterativeRobot {
 
 			if (lights != null)
 				lights.startAuto(defense, startPos, isRed, leftGoal);
-			autonomousCommand = new AutonomosCommand(defense, startPos, leftGoal, drive, loader, hookarm, flywheel,
+			autonomousCommand = new AutonomosCommand(defense, startPos, leftGoal, drive, loader, hookarm,
 					lights);
 			if (autonomousCommand != null)
 				autonomousCommand.start();
@@ -239,8 +227,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
-		if (flywheel != null)
-			flywheel.startTeleop();
+		System.out.println(drive);
 		if (drive != null)
 			drive.startTeleop();
 		if (hookarm != null)
@@ -250,7 +237,7 @@ public class Robot extends IterativeRobot {
 		if (lights != null)
 			lights.startTeleop();
 
-		new DataCollection(drive, hookarm, loader, lights, flywheel, imu).start();
+		//new DataCollection(drive, hookarm, loader, lights, imu).start();
 	}
 
 	/**

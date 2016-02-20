@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.can.CANMessageNotFoundException;
 
 public class DriveSubsystem extends BaseSubsystem {
 
@@ -24,27 +23,23 @@ public class DriveSubsystem extends BaseSubsystem {
 	private Robot robot;
 	public IMU imu;
 	LightSubsystem lights = new LightSubsystem();
+	public double powerTotal;
 
 	public DriveSubsystem(Robot robot, IMU imu) {
 		this.imu = imu;
 		this.robot = robot;
 		
-		try {
-			rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
-			leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
+		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
+		leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
 
-			left = new CANTalon(RobotMap.LEFT_TANK);
-			left.changeControlMode(TalonControlMode.Follower);
-			left.set(RobotMap.LEFT_TANK_BACK);
-			
-			right = new CANTalon(RobotMap.RIGHT_TANK);
-			right.changeControlMode(TalonControlMode.Follower);
-			right.set(RobotMap.RIGHT_TANK_BACK);
-		} catch(CANMessageNotFoundException ex) {
-			roboDrive = null;
-			throw new RuntimeException("Drive Cashed");
-		}
-		
+		left = new CANTalon(RobotMap.LEFT_TANK);
+		left.changeControlMode(TalonControlMode.Follower);
+		left.set(RobotMap.LEFT_TANK_BACK);
+
+		right = new CANTalon(RobotMap.RIGHT_TANK);
+		right.changeControlMode(TalonControlMode.Follower);
+		right.set(RobotMap.RIGHT_TANK_BACK);
+
 		roboDrive = new RobotDrive(leftback, rightback);
 	}
 
@@ -60,7 +55,7 @@ public class DriveSubsystem extends BaseSubsystem {
 			}
 		}
 	}
-	
+
 	@Override
 	public void startAuto(int defense, int startPos, boolean isRed, boolean leftGoal) {
 		rightback.changeControlMode(TalonControlMode.Position);
@@ -82,7 +77,7 @@ public class DriveSubsystem extends BaseSubsystem {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public void resetPosition() {
 		leftback.setPosition(0);
 		rightback.setPosition(0);
@@ -94,16 +89,17 @@ public class DriveSubsystem extends BaseSubsystem {
 	}
 
 	public void rotate(double angle, boolean radians) {
-		if (!radians) angle *= Math.PI / 180;
+		if (!radians)
+			angle *= Math.PI / 180;
 		double pos = angle * (RobotMap.ROBOT_WIDTH / 2);
 		leftback.set(-pos);
 		rightback.set(pos);
 	}
-	
+
 	public double getAngleRotated() {
 		return rightback.getPosition() / (RobotMap.ROBOT_WIDTH / 2);
 	}
-	
+
 	public void arcadeDrive(double d, double rightY, double deadband) {
 		roboDrive.arcadeDrive(calcDeadband(d, deadband), calcDeadband(rightY, deadband));
 	}
@@ -112,10 +108,9 @@ public class DriveSubsystem extends BaseSubsystem {
 		double ban = deadband;
 		roboDrive.tankDrive(calcDeadband(left, ban), calcDeadband(right, ban));
 	}
-	
+
 	public double getDriveTotal() {
-		return (Math.abs(2 * Math.abs(right.get())
-				+ 2 * Math.abs(rightback.get())));
+		return powerTotal;
 	}
 
 }

@@ -1,8 +1,8 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
+
 import org.usfirst.frc.team2713.robot.commands.LightManager;
-import org.usfirst.frc.team2713.robot.commands.archive.ShootShot;
 import org.usfirst.frc.team2713.robot.commands.grabberCommands.LoadBall;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -14,7 +14,6 @@ public class LoaderSubsystem extends BaseSubsystem {
 	public CANTalon moveLoader;
 	public CANTalon ballLoader;
 	LoadBall loadCommand;
-	ShootShot shootCommand;
 	public DigitalInput loadswitch; // What if this isnt present? Backups!
 	public DigitalInput lockToShoot; // What if this isnt present? Backups!
 	LightManager lights;

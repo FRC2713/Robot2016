@@ -49,7 +49,9 @@ public class ShootBall extends Command {
 			e.printStackTrace();
 		}
 		loader.moveLoader(0);
-		lightManager.releaseBall();
+		if(lightManager != null) {
+			lightManager.releaseBall();
+		}
 		loader.startLoadCommand();
 		return true;
 	}
