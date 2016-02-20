@@ -98,6 +98,10 @@ public class RobotMap {
 	public static final double ROBOT_LENGTH = 28.31; //Front to back
 	public static final double ROBOT_HEIGHT = 13.883;
 	
+	//Ultrasonic stuff
+	public static final int ULTRASONIC_TRIGGER_PORT = 6;
+	public static final int ULTRASONIC_ECHO_PORT = 5;
+	
 	public enum ColorThreshold {
 		HIGH_GOAL(new Scalar(35D, 64D, 48D, 0D), new Scalar(93D, 144D, 255D, 0D));
 		

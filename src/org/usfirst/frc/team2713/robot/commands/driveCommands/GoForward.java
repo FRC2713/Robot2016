@@ -13,10 +13,9 @@ public class GoForward extends Command {
 	double timesRun = 0;
 	boolean shouldStopIfStuck;
 
-	public GoForward(DriveSubsystem drive, double distance, double polarity, boolean shouldStopIfStuck) {
+	public GoForward(DriveSubsystem drive, double distance, boolean shouldStopIfStuck) {
 		this.drive = drive;
 		this.distance = distance;
-		this.polarity = polarity;
 		this.shouldStopIfStuck = shouldStopIfStuck;
 		requires(drive);
 	}

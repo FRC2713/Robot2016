@@ -18,7 +18,7 @@ double d;
 		angle = w.ang;
 		d = w.d;
 		this.addSequential(new GoToAngle(drive, angle));
-		this.addSequential(new GoForward(drive, d, 1, true));
+		this.addSequential(new GoForward(drive, d, true));
 	}
 
 

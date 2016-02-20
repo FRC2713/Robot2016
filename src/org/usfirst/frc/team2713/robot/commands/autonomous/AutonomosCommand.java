@@ -2,6 +2,7 @@ package org.usfirst.frc.team2713.robot.commands.autonomous;
 
 
 import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.WayPoit;
 import org.usfirst.frc.team2713.robot.WayPoitMap;
 import org.usfirst.frc.team2713.robot.commands.GoToWayPoit;
 import org.usfirst.frc.team2713.robot.commands.LightManager;
@@ -21,8 +22,17 @@ public class AutonomosCommand extends CommandGroup {
 
 	public AutonomosCommand(int startPos, int defense, boolean leftGoal, DriveSubsystem drive, LoaderSubsystem loader, HookArmSubsystem hookarm, FlywheelSubsystem flywheel, LightManager lights) {
 		this.addSequential(new GoToWayPoit(drive, WayPoitMap.One));
-		manageDefenses(defense, drive, hookarm, lights); 
-		this.addSequential(new GoToWayPoit(drive, WayPoitMap.GoalPoit[leftGoal ? 0 : 1][startPos]));
+		manageDefenses(defense, drive, hookarm, lights);
+		
+		WayPoit waypoit;
+		if (leftGoal) {
+			waypoit = WayPoitMap.GoalPoit[0][startPos];
+		} else {
+			waypoit = WayPoitMap.GoalPoit[1][startPos - 3];
+		}
+		
+		this.addSequential(new GoToWayPoit(drive, waypoit));
+		
 		this.addSequential(new ShootBall(loader, lights));
 	}
 	
@@ -60,7 +70,7 @@ public class AutonomosCommand extends CommandGroup {
 	}
 	
 	public void manageLowBar(DriveSubsystem drive) {
-		this.addSequential(new GoForward(drive, RobotMap.LOW_BAR_DISTANCE, 1, false)); //Needs to be Adjusted
+		this.addSequential(new GoForward(drive, RobotMap.LOW_BAR_DISTANCE, false)); //Needs to be Adjusted
 	}
 	
 	public void manageGate(DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lights) {
@@ -72,7 +82,7 @@ public class AutonomosCommand extends CommandGroup {
 	}
 	
 	public void manageSmallRamps(DriveSubsystem drive) {
-		this.addSequential(new GoForward(drive, RobotMap.SMALL_RAMP_DISTANCE, 1, false)); //Needs to be adjusted
+		this.addSequential(new GoForward(drive, RobotMap.SMALL_RAMP_DISTANCE, false)); //Needs to be adjusted
 	}
 	
 	public void manageMoat(DriveSubsystem drive, LightManager lights) {
