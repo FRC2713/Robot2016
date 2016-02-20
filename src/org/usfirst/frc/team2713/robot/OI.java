@@ -1,12 +1,15 @@
 package org.usfirst.frc.team2713.robot;
 
 import org.usfirst.frc.team2713.robot.commands.LightManager;
+import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateChevalDeFrise;
+import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateGate;
 import org.usfirst.frc.team2713.robot.exceptions.ControllerNotFound;
 import org.usfirst.frc.team2713.robot.commands.archive.ShootShot;
 import org.usfirst.frc.team2713.robot.commands.armCommands.MoveHook;
 import org.usfirst.frc.team2713.robot.commands.grabberCommands.ManualLoadBall;
 import org.usfirst.frc.team2713.robot.commands.grabberCommands.ShootBall;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
+import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
@@ -23,7 +26,8 @@ public class OI {
 	private JoystickButton armdown;
 	private JoystickButton loadup;
 	private JoystickButton loaddown;
-	private LightManager lights;
+	private JoystickButton gateButton;
+	private JoystickButton chevalDeFriseButton;
 
 	public XBoxController getXbox() {
 		return xbox;
@@ -33,19 +37,21 @@ public class OI {
 		return gamepad;
 	} 
 
-	public OI(FlywheelSubsystem flywheel, HookArmSubsystem hookarm, LoaderSubsystem loader, LightManager lights) {
+	public OI(FlywheelSubsystem flywheel, HookArmSubsystem hookarm, LoaderSubsystem loader, LightManager lights, DriveSubsystem drive) {
 		initController();
-		this.lights = lights;
-		if (RobotMap.INIT_LOADER) {
-			loaderCommands(loader);
+		if (loader != null && lights != null) {
+			loaderCommands(loader, lights);
 		}
 
-		if (RobotMap.INIT_HOOKARM) {
+		if (hookarm != null) {
 			hookArmCommands(hookarm);
 		}
 
-		if (RobotMap.INIT_FLYWHEEL) {
+		if (flywheel != null) {
 			flywheelCommands(flywheel);
+		}
+		if(hookarm != null && drive != null && lights != null) {
+			obstacleCommands(hookarm, drive, lights);
 		}
 	}
 
@@ -66,7 +72,7 @@ public class OI {
 		throw new ControllerNotFound("No controller found. Is one attached?");
 	}
 
-	public void loaderCommands(LoaderSubsystem loader) {
+	public void loaderCommands(LoaderSubsystem loader, LightManager lights) {
 		loadout = new JoystickButton(xbox, 1);
 		loadout.whenPressed(new ShootBall(loader, lights));
 		loadup = new JoystickButton(gamepad, 5);
@@ -92,6 +98,13 @@ public class OI {
 		shootButton = new JoystickButton(xbox, 1);
 		// shootButton.whenPressed(new ShootShot(flywheel, loader));
 		shootButton.whenPressed(new ShootShot(flywheel));
+	}
+	
+	public void obstacleCommands(HookArmSubsystem hookarm, DriveSubsystem drive, LightManager lights) {
+		gateButton = new JoystickButton(xbox, 2);
+		gateButton.whenPressed(new NavigateGate(drive, hookarm, lights));
+		chevalDeFriseButton = new JoystickButton(xbox, 3);
+		chevalDeFriseButton.whenPressed(new NavigateChevalDeFrise(drive, hookarm, lights));
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a

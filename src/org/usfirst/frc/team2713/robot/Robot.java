@@ -60,7 +60,7 @@ public class Robot extends IterativeRobot {
 		//	autonomousSwitches[i] = new DigitalInput(i + RobotMap.DIPSWITCHSTARTPORT);
 		//}
 		
-		oi = new OI(flywheel, hookarm, loader, lights);
+		oi = new OI(flywheel, hookarm, loader, lights, drive);
 		
 		SmartDashboard.putData(Scheduler.getInstance());
 		
