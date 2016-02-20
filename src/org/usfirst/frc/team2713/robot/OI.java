@@ -67,28 +67,29 @@ public class OI {
 	}
 
 	public void loaderCommands(LoaderSubsystem loader) {
-		loadout = new JoystickButton(xbox, 6);
+		loadout = new JoystickButton(xbox, 1);
 		loadout.whenPressed(new ShootBall(loader, lights));
-		loadup = new JoystickButton(gamepad, 6);
+		loadup = new JoystickButton(gamepad, 5);
 		loadup.whileHeld(new ManualLoadBall(loader, 1));
 		loadup.whenReleased(new ManualLoadBall(loader, 0));
-		loaddown = new JoystickButton(gamepad, 6);
+		loaddown = new JoystickButton(gamepad, 1);
 		loaddown.whileHeld(new ManualLoadBall(loader, -1));
 		loaddown.whenReleased(new ManualLoadBall(loader, 0));
 	}
+	
 
 	public void hookArmCommands(HookArmSubsystem hookarm) {
-		armup = new JoystickButton(gamepad, 5);
+		armup = new JoystickButton(gamepad, 6);
 		armup.whileHeld(new MoveHook(hookarm, 1));
 		armup.whenReleased(new MoveHook(hookarm, 0));
-		armdown = new JoystickButton(gamepad, 1);
-		armdown.whileHeld(new MoveHook(hookarm, 1));
+		armdown = new JoystickButton(gamepad, 2);
+		armdown.whileHeld(new MoveHook(hookarm, -1));
 		armdown.whenReleased(new MoveHook(hookarm, 0));
 	}
 
 	public void flywheelCommands(FlywheelSubsystem flywheel) {
 		System.out.println(xbox);
-		shootButton = new JoystickButton(xbox, 3);
+		shootButton = new JoystickButton(xbox, 1);
 		// shootButton.whenPressed(new ShootShot(flywheel, loader));
 		shootButton.whenPressed(new ShootShot(flywheel));
 	}
