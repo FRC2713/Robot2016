@@ -68,7 +68,7 @@ public class GoForward extends Command {
 					drive.imu.getAccelX() * drive.imu.getAccelX() + drive.imu.getAccelY() * drive.imu.getAccelY());
 			if (acceleration - RobotMap.ACCELERATION_STOP_POINT < 0
 					&& acceleration + RobotMap.ACCELERATION_STOP_POINT > 0) {
-				return true;
+				//return false;
 			}
 		}
 		return false;

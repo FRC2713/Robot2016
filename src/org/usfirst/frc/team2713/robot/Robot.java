@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 		} catch (SecurityException|UnsatisfiedLinkError|NullPointerException e) {
 			e.printStackTrace();
 			System.out.println("OpenCV could not be loaded. Is it installed?");
-			System.exit(1);
+			System.exit(8);
 		}
 	}
 
