@@ -61,14 +61,21 @@ public class DriveSubsystem extends BaseSubsystem {
 		rightback.changeControlMode(TalonControlMode.Position);
 		leftback.changeControlMode(TalonControlMode.Position);
 	}
-
+	
+	/**
+	 * Deadband is the area of where the controller is meant to be at 0,
+	 * but is slightly higher (usually around 1-10)
+	 * @param value Value controller reports
+	 * @param deadband Deadband area
+	 * @return Value compensated for deadband
+	 */
 	private static double calcDeadband(double value, double deadband) {
 		int sign = (value > 0 ? 1 : -1); // checks the sign of the value
 		value *= sign; // changes the value to positive
 		if (value <= deadband) {
 			return 0.0; // returns 0 if it is less than deadband
 		} else {
-			return (value - deadband) * sign; // returns vale minus deadband
+			return (value - deadband) * sign; // returns value minus deadband
 		}
 	}
 
@@ -82,7 +89,11 @@ public class DriveSubsystem extends BaseSubsystem {
 		leftback.setPosition(0);
 		rightback.setPosition(0);
 	}
-
+	
+	/**
+	 * Moves the robot forward
+	 * @param polarity Speed at which to move the robot
+	 */
 	public void move(double polarity) {
 		leftback.set(polarity);
 		rightback.set(polarity);
