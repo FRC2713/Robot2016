@@ -12,7 +12,7 @@ public class GoToAngle extends Command{
 	
 	public GoToAngle(DriveSubsystem drive, double angle) {
 		this.drive = drive;
-		this.angle = angle;
+		this.angle = angle - drive.imu.getAngle();
 		requires(drive);
 	}
 	
