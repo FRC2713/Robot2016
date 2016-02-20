@@ -1,8 +1,8 @@
 package org.usfirst.frc.team2713.robot.commands.armCommands;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
-import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;

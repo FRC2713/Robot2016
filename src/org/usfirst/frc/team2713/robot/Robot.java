@@ -1,14 +1,16 @@
 package org.usfirst.frc.team2713.robot;
 
-import org.usfirst.frc.team2713.robot.commands.LightManager;
+import org.usfirst.frc.team2713.robot.commands.LightUpdater;
 import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomosCommand;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.NamedSendable;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -28,12 +30,12 @@ public class Robot extends IterativeRobot {
 	private HookArmSubsystem hookarm;
 	private LoaderSubsystem loader;
 	private LightManager lights;
+	private LightUpdater lightUpdater;
 	private CameraSubsystem camera;
 	private IMU imu;
 	private SendableChooser myPossition;
 	private SendableChooser myObstacle;
 	private SendableChooser doNothing;
-	// Find a way to get alliance side color
 
 	AutonomosCommand autonomousCommand;
 
@@ -72,8 +74,10 @@ public class Robot extends IterativeRobot {
 			imu = new IMU();
 		if (camera == null && RobotMap.INIT_CAMERA)
 			camera = new CameraSubsystem();
-		if (lights == null && RobotMap.INIT_LIGHTS)
+		if (lights == null && RobotMap.INIT_LIGHTS) {
 			lights = new LightManager();
+			lightUpdater = new LightUpdater(lights);
+		}
 		if (drive == null && RobotMap.INIT_DRIVE) {
 			try {
 				drive = new DriveSubsystem(this, imu);
@@ -131,6 +135,7 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		lightUpdater.updateLights();
 	}
 
 	/**
@@ -217,6 +222,7 @@ public class Robot extends IterativeRobot {
 		if (lights != null) {
 			lights.managerLights();
 		}
+		lightUpdater.updateLights();
 	}
 
 	public void teleopInit() {
@@ -236,7 +242,6 @@ public class Robot extends IterativeRobot {
 			loader.startTeleop();
 		if (lights != null)
 			lights.startTeleop();
-
 		//new DataCollection(drive, hookarm, loader, lights, imu).start();
 	}
 
@@ -248,6 +253,7 @@ public class Robot extends IterativeRobot {
 		if (lights != null) {
 			lights.managerLights();
 		}
+		lightUpdater.updateLights();
 	}
 
 	/**

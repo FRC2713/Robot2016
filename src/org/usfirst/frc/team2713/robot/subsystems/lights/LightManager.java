@@ -1,6 +1,4 @@
-package org.usfirst.frc.team2713.robot.commands;
-
-import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
+package org.usfirst.frc.team2713.robot.subsystems.lights;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;

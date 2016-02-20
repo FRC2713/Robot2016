@@ -1,15 +1,19 @@
-package org.usfirst.frc.team2713.robot.subsystems;
+package org.usfirst.frc.team2713.robot.subsystems.lights;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.subsystems.BaseSubsystem;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
 
 public class LightSubsystem extends BaseSubsystem {
 
-	private DigitalOutput red;
-	private DigitalOutput green;
-	private DigitalOutput blue;
-
+	public DigitalOutput red;
+	public DigitalOutput green;
+	public DigitalOutput blue;
+	public double redVal;
+	public double blueVal;
+	public double greenVal;
+	
 	public LightSubsystem() {
 		red = new DigitalOutput(RobotMap.RED_DIO_PORT);
 		green = new DigitalOutput(RobotMap.GREEN_DIO_PORT);
@@ -17,9 +21,9 @@ public class LightSubsystem extends BaseSubsystem {
 	}
 
 	protected void setColor(Color color) {
-		red.set(color.getRed() > 127); // "Temporary" method, only shuts colors off/on
-		green.set(color.getGreen() > 127);
-		blue.set(color.getBlue() > 127);
+		redVal = (color.getRed()); // "Temporary" method, only shuts colors off/on
+		greenVal = (color.getGreen());
+		blueVal = (color.getBlue());
 	}
 
 	@Override

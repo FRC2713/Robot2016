@@ -5,7 +5,6 @@ import org.usfirst.frc.team2713.robot.RobotMap;
 
 import org.usfirst.frc.team2713.robot.WayPoitMap;
 import org.usfirst.frc.team2713.robot.commands.GoToWayPoit;
-import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateBumpyObstacle;
 import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateChevalDeFrise;
 import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateGate;
@@ -14,6 +13,7 @@ import org.usfirst.frc.team2713.robot.commands.grabberCommands.ShootBall;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

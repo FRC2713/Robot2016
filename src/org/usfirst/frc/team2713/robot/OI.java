@@ -1,7 +1,5 @@
 package org.usfirst.frc.team2713.robot;
 
-import org.usfirst.frc.team2713.robot.commands.LightManager;
-
 import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateChevalDeFrise;
 import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateGate;
 import org.usfirst.frc.team2713.robot.commands.armCommands.MoveHook;
@@ -11,6 +9,7 @@ import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -19,7 +18,6 @@ public class OI {
 	private XBoxController xbox;
 	private Joystick gamepad;
 	private JoystickButton loadout;
-	private JoystickButton shootButton;
 	private JoystickButton armup;
 	private JoystickButton armdown;
 	private JoystickButton loadup;
