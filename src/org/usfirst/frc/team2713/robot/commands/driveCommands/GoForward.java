@@ -33,7 +33,7 @@ public class GoForward extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return drive.getDistanceTraveled() >= distance;
+		return drive.getDistanceTraveled() == distance;
 	}
 
 	@Override
