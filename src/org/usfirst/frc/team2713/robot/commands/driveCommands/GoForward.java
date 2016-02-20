@@ -11,7 +11,6 @@ public class GoForward extends Command {
 	double polarity;
 	double distance;
 	double timesRun = 0;
-	boolean isFinished = false;
 	boolean shouldStopIfStuck;
 
 	public GoForward(DriveSubsystem drive, double distance, double polarity, boolean shouldStopIfStuck) {
@@ -24,30 +23,17 @@ public class GoForward extends Command {
 
 	@Override
 	protected void initialize() {
-		drive.rightFrontWheelEncoder.reset();
+		drive.resetPosition();
+		drive.move(distance);
 	}
 
 	@Override
 	protected void execute() {
-		if ((drive.rightFrontWheelEncoder.get() < distance)) {
-			drive.move((distance - drive.rightFrontWheelEncoder.get() / distance) * polarity);
-			if (shouldStopIfStuck) {
-				timesRun++;
-				if (timesRun > 10 && isStuck()) {
-					isFinished = true;
-				}
-			}
-		} else {
-			isFinished = true;
-		}
-
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		drive.move(0);
-		return isFinished;
+		return drive.getDistanceTraveled() >= distance;
 	}
 
 	@Override

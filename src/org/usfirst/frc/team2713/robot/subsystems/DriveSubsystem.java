@@ -87,6 +87,8 @@ public class DriveSubsystem extends BaseSubsystem {
 	public void resetPosition() {
 		leftback.setPosition(0);
 		rightback.setPosition(0);
+		leftback.set(0);
+		rightback.set(0);
 	}
 
 	public void move(double polarity) {
@@ -99,6 +101,10 @@ public class DriveSubsystem extends BaseSubsystem {
 		double pos = angle * (RobotMap.ROBOT_WIDTH / 2);
 		leftback.set(-pos);
 		rightback.set(pos);
+	}
+	
+	public double getDistanceTraveled() {
+		return rightback.getPosition();
 	}
 	
 	public double getAngleRotated() {
