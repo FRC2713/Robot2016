@@ -22,7 +22,7 @@ public class ArmPID extends Command {
 	@Override
 	protected void initialize() {
 		hookarm.arm.changeControlMode(TalonControlMode.Position);
-		hookarm.setAngle(angle);
+		//hookarm.setAngle(angle);
 	}
 
 	@Override

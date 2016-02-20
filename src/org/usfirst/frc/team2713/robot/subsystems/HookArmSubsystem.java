@@ -27,5 +27,10 @@ public class HookArmSubsystem extends BaseSubsystem {
 	public void setAngle(double angle) {
 		arm.set(angle);
 	}
+	
+	public void resetPostition() {
+		arm.setPosition(0);
+		arm.set(0);
+	}
 
 }

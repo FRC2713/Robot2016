@@ -18,19 +18,27 @@ public class MoveHook extends Command {
 	}
 	@Override
 	protected void initialize() {
-		hookarm.arm.changeControlMode(TalonControlMode.Speed);
+
 	}
 
 	@Override
 	protected void execute() {
 		if(hookarm.arm.get() < RobotMap.ARM_UPPER_LIMIT && hookarm.arm.get() > RobotMap.ARM_LOWER_LIMIT) {
-			hookarm.setAngle(polarity);
+			hookarm.setAngle(hookarm.arm.get() + (Math.PI / 180.0) * polarity);
+			if(hookarm.arm.get() > RobotMap.ARM_UPPER_LIMIT) {
+				hookarm.setAngle(RobotMap.ARM_UPPER_LIMIT);
+			}
+			if(hookarm.arm.get() < RobotMap.ARM_LOWER_LIMIT) {
+				hookarm.setAngle(RobotMap.ARM_LOWER_LIMIT);
+			}
 		}	
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
+		if(polarity == 0) {
+			return true;
+		}
 		return false;
 	}
 

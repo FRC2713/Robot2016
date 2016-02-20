@@ -21,8 +21,8 @@ public class RobotMap {
 	public static final int LEFT_TANK = 1;
 	public static final int RIGHT_TANK = 3;
 	public static final int LEFT_TANK_BACK = 2;
-	public static final int RIGHT_TANK_BACK = 4;
-	public static final int ARM_MOTOR = 5;
+	public static final int RIGHT_TANK_BACK = 3;
+	public static final int ARM_MOTOR = 4;
 	public static final int SHOOTER_WHEEL_MOTOR = 6;
 	public static final int MOVE_LOAD_MOTOR = 8;
 	public static final int BALL_LOADER_MOTOR = 9;
@@ -36,10 +36,10 @@ public class RobotMap {
 	public static final int BACKUP_ATTACK_PORT = 3;
 	
 	//Arm Stuff
-	public static final double KpArm = 1;
+	public static final double KpArm = 2;
 	public static final double KiArm = .00;
 	public static final double KdArm = .0;
-	public static final double ARM_LOWER_LIMIT = -0.17453;
+	public static final double ARM_LOWER_LIMIT = 0;
 	public static final double ARM_UPPER_LIMIT = Math.PI;
 	public static final double ARM_ANGLE_STOP_POINT = .2;
 	public static final int ENCODER_PULSE = 256;
@@ -49,12 +49,12 @@ public class RobotMap {
 	public static final double IS_TILTED_CONSTANT = .1;
 
 	//Initilization stuff
-	public static final boolean INIT_DRIVE = true;
-	public static final boolean INIT_HOOKARM = true;
+	public static final boolean INIT_DRIVE = false;
+	public static final boolean INIT_HOOKARM = false;
 	public static final boolean INIT_LOADER = true;
-	public static final boolean INIT_LIGHTS = true;
-	public static final boolean INIT_IMU = true;
-	public static final boolean INIT_CAMERA = true;
+	public static final boolean INIT_LIGHTS = false;
+	public static final boolean INIT_IMU = false;
+	public static final boolean INIT_CAMERA = false;
 	public static final boolean INIT_SMART_DASHBOARD = true;
 	
 	//Limit Switches
@@ -67,10 +67,13 @@ public class RobotMap {
 	public static final int BLUE_DIO_PORT = 4;
 	public static final boolean doMatchDance = true;
 	
-	//Loader Timings
+	//Loader Stuff
 	public static final int TIME_TO_LOWER_LOADER = 200;
 	public static final int TIME_TO_RELEASE_BALL = 200;
 	public static final int TIME_TO_LOAD_BALL = 200;
+	public static final double KiLoader = 0;
+	public static final double KdLoader = 0;
+	public static final double KpLoader = 1;
 	
 	//Camera Stuff
 	public static final int CAMERA = 0;

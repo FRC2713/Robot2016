@@ -10,7 +10,6 @@ import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.NamedSendable;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -135,7 +134,10 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		lightUpdater.updateLights();
+		if(lights != null) {
+			lights.managerLights();
+			lightUpdater.updateLights();
+		}
 	}
 
 	/**
@@ -151,7 +153,9 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousInit() {
 		Scheduler.getInstance().run();
-
+		hookarm.resetPostition();
+		drive.resetPosition();
+		loader.resetPossition();
 		boolean isRed = false;
 		boolean leftGoal = false;
 		boolean shouldDoNothing;
@@ -221,8 +225,8 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		if (lights != null) {
 			lights.managerLights();
+			lightUpdater.updateLights();
 		}
-		lightUpdater.updateLights();
 	}
 
 	public void teleopInit() {
@@ -252,8 +256,8 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		if (lights != null) {
 			lights.managerLights();
+			lightUpdater.updateLights();
 		}
-		lightUpdater.updateLights();
 	}
 
 	/**

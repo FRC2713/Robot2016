@@ -82,10 +82,10 @@ public class OI {
 	public void hookArmCommands(HookArmSubsystem hookarm) {
 		if (hookarm != null && gamepad != null) {
 			armup = new JoystickButton(gamepad, 6);
-			armup.whileHeld(new MoveHook(hookarm, 1));
+			armup.whileHeld(new MoveHook(hookarm, -10));
 			armup.whenReleased(new MoveHook(hookarm, 0));
 			armdown = new JoystickButton(gamepad, 2);
-			armdown.whileHeld(new MoveHook(hookarm, -1));
+			armdown.whileHeld(new MoveHook(hookarm, 10));
 			armdown.whenReleased(new MoveHook(hookarm, 0));
 		}
 	}

@@ -6,6 +6,8 @@ import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.can.CANMessageNotFoundException;
 
 public class LoaderSubsystem extends BaseSubsystem {
@@ -18,12 +20,12 @@ public class LoaderSubsystem extends BaseSubsystem {
 	LightManager lights;
 
 	public LoaderSubsystem(LightManager lights) {
-		try {
-			moveLoader = new CANTalon(RobotMap.MOVE_LOAD_MOTOR);
-			ballLoader = new CANTalon(RobotMap.BALL_LOADER_MOTOR);
-		} catch (CANMessageNotFoundException ex) {
-			return;
-		}
+		moveLoader = new CANTalon(RobotMap.MOVE_LOAD_MOTOR);
+		moveLoader.configEncoderCodesPerRev(RobotMap.ENCODER_PULSE);
+		moveLoader.setPID(RobotMap.KpLoader, RobotMap.KiLoader, RobotMap.KdLoader);
+		moveLoader.setPIDSourceType(PIDSourceType.kRate);
+		moveLoader.changeControlMode(TalonControlMode.Position);
+		ballLoader = new CANTalon(RobotMap.BALL_LOADER_MOTOR);
 		loadswitch = new DigitalInput(RobotMap.LOADER_LIMIT_SWITCH);
 		lockToShoot = new DigitalInput(RobotMap.LOCK_TO_SHOOT__LIMIT_SWITCH);
 		this.lights = lights;
@@ -63,5 +65,10 @@ public class LoaderSubsystem extends BaseSubsystem {
 		}
 		loadCommand = new LoadBall(this, lights);
 		loadCommand.start();
+	}
+	
+	public void resetPossition() {
+		moveLoader.setPosition(0);
+		moveLoader.set(0);
 	}
 }
