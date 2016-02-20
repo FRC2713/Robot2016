@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 		} catch (SecurityException|UnsatisfiedLinkError|NullPointerException e) {
 			e.printStackTrace();
 			System.out.println("OpenCV could not be loaded. Is it installed?");
-			System.exit(1);
+			System.exit(8);
 		}
 	}
 
@@ -226,7 +226,7 @@ public class Robot extends IterativeRobot {
 		new DataCollection(drive, hookarm, loader, lights, flywheel, imu).start();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
+	 	// continue until interrupted by another command, remove
 		// this line or comment it out.
 		Scheduler.getInstance().run();
 		if (autonomousCommand != null)

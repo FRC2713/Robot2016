@@ -16,7 +16,6 @@ public class WayPoitMap {
 	
 	//First Waypoit, path is same for A-E 0-2 since it is all relative, only differences come with goals
 	public static final WayPoit One = new WayPoit(57.845,0); 
-	
 	//Goal Waypoits
 	//Left is 0, Right is 1
 	//A is 0, E is 4
@@ -28,4 +27,12 @@ public class WayPoitMap {
 			{//Right	A			B				C				D				E
 			new WayPoit(0,0),new WayPoit(0,0),new WayPoit(0,0),new WayPoit(0,0),new WayPoit(0,0)}
 			};
+	
+	public static WayPoit[] firstHalf(int startPoint) {
+		return null;	
+	}
+	
+	public static WayPoit[] secondHalf(int startPoint, boolean leftOrRight) {
+		return null;	
+	}
 }
