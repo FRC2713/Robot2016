@@ -29,7 +29,7 @@ public class OI {
 		return xbox;
 	} 
 
-	public Joystick getJoystick() {
+	public Joystick getFightGamepad() {
 		return gamepad;
 	} 
 
@@ -57,7 +57,7 @@ public class OI {
 				return;
 			}
 			
-			if (test.getName().equals(RobotMap.ATTACK_NAME)) {
+			if (test.getName().equals(RobotMap.GAMEPAD_NAME)) {
 				gamepad = new Joystick(i);
 				return;
 			}
@@ -78,7 +78,7 @@ public class OI {
 	}
 
 	public void hookArmCommands(HookArmSubsystem hookarm) {
-		armup = new JoystickButton(gamepad, 4);
+		armup = new JoystickButton(gamepad, 5);
 		armup.whileHeld(new MoveHook(hookarm, 1));
 		armup.whenReleased(new MoveHook(hookarm, 0));
 		armdown = new JoystickButton(gamepad, 1);

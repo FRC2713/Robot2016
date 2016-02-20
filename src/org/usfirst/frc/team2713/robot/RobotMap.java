@@ -31,6 +31,7 @@ public class RobotMap {
 	//Joystick stuff
 	public static final String XBOX_NAME = "Controller (XBOX 360 For Windows)";
 	public static final String ATTACK_NAME = "Logitech Attack 3";
+	public static final String GAMEPAD_NAME = "Mayflash Arcade Stick";
 	public static final int BACKUP_XBOX_PORT = 2;
 	public static final int BACKUP_ATTACK_PORT = 3;
 	
