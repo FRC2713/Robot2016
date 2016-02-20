@@ -11,10 +11,11 @@ import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -27,7 +28,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public OI oi;
-	private DigitalInput[] autonomousSwitches;
 	private DriveSubsystem drive;
 	private FlywheelSubsystem flywheel;
 	private HookArmSubsystem hookarm;
@@ -35,13 +35,17 @@ public class Robot extends IterativeRobot {
 	private LightManager lights;
 	private CameraSubsystem camera;
 	private IMU imu;
-	//Find a way to get alliance side color
+	private SendableChooser myPossition;
+	private SendableChooser myObstacle;
+	private SendableChooser doNothing;
+	// Find a way to get alliance side color
 
 	AutonomosCommand autonomousCommand;
+
 	static {
 		try {
 			System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
-		} catch (SecurityException|UnsatisfiedLinkError|NullPointerException e) {
+		} catch (SecurityException | UnsatisfiedLinkError | NullPointerException e) {
 			e.printStackTrace();
 			System.out.println("OpenCV could not be loaded. Is it installed?");
 			System.exit(8);
@@ -54,40 +58,67 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		initSubsystems();
-		
-		//autonomousSwitches = new DigitalInput[RobotMap.DIPSWITCHCOUNT];
-		//for (int i = 0; i < RobotMap.DIPSWITCHCOUNT; i++) {
-		//	autonomousSwitches[i] = new DigitalInput(i + RobotMap.DIPSWITCHSTARTPORT);
-		//}
-		
+
 		oi = new OI(flywheel, hookarm, loader, lights, drive);
-		
+
 		SmartDashboard.putData(Scheduler.getInstance());
-		
+
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			@Override
 			public void run() {
-				if (camera != null) camera.releaseCamera();
+				if (camera != null)
+					camera.releaseCamera();
 			}
 		}));
 	}
-	
 
 	public void initSubsystems() {
-		if(imu == null && RobotMap.INIT_IMU)
+		if (imu == null && RobotMap.INIT_IMU)
 			imu = new IMU();
-		if (lights == null && RobotMap.INIT_LIGHTS)
-			lights = new LightManager(false);
 		if (camera == null && RobotMap.INIT_CAMERA)
 			camera = new CameraSubsystem();
+		if (lights == null && RobotMap.INIT_LIGHTS)
+			lights = new LightManager();
 		if (flywheel == null && RobotMap.INIT_FLYWHEEL)
 			flywheel = new FlywheelSubsystem();
-		if (drive == null && RobotMap.INIT_DRIVE)
-			drive = new DriveSubsystem(this, imu);
+		if (drive == null && RobotMap.INIT_DRIVE) {
+			try {
+				drive = new DriveSubsystem(this, imu);
+			} catch (RuntimeException ex) {
+				drive = null;
+			}
+		}
 		if (loader == null && RobotMap.INIT_LOADER)
 			loader = new LoaderSubsystem(lights);
 		if (hookarm == null && RobotMap.INIT_HOOKARM)
 			hookarm = new HookArmSubsystem();
+		if (RobotMap.INIT_SMART_DASHBOARD) {
+			myPossition = new SendableChooser();
+			myPossition.addDefault("Possition Low Bar", 1);
+			myPossition.addObject("Possition 2", 2);
+			myPossition.addObject("Possition 3", 3);
+			myPossition.addObject("Possition 4", 4);
+			myPossition.addObject("Possition 5", 5);
+			SmartDashboard.putData("Possition Chooser", myPossition);
+			myObstacle = new SendableChooser();
+			myObstacle.addDefault("Obstacle: Low Bar", 0);
+			myObstacle.addObject("Obstacle: Portcullis ", 1);
+			myObstacle.addObject("Obstacle: Cheval de Frise", 2);
+			myObstacle.addObject("Obstacle: Ramparts", 3);
+			myObstacle.addObject("Obstacle: Moat", 4);
+			myObstacle.addObject("Drawbridge", 5);
+			myObstacle.addObject("Obstacle: Sally Port", 6);
+			myObstacle.addObject("Obstacle: Rock Wall", 7);
+			myObstacle.addObject("Obstacle: Rough Terrain", 8);
+			SmartDashboard.putData("Obstacle Chooser", myObstacle);
+			doNothing = new SendableChooser();
+			doNothing.addDefault("Do Something", false);
+			doNothing.addObject("Do Nothing", true);
+			SmartDashboard.putData("Do Nothing Selector", doNothing);
+			System.out.println("Dashboard Turned On");
+		
+		}
+	
 	}
 
 	/**
@@ -104,7 +135,7 @@ public class Robot extends IterativeRobot {
 			hookarm.startDisabled();
 		if (loader != null)
 			loader.startDisabled();
-		if (lights != null) 
+		if (lights != null)
 			lights.startDisabled();
 	}
 
@@ -125,39 +156,15 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousInit() {
 		Scheduler.getInstance().run();
-		
-		int defense = 0;
-		int startPos = 0;
+
 		boolean isRed = false;
 		boolean leftGoal = false;
-		for (int i = 0; i < RobotMap.DIPSWITCHCOUNT; i++) {
-			boolean bit = new DigitalInput(i + RobotMap.DIPSWITCHSTARTPORT).get();
-			int asNum = bit ? 1 : 0;
-			
-			if (i <= 3) {
-				defense |= (asNum << i);
-			}
-			
-			if ((i == 4 || i == 5) && defense != 0) {
-				startPos |= (asNum << (i - 4));
-			}
-			
-			if (i == 6) {
-				isRed = bit;
-			}
-			
-			if (i == 7) {
-				leftGoal = bit;
-			}
-		}
-		if (defense == 0) {
-			startPos = 1;
-		} else {
-			startPos += 2;
-		}
-		
+		boolean shouldDoNothing;
 		// Start of debug messages
 		String defenseStr;
+		int defense = (Integer) myObstacle.getSelected();
+		int startPos = (Integer) myPossition.getSelected();
+		shouldDoNothing = (Boolean) doNothing.getSelected();
 		switch (defense) {
 		case 0:
 			defenseStr = "Low bar";
@@ -192,24 +199,26 @@ public class Robot extends IterativeRobot {
 		}
 		System.out.printf("Defense: %s\nPosition: %d", defenseStr, startPos);
 		// End of debug messages
-		
-		if (flywheel != null)
-			flywheel.startAuto(defense, startPos, isRed, leftGoal);
+		if (!shouldDoNothing) {
+			if (flywheel != null)
+				flywheel.startAuto(defense, startPos, isRed, leftGoal);
 
-		if (drive != null)
-			drive.startAuto(defense, startPos, isRed, leftGoal);
+			if (drive != null)
+				drive.startAuto(defense, startPos, isRed, leftGoal);
 
-		if (hookarm != null)
-			hookarm.startAuto(defense, startPos, isRed, leftGoal);
+			if (hookarm != null)
+				hookarm.startAuto(defense, startPos, isRed, leftGoal);
 
-		if (loader != null)
-			loader.startAuto(defense, startPos, isRed, leftGoal);
-		
-		if (lights != null)
-			lights.startAuto(defense, startPos, isRed, leftGoal);	
-		autonomousCommand = new AutonomosCommand(defense, startPos, leftGoal, drive, loader, hookarm, flywheel, lights);
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+			if (loader != null)
+				loader.startAuto(defense, startPos, isRed, leftGoal);
+
+			if (lights != null)
+				lights.startAuto(defense, startPos, isRed, leftGoal);
+			autonomousCommand = new AutonomosCommand(defense, startPos, leftGoal, drive, loader, hookarm, flywheel,
+					lights);
+			if (autonomousCommand != null)
+				autonomousCommand.start();
+		}
 	}
 
 	/**
@@ -223,10 +232,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		new DataCollection(drive, hookarm, loader, lights, flywheel, imu).start();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
-	 	// continue until interrupted by another command, remove
+		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		Scheduler.getInstance().run();
 		if (autonomousCommand != null)
@@ -241,6 +249,8 @@ public class Robot extends IterativeRobot {
 			loader.startTeleop();
 		if (lights != null)
 			lights.startTeleop();
+
+		new DataCollection(drive, hookarm, loader, lights, flywheel, imu).start();
 	}
 
 	/**
@@ -259,9 +269,8 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
-	
+
 	public OI getOI() {
 		return oi;
 	}
 }
-

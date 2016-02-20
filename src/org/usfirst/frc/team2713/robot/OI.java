@@ -1,9 +1,9 @@
 package org.usfirst.frc.team2713.robot;
 
 import org.usfirst.frc.team2713.robot.commands.LightManager;
+
 import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateChevalDeFrise;
 import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateGate;
-import org.usfirst.frc.team2713.robot.exceptions.ControllerNotFound;
 import org.usfirst.frc.team2713.robot.commands.archive.ShootShot;
 import org.usfirst.frc.team2713.robot.commands.armCommands.MoveHook;
 import org.usfirst.frc.team2713.robot.commands.grabberCommands.ManualLoadBall;
@@ -55,21 +55,16 @@ public class OI {
 		}
 	}
 
-	public void initController() throws ControllerNotFound {
+	public void initController() {
 		for (int i = 0; i < 6; i++) {
 			Joystick test = new Joystick(i);
 			if (test.getName().equals(RobotMap.XBOX_NAME)) {
 				xbox = new XBoxController(i);
-				return;
 			}
-			
 			if (test.getName().equals(RobotMap.GAMEPAD_NAME)) {
 				gamepad = new Joystick(i);
-				return;
 			}
-		}
-		
-		throw new ControllerNotFound("No controller found. Is one attached?");
+		}	
 	}
 
 	public void loaderCommands(LoaderSubsystem loader, LightManager lights) {

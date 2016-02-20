@@ -2,6 +2,9 @@ package org.usfirst.frc.team2713.robot.commands;
 
 import org.usfirst.frc.team2713.robot.subsystems.LightSubsystem;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+
 public class LightManager extends LightSubsystem {
 
 	Boolean redOrBlue;
@@ -12,9 +15,9 @@ public class LightManager extends LightSubsystem {
 	boolean ballGrabbed;
 	boolean tilted;
 
-	public LightManager(Boolean redOrBlue) {
+	public LightManager() {
 		super();
-		this.redOrBlue = redOrBlue;
+		redOrBlue = DriverStation.getInstance().getAlliance() == Alliance.Red;
 	}
 
 	public void managerLights() {

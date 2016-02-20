@@ -60,8 +60,7 @@ public class DataCollection extends Command {
 	protected void execute() {
 		batteryVoltage.add(DriverStation.getInstance().getBatteryVoltage());
 		if (drive != null) {
-			driveTotal.add(Math.abs(drive.left.get()) + Math.abs(drive.right.get()) + Math.abs(drive.leftback.get())
-					+ Math.abs(drive.rightback.get()));
+			driveTotal.add(drive.getDriveTotal());
 		} else {
 			driveTotal.add(0.0);
 		}

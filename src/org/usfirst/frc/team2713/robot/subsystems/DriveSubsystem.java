@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
-import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.driveCommands.ArcadeDrive;
@@ -33,7 +32,7 @@ public class DriveSubsystem extends BaseSubsystem {
 		try {
 			rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
 			leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
-			
+
 			left = new CANTalon(RobotMap.LEFT_TANK);
 			left.changeControlMode(TalonControlMode.Follower);
 			left.set(RobotMap.LEFT_TANK_BACK);
@@ -42,8 +41,8 @@ public class DriveSubsystem extends BaseSubsystem {
 			right.changeControlMode(TalonControlMode.Follower);
 			right.set(RobotMap.RIGHT_TANK_BACK);
 		} catch(CANMessageNotFoundException ex) {
-			ex.printStackTrace();
-			return;
+			roboDrive = null;
+			throw new RuntimeException("Drive Cashed");
 		}
 		
 		roboDrive = new RobotDrive(leftback, rightback);
@@ -112,6 +111,11 @@ public class DriveSubsystem extends BaseSubsystem {
 	public void tankDrive(double left, double right, double deadband) {
 		double ban = deadband;
 		roboDrive.tankDrive(calcDeadband(left, ban), calcDeadband(right, ban));
+	}
+	
+	public double getDriveTotal() {
+		return (Math.abs(2 * Math.abs(right.get())
+				+ 2 * Math.abs(rightback.get())));
 	}
 
 }
