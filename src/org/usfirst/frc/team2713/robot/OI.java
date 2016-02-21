@@ -1,11 +1,11 @@
 package org.usfirst.frc.team2713.robot;
 
-import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateChevalDeFrise;
-import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateGate;
-import org.usfirst.frc.team2713.robot.commands.armCommands.MoveHook;
-import org.usfirst.frc.team2713.robot.commands.grabberCommands.ManualLoadBall;
-import org.usfirst.frc.team2713.robot.commands.grabberCommands.ManualMoveLoader;
-import org.usfirst.frc.team2713.robot.commands.grabberCommands.ShootBall;
+import org.usfirst.frc.team2713.robot.commands.arm.MoveHook;
+import org.usfirst.frc.team2713.robot.commands.grabber.ManualLoadBall;
+import org.usfirst.frc.team2713.robot.commands.grabber.ManualMoveLoader;
+import org.usfirst.frc.team2713.robot.commands.grabber.ShootBall;
+import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateChevalDeFrise;
+import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateGate;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
@@ -18,10 +18,10 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
 	private XBoxController xbox;
 	private Joystick gamepad;
-	private JoystickButton armup;
-	private JoystickButton armdown;
-	private JoystickButton loadin;
-	private JoystickButton loadout;
+	private JoystickButton armUp;
+	private JoystickButton armDown;
+	private JoystickButton loadIn;
+	private JoystickButton loadOut;
 	private JoystickButton loadUp;
 	private JoystickButton loadDown;
 	private JoystickButton shootball;
@@ -38,7 +38,7 @@ public class OI {
 	}
 	
 	public boolean manualMoveLoaderWheels() {
-		if(loadin.get() || loadout.get()) {
+		if(loadIn.get() || loadOut.get()) {
 			return true;
 		}
 		return false;
@@ -87,12 +87,12 @@ public class OI {
 				shootball.whenPressed(new ShootBall(loader, lights));
 			}
 			if (gamepad != null) {
-				loadin = new JoystickButton(gamepad, 5);
-				loadin.whileHeld(new ManualLoadBall(loader, -1));
-				loadin.whenReleased(new ManualLoadBall(loader, 0));
-				loadout = new JoystickButton(gamepad, 1);
-				loadout.whileHeld(new ManualLoadBall(loader, 1));
-				loadout.whenReleased(new ManualLoadBall(loader, 0));
+				loadIn = new JoystickButton(gamepad, 5);
+				loadIn.whileHeld(new ManualLoadBall(loader, -1));
+				loadIn.whenReleased(new ManualLoadBall(loader, 0));
+				loadOut = new JoystickButton(gamepad, 1);
+				loadOut.whileHeld(new ManualLoadBall(loader, 1));
+				loadOut.whenReleased(new ManualLoadBall(loader, 0));
 				loadUp = new JoystickButton(gamepad, 7);
 				loadUp.whileHeld(new ManualMoveLoader(loader, 2));
 				loadUp.whenReleased(new ManualMoveLoader(loader, 0));
@@ -105,12 +105,12 @@ public class OI {
 
 	public void hookArmCommands(HookArmSubsystem hookarm) {
 		if (hookarm != null && gamepad != null) {
-			armup = new JoystickButton(gamepad, 6);
-			armup.whileHeld(new MoveHook(hookarm, -10));
-			armup.whenReleased(new MoveHook(hookarm, 0));
-			armdown = new JoystickButton(gamepad, 2);
-			armdown.whileHeld(new MoveHook(hookarm, 10));
-			armdown.whenReleased(new MoveHook(hookarm, 0));
+			armUp = new JoystickButton(gamepad, 6);
+			armUp.whileHeld(new MoveHook(hookarm, -10));
+			armUp.whenReleased(new MoveHook(hookarm, 0));
+			armDown = new JoystickButton(gamepad, 2);
+			armDown.whileHeld(new MoveHook(hookarm, 10));
+			armDown.whenReleased(new MoveHook(hookarm, 0));
 		}
 	}
 

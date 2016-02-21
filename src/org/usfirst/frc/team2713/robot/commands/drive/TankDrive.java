@@ -1,41 +1,39 @@
-package org.usfirst.frc.team2713.robot.commands.driveCommands;
+package org.usfirst.frc.team2713.robot.commands.drive;
 
 import org.usfirst.frc.team2713.robot.input.XBoxController;
-import org.usfirst.frc.team2713.robot.input.imu.IMU;
+import org.usfirst.frc.team2713.robot.sensors.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ArcadeDriveJoystick extends Command{
-	
+public class TankDrive extends Command {
+
 	DriveSubsystem drive;
 	XBoxController xbox;
 	IMU imu;
-	Joystick gamepad;
-	
-	public ArcadeDriveJoystick(DriveSubsystem drive, Joystick gamepad, IMU imu) {
+
+	public TankDrive(DriveSubsystem drive, XBoxController xbox, IMU imu) {
 		this.drive = drive;
-		this.gamepad = gamepad;
+		this.xbox = xbox;
 		this.imu = imu;
-		requires(drive);
 	}
-	
+
 	double scaler;
 	double deadband;
 	double polarity;
-	@Override
-	protected void initialize() {
-		// TODO Auto-generated method stub
-		
+
+	protected void execute() {
+		scaler = 1.0;
+		deadband = 0.1;
+		polarity = -1;
+		drive.tankDrive(xbox.getLeftY() * scaler * polarity, xbox.getRightY() * scaler * polarity, deadband);
+		drive.powerTotal = Math.abs(xbox.getLeftY()) + 2 * Math.abs(xbox.getRightY());	
 	}
 
 	@Override
-	protected void execute() {
-		scaler =1.0;
-		deadband = 0.1;
-		polarity = -1;
-		//drive.arcadeDrive(((Object) gamepad).getXGamepad()*scaler*polarity, ((Object) gamepad).getYGamepad()*scaler*polarity, deadband);
+	protected void initialize() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -47,14 +45,13 @@ public class ArcadeDriveJoystick extends Command{
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
-

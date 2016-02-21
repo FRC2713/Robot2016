@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2713.robot.commands.grabberCommands;
+package org.usfirst.frc.team2713.robot.commands.grabber;
 
 import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.RobotMap;

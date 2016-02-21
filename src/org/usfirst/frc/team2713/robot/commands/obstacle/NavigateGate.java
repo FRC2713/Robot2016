@@ -1,9 +1,9 @@
-package org.usfirst.frc.team2713.robot.commands.ObstacleNavigation;
+package org.usfirst.frc.team2713.robot.commands.obstacle;
 
 import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.RobotMap;
-import org.usfirst.frc.team2713.robot.commands.armCommands.ArmPID;
-import org.usfirst.frc.team2713.robot.commands.driveCommands.GoForward;
+import org.usfirst.frc.team2713.robot.commands.arm.ArmPID;
+import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;

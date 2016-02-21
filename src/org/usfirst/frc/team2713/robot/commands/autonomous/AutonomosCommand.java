@@ -6,11 +6,11 @@ import org.usfirst.frc.team2713.robot.RobotMap;
 
 import org.usfirst.frc.team2713.robot.WayPoitMap;
 import org.usfirst.frc.team2713.robot.commands.GoToWayPoit;
-import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateBumpyObstacle;
-import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateChevalDeFrise;
-import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateGate;
-import org.usfirst.frc.team2713.robot.commands.driveCommands.GoForward;
-import org.usfirst.frc.team2713.robot.commands.grabberCommands.ShootBall;
+import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
+import org.usfirst.frc.team2713.robot.commands.grabber.ShootBall;
+import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateBumpyObstacle;
+import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateChevalDeFrise;
+import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateGate;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;

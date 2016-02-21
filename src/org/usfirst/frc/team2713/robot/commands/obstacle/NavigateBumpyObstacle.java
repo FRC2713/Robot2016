@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2713.robot.commands.ObstacleNavigation;
+package org.usfirst.frc.team2713.robot.commands.obstacle;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.input.XBoxController;

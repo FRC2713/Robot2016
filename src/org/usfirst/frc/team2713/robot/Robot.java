@@ -2,7 +2,7 @@ package org.usfirst.frc.team2713.robot;
 
 import org.usfirst.frc.team2713.robot.commands.LightUpdater;
 import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomosCommand;
-import org.usfirst.frc.team2713.robot.input.imu.IMU;
+import org.usfirst.frc.team2713.robot.sensors.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;

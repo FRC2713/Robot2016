@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2713.robot.commands.armCommands;
+package org.usfirst.frc.team2713.robot.commands.arm;
 
 import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.RobotMap;

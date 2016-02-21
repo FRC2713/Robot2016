@@ -68,13 +68,12 @@ public class RobotMap {
 	public static final boolean doMatchDance = true;
 	
 	//Loader Stuff
-	public static final int TIME_TO_LOWER_LOADER = 200;
 	public static final int TIME_TO_RELEASE_BALL = 200;
 	public static final int TIME_TO_LOAD_BALL = 200;
 	public static final double KiLoader = 0;
 	public static final double KdLoader = 0;
 	public static final double KpLoader = 2;
-	public static final double LOADER_LOWER_LIMIT = 0;
+	public static final double LOADER_LOWER_LIMIT = 0; //Might have to swap
 	public static final double LOADER_UPPER_LIMIT = Math.PI / 2;
 	
 	//Camera Stuff

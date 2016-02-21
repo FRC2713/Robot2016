@@ -2,9 +2,9 @@ package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
-import org.usfirst.frc.team2713.robot.commands.driveCommands.ArcadeDrive;
-import org.usfirst.frc.team2713.robot.commands.driveCommands.TankDrive;
-import org.usfirst.frc.team2713.robot.input.imu.IMU;
+import org.usfirst.frc.team2713.robot.commands.drive.ArcadeDrive;
+import org.usfirst.frc.team2713.robot.commands.drive.TankDrive;
+import org.usfirst.frc.team2713.robot.sensors.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightSubsystem;
 
 import edu.wpi.first.wpilibj.CANTalon;

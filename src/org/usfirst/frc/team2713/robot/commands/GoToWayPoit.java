@@ -1,8 +1,8 @@
 package org.usfirst.frc.team2713.robot.commands;
 
 import org.usfirst.frc.team2713.robot.WayPoit;
-import org.usfirst.frc.team2713.robot.commands.driveCommands.GoForward;
-import org.usfirst.frc.team2713.robot.commands.driveCommands.GoToAngle;
+import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
+import org.usfirst.frc.team2713.robot.commands.drive.GoToAngle;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 

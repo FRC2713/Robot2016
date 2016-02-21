@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2713.robot.commands.driveCommands;
+package org.usfirst.frc.team2713.robot.commands.drive;
 
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
@@ -39,13 +39,14 @@ public class GoToAngle extends Command{
 		if(xboxTotal > .1) {
 			drive.rightback.changeControlMode(TalonControlMode.PercentVbus);
 			drive.leftback.changeControlMode(TalonControlMode.PercentVbus);
-			isFinished = true;
+			return true;
 		}
 		if(drive.getAngleRotated() >= angle) {
 			drive.rightback.changeControlMode(TalonControlMode.PercentVbus);
 			drive.leftback.changeControlMode(TalonControlMode.PercentVbus);
+			return true;
 		}
-		return drive.getAngleRotated() >= angle;
+		return false;
 	}
 
 	@Override

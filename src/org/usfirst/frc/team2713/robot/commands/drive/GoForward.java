@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2713.robot.commands.driveCommands;
+package org.usfirst.frc.team2713.robot.commands.drive;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
