@@ -85,7 +85,7 @@ public class Robot extends IterativeRobot {
 			}
 		}
 		if (loader == null && RobotMap.INIT_LOADER)
-			loader = new LoaderSubsystem(lights);
+			loader = new LoaderSubsystem(lights, oi);
 		if (hookarm == null && RobotMap.INIT_HOOKARM)
 			hookarm = new HookArmSubsystem();
 		if (RobotMap.INIT_SMART_DASHBOARD) {
@@ -212,7 +212,7 @@ public class Robot extends IterativeRobot {
 			if (lights != null)
 				lights.startAuto(defense, startPos, isRed, leftGoal);
 			autonomousCommand = new AutonomosCommand(defense, startPos, leftGoal, drive, loader, hookarm,
-					lights);
+					lights, oi);
 			if (autonomousCommand != null)
 				autonomousCommand.start();
 		}

@@ -1,10 +1,11 @@
 package org.usfirst.frc.team2713.robot.commands.armCommands;
 
+import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.RobotMap;
+
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ArmPID extends Command {
@@ -12,17 +13,18 @@ public class ArmPID extends Command {
 	HookArmSubsystem hookarm;
 	double angle;
 	LightManager lightManager;
+	OI oi;
 
-	public ArmPID(HookArmSubsystem hookarm, double angle, LightManager lightManager) {
+	public ArmPID(HookArmSubsystem hookarm, double angle, LightManager lightManager, OI oi) {
 		this.hookarm = hookarm;
 		this.angle = angle;
 		this.lightManager = lightManager;
+		this.oi = oi;
 	}
 
 	@Override
 	protected void initialize() {
-		hookarm.arm.changeControlMode(TalonControlMode.Position);
-		//hookarm.setAngle(angle);
+		hookarm.setAngle(angle);
 	}
 
 	@Override
@@ -37,6 +39,10 @@ public class ArmPID extends Command {
 			if (lightManager != null) {
 				lightManager.finishPID();
 			}
+			return true;
+		}
+		if(oi.manualMoveLoader()) {
+			lightManager.finishPID();
 			return true;
 		}
 		return false;

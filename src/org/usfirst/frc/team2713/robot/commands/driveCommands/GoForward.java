@@ -1,8 +1,10 @@
 package org.usfirst.frc.team2713.robot.commands.driveCommands;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class GoForward extends Command {
@@ -13,17 +15,21 @@ public class GoForward extends Command {
 	double timesRun = 0;
 	boolean isFinished = false;
 	boolean shouldStopIfStuck;
+	XBoxController xbox;
 
-	public GoForward(DriveSubsystem drive, double distance, double polarity, boolean shouldStopIfStuck) {
+	public GoForward(DriveSubsystem drive, double distance, double polarity, boolean shouldStopIfStuck, XBoxController xbox) {
 		this.drive = drive;
 		this.distance = distance;
 		this.polarity = polarity;
 		this.shouldStopIfStuck = shouldStopIfStuck;
+		this.xbox = xbox;
 		requires(drive);
 	}
 
 	@Override
 	protected void initialize() {
+		drive.rightback.changeControlMode(TalonControlMode.Position);
+		drive.leftback.changeControlMode(TalonControlMode.Position);
 		drive.rightFrontWheelEncoder.reset();
 	}
 
@@ -45,8 +51,15 @@ public class GoForward extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		drive.move(0);
+		double xboxTotal = Math.abs(xbox.getRightY()) + Math.abs(xbox.getLeftY());
+		if(xboxTotal > .1) {
+			isFinished = true;
+		}
+ 		if(isFinished) {
+			drive.rightback.changeControlMode(TalonControlMode.PercentVbus);
+			drive.leftback.changeControlMode(TalonControlMode.PercentVbus);
+			drive.move(0);
+		}
 		return isFinished;
 	}
 

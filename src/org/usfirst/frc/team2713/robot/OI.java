@@ -36,6 +36,20 @@ public class OI {
 	public XBoxController getXbox() {
 		return xbox;
 	}
+	
+	public boolean manualMoveLoaderWheels() {
+		if(loadin.get() || loadout.get()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean manualMoveLoader() {
+		if(loadUp.get() || loadDown.get()) {
+			return true;
+		}
+		return false;
+	}
 
 	public Joystick getFightGamepad() {
 		return gamepad;
@@ -103,9 +117,9 @@ public class OI {
 	public void obstacleCommands(HookArmSubsystem hookarm, DriveSubsystem drive, LightManager lights) {
 		if (drive != null && hookarm != null && xbox != null) {
 			gateButton = new JoystickButton(xbox, 2);
-			gateButton.whenPressed(new NavigateGate(drive, hookarm, lights));
+			gateButton.whenPressed(new NavigateGate(drive, hookarm, lights, this));
 			chevalDeFriseButton = new JoystickButton(xbox, 3);
-			chevalDeFriseButton.whenPressed(new NavigateChevalDeFrise(drive, hookarm, lights));
+			chevalDeFriseButton.whenPressed(new NavigateChevalDeFrise(drive, hookarm, lights, this));
 		}
 	}
 

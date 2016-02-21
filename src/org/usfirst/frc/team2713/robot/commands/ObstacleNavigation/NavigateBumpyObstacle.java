@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2713.robot.commands.ObstacleNavigation;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
@@ -11,10 +12,12 @@ public class NavigateBumpyObstacle extends Command {
 	DriveSubsystem drive;
 	LightManager lights;
 	int count = 0;
-
-	public NavigateBumpyObstacle(DriveSubsystem drive, LightManager lights) {
+	XBoxController xbox;
+	
+	public NavigateBumpyObstacle(DriveSubsystem drive, LightManager lights, XBoxController xbox) {
 		this.drive = drive;
 		this.lights = lights;
+		this.xbox = xbox;
 	}
 
 	@Override
@@ -43,6 +46,10 @@ public class NavigateBumpyObstacle extends Command {
 			}
 		} else {
 			count = 0;
+		}
+		double xboxTotal = Math.abs(xbox.getRightY()) + Math.abs(xbox.getLeftY());
+		if(xboxTotal > .1) {
+			return true;
 		}
 		return false;
 	}

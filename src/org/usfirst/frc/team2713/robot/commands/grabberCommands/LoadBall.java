@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2713.robot.commands.grabberCommands;
 
+import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
@@ -12,10 +13,12 @@ public class LoadBall extends Command {
 	private double polarity = 1;
 	LoaderSubsystem loader;
 	LightManager lights;
+	OI oi;
 	
-	public LoadBall(LoaderSubsystem loader, LightManager lights) {
+	public LoadBall(LoaderSubsystem loader, LightManager lights, OI oi) {
 		this.lights = lights;
 		this.loader = loader;
+		this.oi = oi;
 		requires(loader);
 	}
 	
@@ -46,7 +49,10 @@ public class LoadBall extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
+		if(oi.manualMoveLoaderWheels()) {
+			loader.loadBall(0);
+			return true;
+		}
 		return false;
 	}
 

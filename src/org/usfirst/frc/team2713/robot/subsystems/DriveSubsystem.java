@@ -59,8 +59,7 @@ public class DriveSubsystem extends BaseSubsystem {
 
 	@Override
 	public void startAuto(int defense, int startPos, boolean isRed, boolean leftGoal) {
-		rightback.changeControlMode(TalonControlMode.Position);
-		leftback.changeControlMode(TalonControlMode.Position);
+
 	}
 	
 	/**

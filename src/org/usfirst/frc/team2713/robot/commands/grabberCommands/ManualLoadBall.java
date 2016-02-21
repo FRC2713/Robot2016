@@ -27,7 +27,10 @@ public class ManualLoadBall extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
+		if(polarity == 0) {
+			loader.ballLoader.set(0);
+			return true;
+		}
 		return false;
 	}
 
