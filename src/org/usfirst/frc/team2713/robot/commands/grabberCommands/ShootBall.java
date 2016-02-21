@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ShootBall extends Command {
 	
 	LoaderSubsystem loader;
-	boolean shouldFinish = false;
+	boolean shouldContinue = false;
 	LightManager lightManager;
 	
 	public ShootBall(LoaderSubsystem loader, LightManager lightManager) {
@@ -20,15 +20,18 @@ public class ShootBall extends Command {
 	@Override
 	protected void initialize() {
 		loader.stopLoadCommand();
+		loader.moveLoader.set(0);
 	}
 
 	@Override
 	protected void execute() {
-		if(loader.lockToShoot.get()) {
-			shouldFinish = true;
-		} else {
-			loader.moveLoader(1);
+		if(loader.moveLoader.get() < 0) {
+			shouldContinue = true;
 		}
+		if(shouldContinue) {
+			
+		}
+		
 	}
 	
 	public boolean releaseBall() {
@@ -40,15 +43,7 @@ public class ShootBall extends Command {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		loader.loadBall(0);
-		loader.moveLoader(-1);
-		try {
-			Thread.sleep(RobotMap.TIME_TO_LOWER_LOADER);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		loader.moveLoader(0);
+		loader.moveLoader.set(Math.PI / 2);
 		if(lightManager != null) {
 			lightManager.releaseBall();
 		}
@@ -58,7 +53,7 @@ public class ShootBall extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		if(shouldFinish) {
+		if(shouldContinue) {
 			return releaseBall();
 		}
 		return false;

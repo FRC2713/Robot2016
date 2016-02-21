@@ -23,8 +23,7 @@ public class LoadBall extends Command {
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		
+		loader.moveLoader.set(Math.PI / 4);
 	}
 
 	@Override

@@ -24,8 +24,8 @@ public class RobotMap {
 	public static final int RIGHT_TANK_BACK = 3;
 	public static final int ARM_MOTOR = 4;
 	public static final int SHOOTER_WHEEL_MOTOR = 6;
-	public static final int MOVE_LOAD_MOTOR = 8;
-	public static final int BALL_LOADER_MOTOR = 9;
+	public static final int MOVE_LOAD_MOTOR = 6;
+	public static final int BALL_LOADER_MOTOR = 7;
 	public static final int LIGHT_TALON = 10;
 
 	//Joystick stuff
@@ -73,7 +73,9 @@ public class RobotMap {
 	public static final int TIME_TO_LOAD_BALL = 200;
 	public static final double KiLoader = 0;
 	public static final double KdLoader = 0;
-	public static final double KpLoader = 1;
+	public static final double KpLoader = 2;
+	public static final double LOADER_LOWER_LIMIT = 0;
+	public static final double LOADER_UPPER_LIMIT = Math.PI / 2;
 	
 	//Camera Stuff
 	public static final int CAMERA = 0;
