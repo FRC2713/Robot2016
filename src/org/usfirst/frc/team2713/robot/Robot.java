@@ -1,7 +1,7 @@
 package org.usfirst.frc.team2713.robot;
 
 import org.usfirst.frc.team2713.robot.commands.LightUpdater;
-import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomosCommand;
+import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomousCommand;
 import org.usfirst.frc.team2713.robot.sensors.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
 	private SendableChooser myObstacle;
 	private SendableChooser doNothing;
 
-	AutonomosCommand autonomousCommand;
+	AutonomousCommand autonomousCommand;
 
 	static {
 		try {
@@ -205,14 +205,13 @@ public class Robot extends IterativeRobot {
 
 			if (hookarm != null)
 				hookarm.startAuto(defense, startPos, isRed, leftGoal);
-
 			if (loader != null)
 				loader.startAuto(defense, startPos, isRed, leftGoal);
 
 			if (lights != null)
 				lights.startAuto(defense, startPos, isRed, leftGoal);
-			autonomousCommand = new AutonomosCommand(defense, startPos, leftGoal, drive, loader, hookarm,
-					lights, oi);
+			autonomousCommand = new AutonomousCommand(defense, startPos, leftGoal, drive, loader, hookarm,
+					lights, oi, camera);
 			if (autonomousCommand != null)
 				autonomousCommand.start();
 		}

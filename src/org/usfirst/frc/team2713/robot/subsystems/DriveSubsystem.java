@@ -88,6 +88,8 @@ public class DriveSubsystem extends BaseSubsystem {
 	public void resetPosition() {
 		leftback.setPosition(0);
 		rightback.setPosition(0);
+		leftback.set(0);
+		rightback.set(0);
 	}
 	
 	/**
@@ -106,7 +108,11 @@ public class DriveSubsystem extends BaseSubsystem {
 		leftback.set(-pos);
 		rightback.set(pos);
 	}
-
+	
+	public double getDistanceTraveled() {
+		return rightback.getPosition();
+	}
+	
 	public double getAngleRotated() {
 		return rightback.getPosition() / (RobotMap.ROBOT_WIDTH / 2);
 	}

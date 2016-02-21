@@ -13,14 +13,13 @@ public class GoForward extends Command {
 	double polarity;
 	double distance;
 	double timesRun = 0;
-	boolean isFinished = false;
 	boolean shouldStopIfStuck;
 	XBoxController xbox;
 
-	public GoForward(DriveSubsystem drive, double distance, double polarity, boolean shouldStopIfStuck, XBoxController xbox) {
+
+	public GoForward(DriveSubsystem drive, double distance, boolean shouldStopIfStuck, XBoxController xbox) {
 		this.drive = drive;
 		this.distance = distance;
-		this.polarity = polarity;
 		this.shouldStopIfStuck = shouldStopIfStuck;
 		this.xbox = xbox;
 		requires(drive);
@@ -28,39 +27,24 @@ public class GoForward extends Command {
 
 	@Override
 	protected void initialize() {
-		drive.rightback.changeControlMode(TalonControlMode.Position);
-		drive.leftback.changeControlMode(TalonControlMode.Position);
-		drive.rightFrontWheelEncoder.reset();
+		drive.resetPosition();
+		drive.move(distance);
 	}
 
 	@Override
 	protected void execute() {
-		if ((drive.rightFrontWheelEncoder.get() < distance)) {
-			drive.move((distance - drive.rightFrontWheelEncoder.get() / distance) * polarity);
-			if (shouldStopIfStuck) {
-				timesRun++;
-				if (timesRun > 10 && isStuck()) {
-					isFinished = true;
-				}
-			}
-		} else {
-			isFinished = true;
-		}
-
 	}
 
 	@Override
 	protected boolean isFinished() {
 		double xboxTotal = Math.abs(xbox.getRightY()) + Math.abs(xbox.getLeftY());
 		if(xboxTotal > .1) {
-			isFinished = true;
-		}
- 		if(isFinished) {
 			drive.rightback.changeControlMode(TalonControlMode.PercentVbus);
 			drive.leftback.changeControlMode(TalonControlMode.PercentVbus);
 			drive.move(0);
+			return true;
 		}
-		return isFinished;
+		return drive.getDistanceTraveled() == distance;
 	}
 
 	@Override

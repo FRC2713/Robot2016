@@ -1,26 +1,17 @@
 package org.usfirst.frc.team2713.robot.commands;
 
-import org.usfirst.frc.team2713.robot.WayPoit;
+import org.usfirst.frc.team2713.robot.OI;
+import org.usfirst.frc.team2713.robot.Waypoit;
 import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
 import org.usfirst.frc.team2713.robot.commands.drive.GoToAngle;
-import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class GoToWayPoit extends CommandGroup{
-
-DriveSubsystem drive;
-double angle;
-double d;
+public class GoToWayPoit extends CommandGroup {
 	
-	public GoToWayPoit(DriveSubsystem drive, WayPoit w, XBoxController xbox){
-		this.drive = drive;
-		angle = w.ang;
-		d = w.d;
-		this.addSequential(new GoToAngle(drive, angle, xbox));
-		this.addSequential(new GoForward(drive, d, 1, true, xbox));
+	public GoToWayPoit(DriveSubsystem drive, Waypoit w, OI oi){
+		this.addSequential(new GoToAngle(drive, w.getAngle(), oi.getXbox()));
+		this.addSequential(new GoForward(drive, w.getDistance(), false, oi.getXbox()));
 	}
-
-
 }

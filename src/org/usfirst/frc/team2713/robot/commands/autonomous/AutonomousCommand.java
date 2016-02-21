@@ -3,8 +3,8 @@ package org.usfirst.frc.team2713.robot.commands.autonomous;
 
 import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.RobotMap;
-
-import org.usfirst.frc.team2713.robot.WayPoitMap;
+import org.usfirst.frc.team2713.robot.Waypoit;
+import org.usfirst.frc.team2713.robot.WaypoitMap;
 import org.usfirst.frc.team2713.robot.commands.GoToWayPoit;
 import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
 import org.usfirst.frc.team2713.robot.commands.grabber.ShootBall;
@@ -12,6 +12,7 @@ import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateBumpyObstacle;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateChevalDeFrise;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateGate;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
+import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
@@ -19,12 +20,21 @@ import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutonomosCommand extends CommandGroup {
+public class AutonomousCommand extends CommandGroup {
 
-	public AutonomosCommand(int startPos, int defense, boolean leftGoal, DriveSubsystem drive, LoaderSubsystem loader, HookArmSubsystem hookarm, LightManager lights, OI oi) {
-		this.addSequential(new GoToWayPoit(drive, WayPoitMap.One, oi.getXbox()));
-		manageDefenses(defense, drive, hookarm, lights, oi); 
-		this.addSequential(new GoToWayPoit(drive, WayPoitMap.GoalPoit[leftGoal ? 0 : 1][startPos], oi.getXbox()));
+	public AutonomousCommand(int startPos, int defense, boolean leftGoal, DriveSubsystem drive, LoaderSubsystem loader, HookArmSubsystem hookarm, LightManager lights, OI oi, CameraSubsystem camera) {
+		this.addSequential(new GoToWayPoit(drive, WaypoitMap.ONE, oi));
+		manageDefenses(defense, drive, hookarm, lights, oi);
+		
+		Waypoit waypoit;
+		if (leftGoal) {
+			waypoit = WaypoitMap.GOAL_POIT[0][startPos];
+		} else {
+			waypoit = WaypoitMap.GOAL_POIT[1][startPos - 3];
+		}
+		
+		this.addSequential(new GoToWayPoit(drive, waypoit, oi));
+		this.addSequential(new AlignCommand(leftGoal, drive, camera, oi));
 		this.addSequential(new ShootBall(loader, lights));
 	}
 	
@@ -62,7 +72,7 @@ public class AutonomosCommand extends CommandGroup {
 	}
 	
 	public void manageLowBar(DriveSubsystem drive, XBoxController xbox) {
-		this.addSequential(new GoForward(drive, RobotMap.LOW_BAR_DISTANCE, 1, false, xbox)); //Needs to be Adjusted
+		this.addSequential(new GoForward(drive, RobotMap.LOW_BAR_DISTANCE, false, xbox)); //Needs to be Adjusted
 	}
 	
 	public void manageGate(DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lights, OI oi) {
@@ -74,7 +84,7 @@ public class AutonomosCommand extends CommandGroup {
 	}
 	
 	public void manageSmallRamps(DriveSubsystem drive, XBoxController xbox) {
-		this.addSequential(new GoForward(drive, RobotMap.SMALL_RAMP_DISTANCE, 1, false, xbox)); //Needs to be adjusted
+		this.addSequential(new GoForward(drive, RobotMap.SMALL_RAMP_DISTANCE, false, xbox)); //Needs to be adjusted
 	}
 	
 	public void manageMoat(DriveSubsystem drive, LightManager lights, XBoxController xbox) {
