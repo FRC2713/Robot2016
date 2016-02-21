@@ -83,7 +83,8 @@ public class RobotMap {
 	public static final int TIME_TO_LOAD_BALL = 200;
 	
 	//Camera Stuff
-	public static final int CAMERA = 0;
+	public static final int BACK_CAMERA = 0;
+	public static final int FRONT_CAMERA = 1;
 	public static final int CAMERA_VIEW_ANGLE = 52;
 
 	//Obstacle Settings
@@ -99,8 +100,10 @@ public class RobotMap {
 	public static final double ROBOT_HEIGHT = 13.883;
 	
 	//Ultrasonic stuff
-	public static final int ULTRASONIC_TRIGGER_PORT = 6;
-	public static final int ULTRASONIC_ECHO_PORT = 5;
+	public static final int SIDE_ULTRASONIC_ECHO_PORT = 3;
+	public static final int SIDE_ULTRASONIC_TRIGGER_PORT = 4;
+	public static final int FRONT_ULTRASONIC_ECHO_PORT = 5;
+	public static final int FRONT_ULTRASONIC_TRIGGER_PORT = 6;
 	
 	public enum ColorThreshold {
 		HIGH_GOAL(new Scalar(35D, 64D, 48D, 0D), new Scalar(93D, 144D, 255D, 0D));

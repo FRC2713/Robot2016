@@ -5,6 +5,7 @@ import static org.opencv.imgproc.Imgproc.CHAIN_APPROX_SIMPLE;
 import static org.opencv.imgproc.Imgproc.COLOR_BGR2HLS;
 import static org.opencv.imgproc.Imgproc.RETR_LIST;
 import static org.opencv.imgproc.Imgproc.boundingRect;
+import static org.opencv.imgproc.Imgproc.contourArea;
 import static org.opencv.imgproc.Imgproc.cvtColor;
 import static org.opencv.imgproc.Imgproc.findContours;
 import static org.opencv.imgproc.Imgproc.resize;
@@ -23,10 +24,10 @@ import org.usfirst.frc.team2713.robot.RobotMap.ColorThreshold;
 
 public class CameraSubsystem extends BaseSubsystem {
 	private static final Size IMAGE_SIZE = new Size(320, 240);
-	private VideoCapture capture;
+	private VideoCapture processingCapture;
 	
 	public CameraSubsystem() {
-		capture = new VideoCapture(RobotMap.CAMERA);
+		processingCapture = new VideoCapture(RobotMap.BACK_CAMERA);
 		
 		/*
 		 * Rant time.
@@ -38,10 +39,10 @@ public class CameraSubsystem extends BaseSubsystem {
 		 * Oh, and, remember to use a version of OpenCV which supports these values.
 		 * ...we had to make our own.
 		 */
-		capture.set(Videoio.CAP_PROP_EXPOSURE_AUTO, 0.34D); // 0.34 * 3 is about 1, the Manual setting.
-		capture.set(Videoio.CAP_PROP_EXPOSURE_ABSOLUTE, 0D); // Sets exposure to 5, the minimum.
+		processingCapture.set(Videoio.CAP_PROP_EXPOSURE_AUTO, 0.34D); // 0.34 * 3 is about 1, the Manual setting.
+		processingCapture.set(Videoio.CAP_PROP_EXPOSURE_ABSOLUTE, 0D); // Sets exposure to 5, the minimum.
 		
-		if (!capture.isOpened()) {
+		if (!processingCapture.isOpened()) {
 			throw new RuntimeException("Camera capture couldn't be started.");
 		}
 	}
@@ -57,7 +58,7 @@ public class CameraSubsystem extends BaseSubsystem {
 	 */
 	public Mat getImageMat() {
 		Mat mat = new Mat();
-		capture.read(mat);
+		processingCapture.read(mat);
 		resize(mat, mat, IMAGE_SIZE);
 		return mat;
 	}
@@ -87,6 +88,46 @@ public class CameraSubsystem extends BaseSubsystem {
 		findContours(image, contours, null, RETR_LIST, CHAIN_APPROX_SIMPLE);
 		return contours;
 	}
+	
+	/**
+	 * Filter contours using a given minimum area.
+	 * 
+	 * @param contours List of contours to filter.
+	 * @param minArea Minimum area.
+	 * @return List of contours which have an area greater than or equal to the minimum area.
+	 */
+	public List<MatOfPoint> filterContoursByArea(List<MatOfPoint> contours, double minArea) {
+		List<MatOfPoint> mats = new ArrayList<MatOfPoint>();
+		for (MatOfPoint contour : contours) {
+			if (minArea <= contourArea(contour)) {
+				mats.add(contour);
+			}
+		}
+		return mats;
+	}
+	
+	/**
+	 * Returns the contour that appears closest.
+	 * It is useful for when there can be multiple contours of the same shape.
+	 * 
+	 * @param contours List of contours found
+	 * @param targetWidth Width of the target contour shape.
+	 * @return Closest contour, by approximation.
+	 * If two contours appear to be the same distance away,
+	 * the first contour accessed will be returned.
+	 */
+	public MatOfPoint getClosestContour(List<MatOfPoint> contours, double targetWidth) {
+		MatOfPoint closest = null;
+		double smallestDistance = Double.POSITIVE_INFINITY;
+		for (MatOfPoint contour : contours) {
+			double distance = findDistanceToContour(contour, targetWidth);
+			if (distance < smallestDistance) {
+				closest = contour;
+				smallestDistance = distance;
+			}
+		}
+		return closest;
+	}
 
 	/**
 	 * Approximates distance to an object using its contour's width.
@@ -102,7 +143,7 @@ public class CameraSubsystem extends BaseSubsystem {
 	
 	/**
 	 * Approximates angle to the center of a contour using its contour's width.
-	 * 
+	 * <p><p>
 	 * This function probably won't be very accurate, as the function
 	 * used to approximate distance relies on the contour being in the center
 	 * of view. This function will be used when it is very close, but not exact.
@@ -114,11 +155,11 @@ public class CameraSubsystem extends BaseSubsystem {
 	public double approximateAngleToContourCenter(MatOfPoint contour, double targetWidth) {
 		Rect rect = boundingRect(contour);
 		double apparentWidth = rect.width;
-		double apparentDistance = (rect.x - apparentWidth/2) - IMAGE_SIZE.width/2;
+		double apparentDistance = IMAGE_SIZE.width/2 - (rect.x + apparentWidth/2);
 		return Math.atan((apparentDistance * (targetWidth / apparentWidth))/findDistanceToContour(contour, targetWidth));
 	}
 	
 	public void releaseCamera() {
-		capture.release();
+		processingCapture.release();
 	}
 }

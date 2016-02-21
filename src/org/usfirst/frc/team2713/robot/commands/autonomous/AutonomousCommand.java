@@ -2,8 +2,8 @@ package org.usfirst.frc.team2713.robot.commands.autonomous;
 
 
 import org.usfirst.frc.team2713.robot.RobotMap;
-import org.usfirst.frc.team2713.robot.WayPoit;
-import org.usfirst.frc.team2713.robot.WayPoitMap;
+import org.usfirst.frc.team2713.robot.Waypoit;
+import org.usfirst.frc.team2713.robot.WaypoitMap;
 import org.usfirst.frc.team2713.robot.commands.GoToWayPoit;
 import org.usfirst.frc.team2713.robot.commands.LightManager;
 import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateBumpyObstacle;
@@ -11,6 +11,7 @@ import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateCheval
 import org.usfirst.frc.team2713.robot.commands.ObstacleNavigation.NavigateGate;
 import org.usfirst.frc.team2713.robot.commands.driveCommands.GoForward;
 import org.usfirst.frc.team2713.robot.commands.grabberCommands.ShootBall;
+import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
@@ -18,21 +19,21 @@ import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutonomosCommand extends CommandGroup {
+public class AutonomousCommand extends CommandGroup {
 
-	public AutonomosCommand(int startPos, int defense, boolean leftGoal, DriveSubsystem drive, LoaderSubsystem loader, HookArmSubsystem hookarm, FlywheelSubsystem flywheel, LightManager lights) {
-		this.addSequential(new GoToWayPoit(drive, WayPoitMap.One));
+	public AutonomousCommand(int startPos, int defense, boolean leftGoal, DriveSubsystem drive, LoaderSubsystem loader, HookArmSubsystem hookarm, FlywheelSubsystem flywheel, LightManager lights, CameraSubsystem camera) {
+		this.addSequential(new GoToWayPoit(drive, WaypoitMap.ONE));
 		manageDefenses(defense, drive, hookarm, lights);
 		
-		WayPoit waypoit;
+		Waypoit waypoit;
 		if (leftGoal) {
-			waypoit = WayPoitMap.GoalPoit[0][startPos];
+			waypoit = WaypoitMap.GOAL_POIT[0][startPos];
 		} else {
-			waypoit = WayPoitMap.GoalPoit[1][startPos - 3];
+			waypoit = WaypoitMap.GOAL_POIT[1][startPos - 3];
 		}
 		
 		this.addSequential(new GoToWayPoit(drive, waypoit));
-		
+		this.addSequential(new AlignCommand(leftGoal, drive, camera));
 		this.addSequential(new ShootBall(loader, lights));
 	}
 	

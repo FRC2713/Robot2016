@@ -1,9 +1,8 @@
 package org.usfirst.frc.team2713.robot;
 
 import org.usfirst.frc.team2713.robot.commands.DataCollection;
-
 import org.usfirst.frc.team2713.robot.commands.LightManager;
-import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomosCommand;
+import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomousCommand;
 import org.usfirst.frc.team2713.robot.input.imu.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
@@ -13,6 +12,8 @@ import org.usfirst.frc.team2713.robot.subsystems.archive.FlywheelSubsystem;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.Ultrasonic.Unit;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,7 +38,7 @@ public class Robot extends IterativeRobot {
 	private IMU imu;
 	//Find a way to get alliance side color
 
-	AutonomosCommand autonomousCommand;
+	AutonomousCommand autonomousCommand;
 	static {
 		try {
 			System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
@@ -53,7 +54,7 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		initSubsystems();
+		//initSubsystems();
 		
 		autonomousSwitches = new DigitalInput[RobotMap.DIPSWITCHCOUNT];
 		for (int i = 0; i < RobotMap.DIPSWITCHCOUNT; i++) {
@@ -207,7 +208,7 @@ public class Robot extends IterativeRobot {
 		
 		if (lights != null)
 			lights.startAuto(defense, startPos, isRed, leftGoal);	
-		autonomousCommand = new AutonomosCommand(defense, startPos, leftGoal, drive, loader, hookarm, flywheel, lights);
+		autonomousCommand = new AutonomousCommand(defense, startPos, leftGoal, drive, loader, hookarm, flywheel, lights, camera);
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 	}
