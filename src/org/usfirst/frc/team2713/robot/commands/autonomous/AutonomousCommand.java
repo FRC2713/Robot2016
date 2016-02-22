@@ -2,6 +2,7 @@ package org.usfirst.frc.team2713.robot.commands.autonomous;
 
 
 import org.usfirst.frc.team2713.robot.OI;
+import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.Waypoit;
 import org.usfirst.frc.team2713.robot.WaypoitMap;
@@ -22,9 +23,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonomousCommand extends CommandGroup {
 
-	public AutonomousCommand(int startPos, int defense, boolean leftGoal, DriveSubsystem drive, LoaderSubsystem loader, HookArmSubsystem hookarm, LightManager lights, OI oi, CameraSubsystem camera) {
-		this.addSequential(new GoToWayPoit(drive, WaypoitMap.ONE, oi));
-		manageDefenses(defense, drive, hookarm, lights, oi);
+	public AutonomousCommand(int startPos, int defense, boolean leftGoal, DriveSubsystem drive, LoaderSubsystem loader, HookArmSubsystem hookarm, LightManager lights, Robot robot, CameraSubsystem camera) {
+		this.addSequential(new GoToWayPoit(drive, WaypoitMap.ONE, robot.oi));
+		manageDefenses(defense, drive, hookarm, lights, robot);
 		
 		Waypoit waypoit;
 		if (leftGoal) {
@@ -33,27 +34,27 @@ public class AutonomousCommand extends CommandGroup {
 			waypoit = WaypoitMap.GOAL_POIT[1][startPos - 3];
 		}
 		
-		this.addSequential(new GoToWayPoit(drive, waypoit, oi));
-		this.addSequential(new AlignCommand(leftGoal, drive, camera, oi));
+		this.addSequential(new GoToWayPoit(drive, waypoit, robot.oi));
+		this.addSequential(new AlignCommand(leftGoal, drive, camera, robot.oi));
 		this.addSequential(new ShootBall(loader, lights));
 	}
 	
-	public void manageDefenses(int defense, DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lights, OI oi) {
+	public void manageDefenses(int defense, DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lights, Robot robot) {
 		switch (defense) {
 		case 0:
-			manageLowBar(drive, oi.getXbox());
+			manageLowBar(drive, robot.oi.getXbox());
 			break;
 		case 1:
-			manageGate(drive, hookarm, lights, oi);
+			manageGate(drive, hookarm, lights, robot);
 			break;
 		case 2:
-			manageChevalDeFrise(drive, hookarm, lights, oi);
+			manageChevalDeFrise(drive, hookarm, lights, robot);
 			break;
 		case 3:
-			manageSmallRamps(drive, oi.getXbox());
+			manageSmallRamps(drive, robot.oi.getXbox());
 			break;
 		case 4:
-			manageMoat(drive, lights, oi.getXbox());
+			manageMoat(drive, lights, robot.oi.getXbox());
 			break;
 		case 5:
 			manageDrawbridge();
@@ -62,10 +63,10 @@ public class AutonomousCommand extends CommandGroup {
 			manageSalyPort();
 			break;
 		case 7:
-			manageRockWall(drive, lights, oi.getXbox());
+			manageRockWall(drive, lights, robot.oi.getXbox());
 			break;
 		case 8:
-			manageRoughTerain(drive, lights, oi.getXbox());
+			manageRoughTerain(drive, lights, robot.oi.getXbox());
 			break;
 		}
 
@@ -75,12 +76,12 @@ public class AutonomousCommand extends CommandGroup {
 		this.addSequential(new GoForward(drive, RobotMap.LOW_BAR_DISTANCE, false, xbox)); //Needs to be Adjusted
 	}
 	
-	public void manageGate(DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lights, OI oi) {
-		this.addSequential(new NavigateGate(drive, hookarm, lights, oi));
+	public void manageGate(DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lights, Robot robot) {
+		this.addSequential(new NavigateGate(drive, hookarm, lights, robot));
 	}
 	
-	public void manageChevalDeFrise(DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lights, OI oi) {
-		this.addSequential(new NavigateChevalDeFrise(drive, hookarm, lights, oi));
+	public void manageChevalDeFrise(DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lights, Robot robot) {
+		this.addSequential(new NavigateChevalDeFrise(drive, hookarm, lights, robot));
 	}
 	
 	public void manageSmallRamps(DriveSubsystem drive, XBoxController xbox) {

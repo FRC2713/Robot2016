@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.OI;
+import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.grabber.LoadBall;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
@@ -18,9 +19,9 @@ public class LoaderSubsystem extends BaseSubsystem {
 	LoadBall loadCommand;
 	public DigitalInput loadswitch; // What if this isnt present? Backups!
 	LightManager lights;
-	OI oi;
+	Robot robot;
 
-	public LoaderSubsystem(LightManager lights, OI oi) {
+	public LoaderSubsystem(LightManager lights, Robot robot) {
 		moveLoader = new CANTalon(RobotMap.MOVE_LOAD_MOTOR);
 		moveLoader.configEncoderCodesPerRev(RobotMap.ENCODER_PULSE);
 		moveLoader.setPID(RobotMap.KpLoader, RobotMap.KiLoader, RobotMap.KdLoader);
@@ -28,7 +29,7 @@ public class LoaderSubsystem extends BaseSubsystem {
 		moveLoader.changeControlMode(TalonControlMode.Position);
 		ballLoader = new CANTalon(RobotMap.BALL_LOADER_MOTOR);
 		loadswitch = new DigitalInput(RobotMap.LOADER_LIMIT_SWITCH);
-		this.oi = oi;
+		this.robot = robot;
 		this.lights = lights;
 	}
 
@@ -64,7 +65,7 @@ public class LoaderSubsystem extends BaseSubsystem {
 		if (loadCommand != null) {
 			loadCommand.cancel();
 		}
-		loadCommand = new LoadBall(this, lights, oi);
+		loadCommand = new LoadBall(this, lights, robot.oi);
 		loadCommand.start();
 	}
 	

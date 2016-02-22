@@ -1,6 +1,6 @@
 package org.usfirst.frc.team2713.robot.commands.arm;
 
-import org.usfirst.frc.team2713.robot.OI;
+import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
 
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
@@ -13,13 +13,13 @@ public class ArmPID extends Command {
 	HookArmSubsystem hookarm;
 	double angle;
 	LightManager lightManager;
-	OI oi;
+	Robot robot;
 
-	public ArmPID(HookArmSubsystem hookarm, double angle, LightManager lightManager, OI oi) {
+	public ArmPID(HookArmSubsystem hookarm, double angle, LightManager lightManager, Robot robot) {
 		this.hookarm = hookarm;
 		this.angle = angle;
 		this.lightManager = lightManager;
-		this.oi = oi;
+		this.robot = robot;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class ArmPID extends Command {
 			}
 			return true;
 		}
-		if(oi.manualMoveLoader()) {
+		if(robot.oi.manualMoveLoader()) {
 			lightManager.finishPID();
 			return true;
 		}

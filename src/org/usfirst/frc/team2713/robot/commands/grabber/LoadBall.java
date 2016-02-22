@@ -31,6 +31,7 @@ public class LoadBall extends Command {
 
 	@Override
 	protected void execute() {
+		System.out.println(loader.moveLoader.get());
 		if(loader.loadswitch.get()) {
 			if(lights != null) {
 				lights.grabBall();

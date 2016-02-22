@@ -19,14 +19,12 @@ public class RobotMap {
 
 	//Talon stuff
 	public static final int LEFT_TANK = 1;
-	public static final int RIGHT_TANK = 3;
-	public static final int LEFT_TANK_BACK = 2;
-	public static final int RIGHT_TANK_BACK = 3;
-	public static final int ARM_MOTOR = 4;
-	public static final int SHOOTER_WHEEL_MOTOR = 6;
+	public static final int RIGHT_TANK = 2;
+	public static final int LEFT_TANK_BACK = 3;
+	public static final int RIGHT_TANK_BACK = 4;
+	public static final int ARM_MOTOR = 5;
 	public static final int MOVE_LOAD_MOTOR = 6;
 	public static final int BALL_LOADER_MOTOR = 7;
-	public static final int LIGHT_TALON = 10;
 
 	//Joystick stuff
 	public static final String XBOX_NAME = "Controller (XBOX 360 For Windows)";
@@ -42,7 +40,7 @@ public class RobotMap {
 	public static final double ARM_LOWER_LIMIT = 0;
 	public static final double ARM_UPPER_LIMIT = Math.PI;
 	public static final double ARM_ANGLE_STOP_POINT = .2;
-	public static final int ENCODER_PULSE = 256;
+	public static final int ENCODER_PULSE = 229;
 
 	//Drive Stuff
 	public static final double ACCELERATION_STOP_POINT = .1;
@@ -72,7 +70,7 @@ public class RobotMap {
 	public static final int TIME_TO_LOAD_BALL = 200;
 	public static final double KiLoader = 0;
 	public static final double KdLoader = 0;
-	public static final double KpLoader = 2;
+	public static final double KpLoader = .5;
 	public static final double LOADER_LOWER_LIMIT = 0; //Might have to swap
 	public static final double LOADER_UPPER_LIMIT = Math.PI / 2;
 	
