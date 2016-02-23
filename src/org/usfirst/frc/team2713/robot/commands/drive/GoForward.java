@@ -61,8 +61,9 @@ public class GoForward extends Command {
 
 	public boolean isStuck() {
 		if (drive.gyro != null) {
-			double acceleration = Math.sqrt(
-					drive.imu.getAccelX() * drive.imu.getAccelX() + drive.imu.getAccelY() * drive.imu.getAccelY());
+			double x = drive.gyro.getAccelX();
+			double y = drive.gyro.getAccelY();
+			double acceleration = Math.sqrt(x * x + y * y);
 			if (acceleration - RobotMap.ACCELERATION_STOP_POINT < 0
 					&& acceleration + RobotMap.ACCELERATION_STOP_POINT > 0) {
 				//return false;

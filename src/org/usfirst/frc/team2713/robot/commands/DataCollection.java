@@ -1,13 +1,11 @@
 package org.usfirst.frc.team2713.robot.commands;
 
 import java.io.File;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import org.usfirst.frc.team2713.robot.sensors.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
@@ -21,7 +19,6 @@ public class DataCollection extends Command {
 	HookArmSubsystem hookarm;
 	LoaderSubsystem loader;
 	LightSubsystem light;
-	IMU imu;
 	ArrayList<Double> batteryVoltage;
 	ArrayList<Double> armTotal;
 	ArrayList<Double> loaderTotal;
@@ -31,13 +28,11 @@ public class DataCollection extends Command {
 	ArrayList<Double> timeData;
 	double startTime;
 
-	public DataCollection(DriveSubsystem drive, HookArmSubsystem hookarm, LoaderSubsystem loader, LightSubsystem light,
-			IMU imu) {
+	public DataCollection(DriveSubsystem drive, HookArmSubsystem hookarm, LoaderSubsystem loader, LightSubsystem light) {
 		this.drive = drive;
 		this.hookarm = hookarm;
 		this.loader = loader;
 		this.light = light;
-		this.imu = imu;
 		batteryVoltage = new ArrayList<Double>();
 		driveTotal = new ArrayList<Double>();
 		armTotal = new ArrayList<Double>();
@@ -80,12 +75,6 @@ public class DataCollection extends Command {
 			lightTotal.add(0.0);
 		}
 		
-		if (imu != null) {
-			imuData.add((imu.getAngle()));
-		} else {
-			imuData.add(0.0);
-		}
-		
 		timeData.add(System.currentTimeMillis() - startTime);
 		try {
 			Thread.sleep(200);
@@ -117,7 +106,7 @@ public class DataCollection extends Command {
 		try {
 			write = new FileWriter(output);
 			PrintWriter print = new PrintWriter(write);
-			print.println("Time,Battery Voltage,Arm Power,Loader Power,Flywheel Power,Light Power,Drive Power,IMU Yaw");
+			print.println("Time,Battery Voltage,Arm Power,Loader Power,Flywheel Power,Light Power,Drive Power");
 			for (int i = 0; i < batteryVoltage.size(); i++) {
 				try {
 					print.print(timeData.get(i) + ",");
@@ -156,13 +145,6 @@ public class DataCollection extends Command {
 				if (driveTotal != null) {
 					try {
 						print.print(driveTotal.get(i) + ",");
-					} catch (IndexOutOfBoundsException ex) {
-
-					}
-				}
-				if (imu != null) {
-					try {
-						print.print(imuData.get(i) + ",");
 					} catch (IndexOutOfBoundsException ex) {
 
 					}

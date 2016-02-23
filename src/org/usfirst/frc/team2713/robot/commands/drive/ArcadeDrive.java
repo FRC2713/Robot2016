@@ -1,7 +1,6 @@
 package org.usfirst.frc.team2713.robot.commands.drive;
 
 import org.usfirst.frc.team2713.robot.input.XBoxController;
-import org.usfirst.frc.team2713.robot.sensors.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;

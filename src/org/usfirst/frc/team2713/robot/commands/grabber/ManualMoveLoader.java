@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2713.robot.commands.grabber;
 
-import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;

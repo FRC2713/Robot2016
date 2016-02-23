@@ -1,7 +1,5 @@
 package org.usfirst.frc.team2713.robot.commands.autonomous;
 
-
-import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.Waypoit;

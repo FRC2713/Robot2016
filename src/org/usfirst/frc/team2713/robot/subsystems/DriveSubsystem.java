@@ -1,14 +1,12 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.Robot;
-
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.drive.ArcadeDrive;
 import org.usfirst.frc.team2713.robot.commands.drive.TankDrive;
-import org.usfirst.frc.team2713.robot.sensors.IMU;
+import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightSubsystem;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Encoder;
@@ -25,15 +23,13 @@ public class DriveSubsystem extends BaseSubsystem {
 	public CANTalon leftback;
 	public CANTalon rightback;
 	private Robot robot;
-	public ADXRS450_Gyro gyro;
-	public IMU imu;
+	public GyroAccelWrapper gyro;
 	LightSubsystem lights = new LightSubsystem();
 	public double powerTotal;
 
-	public DriveSubsystem(Robot robot, ADXRS450_Gyro gyro, IMU imu) {
+	public DriveSubsystem(Robot robot, GyroAccelWrapper gyro) {
 		this.gyro = gyro;
 		this.robot = robot;
-		this.imu = imu;
 		
 		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
 		rightback.configEncoderCodesPerRev(RobotMap.ENCODER_PULSE);

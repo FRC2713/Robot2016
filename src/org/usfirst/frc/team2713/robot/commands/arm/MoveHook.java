@@ -1,9 +1,7 @@
 package org.usfirst.frc.team2713.robot.commands.arm;
 
-import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveHook extends Command {

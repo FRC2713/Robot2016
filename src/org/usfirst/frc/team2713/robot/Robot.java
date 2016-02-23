@@ -2,18 +2,15 @@ package org.usfirst.frc.team2713.robot;
 
 import org.usfirst.frc.team2713.robot.commands.LightUpdater;
 import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomousCommand;
-import org.usfirst.frc.team2713.robot.sensors.IMU;
+import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
 import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,11 +31,10 @@ public class Robot extends IterativeRobot {
 	private LightManager lights;
 	private LightUpdater lightUpdater;
 	private CameraSubsystem camera;
-	private IMU imu;
 	private SendableChooser myPossition;
 	private SendableChooser myObstacle;
 	private SendableChooser doNothing;
-	private ADXRS450_Gyro gyro;
+	private GyroAccelWrapper gyro;
 
 	AutonomousCommand autonomousCommand;
 
@@ -74,12 +70,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void initSubsystems() {
-		if (imu == null && RobotMap.INIT_IMU)
-			imu = new IMU();
-		if(gyro == null && RobotMap.INIT_GYRO) {
-			gyro = new ADXRS450_Gyro();
-			gyro.calibrate();
-		}
+		if(gyro == null && RobotMap.INIT_GYRO)
+			gyro = new GyroAccelWrapper(); //Calibrated in ADXRS450_Gyro constructor.
 		if (camera == null && RobotMap.INIT_CAMERA)
 			camera = new CameraSubsystem();
 		if (lights == null && RobotMap.INIT_LIGHTS) {
@@ -88,7 +80,7 @@ public class Robot extends IterativeRobot {
 		}
 		if (drive == null && RobotMap.INIT_DRIVE) {
 			try {
-				drive = new DriveSubsystem(this, gyro, imu);
+				drive = new DriveSubsystem(this, gyro);
 			} catch (RuntimeException ex) {
 				drive = null;
 			}

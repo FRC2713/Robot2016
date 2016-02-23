@@ -34,9 +34,11 @@ public class NavigateBumpyObstacle extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		if (drive.imu != null) {
+		if (drive.gyro != null) {
+			double roll = drive.gyro.getRoll();
+			double pitch = drive.gyro.getPitch();
 			double tilt = Math
-					.sqrt(drive.imu.getRoll() * drive.imu.getRoll() + drive.imu.getPitch() * drive.imu.getPitch());
+					.sqrt(roll * roll + pitch * pitch);
 			if (tilt - RobotMap.IS_TILTED_CONSTANT < 0 && tilt + RobotMap.IS_TILTED_CONSTANT > 0) {
 				// Checks if the robot is flat
 				count++;

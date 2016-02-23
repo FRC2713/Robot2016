@@ -54,7 +54,6 @@ public class RobotMap {
 	public static final boolean INIT_HOOKARM = false;
 	public static final boolean INIT_LOADER = false;
 	public static final boolean INIT_LIGHTS = false;
-	public static final boolean INIT_IMU = false;
 	public static final boolean INIT_CAMERA = false;
 	public static final boolean INIT_SMART_DASHBOARD = false;
 	public static final boolean INIT_GYRO = true;
