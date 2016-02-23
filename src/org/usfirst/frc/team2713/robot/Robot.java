@@ -9,8 +9,11 @@ import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,6 +38,7 @@ public class Robot extends IterativeRobot {
 	private SendableChooser myPossition;
 	private SendableChooser myObstacle;
 	private SendableChooser doNothing;
+	private ADXRS450_Gyro gyro;
 
 	AutonomousCommand autonomousCommand;
 
@@ -55,8 +59,9 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		initSubsystems();
 
-		oi = new OI(hookarm, loader, lights, drive, this);
-
+		oi = new OI();
+		
+		oi.initCommands(hookarm, loader, lights, drive, this);
 		SmartDashboard.putData(Scheduler.getInstance());
 
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -71,6 +76,10 @@ public class Robot extends IterativeRobot {
 	public void initSubsystems() {
 		if (imu == null && RobotMap.INIT_IMU)
 			imu = new IMU();
+		if(gyro == null && RobotMap.INIT_GYRO) {
+			gyro = new ADXRS450_Gyro();
+			gyro.calibrate();
+		}
 		if (camera == null && RobotMap.INIT_CAMERA)
 			camera = new CameraSubsystem();
 		if (lights == null && RobotMap.INIT_LIGHTS) {
@@ -79,7 +88,7 @@ public class Robot extends IterativeRobot {
 		}
 		if (drive == null && RobotMap.INIT_DRIVE) {
 			try {
-				drive = new DriveSubsystem(this, imu);
+				drive = new DriveSubsystem(this, gyro, imu);
 			} catch (RuntimeException ex) {
 				drive = null;
 			}
@@ -113,7 +122,7 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putData("Do Nothing Selector", doNothing);
 			System.out.println("Dashboard Turned On");
 		}
-	
+
 	}
 
 	/**
@@ -133,11 +142,11 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
-		if(lights != null) {
+		if (lights != null) {
 			lights.managerLights();
 			lightUpdater.updateLights();
 		}
+		Scheduler.getInstance().run();
 	}
 
 	/**
@@ -152,10 +161,7 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
-		Scheduler.getInstance().run();
-		hookarm.resetPostition();
-		drive.resetPosition();
-		loader.resetPossition();
+		resetEncoders();
 		boolean isRed = false;
 		boolean leftGoal = false;
 		boolean shouldDoNothing;
@@ -210,11 +216,12 @@ public class Robot extends IterativeRobot {
 
 			if (lights != null)
 				lights.startAuto(defense, startPos, isRed, leftGoal);
-			autonomousCommand = new AutonomousCommand(defense, startPos, leftGoal, drive, loader, hookarm,
-					lights, this, camera);
+			autonomousCommand = new AutonomousCommand(defense, startPos, leftGoal, drive, loader, hookarm, lights, this,
+					camera);
 			if (autonomousCommand != null)
 				autonomousCommand.start();
 		}
+		Scheduler.getInstance().run();
 	}
 
 	/**
@@ -229,11 +236,13 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
+		if (RobotMap.TEST) {
+			resetEncoders();
+		}
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		Scheduler.getInstance().run();
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		System.out.println(drive);
@@ -245,13 +254,15 @@ public class Robot extends IterativeRobot {
 			loader.startTeleop();
 		if (lights != null)
 			lights.startTeleop();
-		//new DataCollection(drive, hookarm, loader, lights, imu).start();
+		// new DataCollection(drive, hookarm, loader, lights, imu).start();
+		Scheduler.getInstance().run();
 	}
 
 	/**
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		System.out.println(gyro.getAngle());
 		Scheduler.getInstance().run();
 		if (lights != null) {
 			lights.managerLights();
@@ -268,5 +279,20 @@ public class Robot extends IterativeRobot {
 
 	public OI getOI() {
 		return oi;
+	}
+
+	public void resetEncoders() {
+		if (hookarm != null) {
+			hookarm.resetPostition();
+		}
+		if (drive != null) {
+			drive.resetPosition();
+		}
+		if (loader != null) {
+			loader.resetPossition();
+		}
+		if(gyro != null) {
+			gyro.reset();
+		}
 	}
 }

@@ -47,7 +47,7 @@ public class AlignCommand extends CommandGroup {
 		ultrasonicFront = createUltrasonic(RobotMap.FRONT_ULTRASONIC_TRIGGER_PORT, RobotMap.FRONT_ULTRASONIC_ECHO_PORT);
 		ultrasonicSide = createUltrasonic(RobotMap.SIDE_ULTRASONIC_TRIGGER_PORT, RobotMap.SIDE_ULTRASONIC_ECHO_PORT);
 		
-		this.addSequential(new CorrectDistance(drive.imu.getAngle())); //<-- Lazy stuff happens here
+		this.addSequential(new CorrectDistance(drive.gyro.getAngle())); //<-- Lazy stuff happens here
 		this.addSequential(new GoToWayPoit(drive, correctionWaypoit, oi));
 		this.addSequential(new GoToAngle(drive, 60 * (isLeft ? -1 : 1), oi.getXbox()));
 		

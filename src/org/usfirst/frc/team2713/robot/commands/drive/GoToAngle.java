@@ -15,7 +15,7 @@ public class GoToAngle extends Command{
 	
 	public GoToAngle(DriveSubsystem drive, double angle, XBoxController xbox) {
 		this.drive = drive;
-		this.angle = angle - drive.imu.getAngle();
+		this.angle = angle - drive.gyro.getAngle();
 		this.xbox = xbox;
 		requires(drive);
 	}

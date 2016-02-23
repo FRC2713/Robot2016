@@ -7,9 +7,11 @@ import org.usfirst.frc.team2713.robot.commands.drive.TankDrive;
 import org.usfirst.frc.team2713.robot.sensors.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightSubsystem;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 public class DriveSubsystem extends BaseSubsystem {
@@ -22,17 +24,22 @@ public class DriveSubsystem extends BaseSubsystem {
 	public CANTalon leftback;
 	public CANTalon rightback;
 	private Robot robot;
+	public ADXRS450_Gyro gyro;
 	public IMU imu;
 	LightSubsystem lights = new LightSubsystem();
 	public double powerTotal;
 
-	public DriveSubsystem(Robot robot, IMU imu) {
-		this.imu = imu;
+	public DriveSubsystem(Robot robot, ADXRS450_Gyro gyro, IMU imu) {
+		this.gyro = gyro;
 		this.robot = robot;
+		this.imu = imu;
 		
 		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
+		rightback.configEncoderCodesPerRev(RobotMap.ENCODER_PULSE);
+		
 		leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
-
+		leftback.configEncoderCodesPerRev(RobotMap.ENCODER_PULSE);
+		
 		left = new CANTalon(RobotMap.LEFT_TANK);
 		left.changeControlMode(TalonControlMode.Follower);
 		left.set(RobotMap.LEFT_TANK_BACK);
@@ -50,9 +57,9 @@ public class DriveSubsystem extends BaseSubsystem {
 		leftback.changeControlMode(TalonControlMode.PercentVbus);
 		if (robot.getOI().getXbox() != null) {
 			if (RobotMap.isTank) {
-				new TankDrive(this, robot.getOI().getXbox(), imu).start();
+				new TankDrive(this, robot.getOI().getXbox(), gyro).start();
 			} else {
-				new ArcadeDrive(this, robot.getOI().getXbox(), imu).start();
+				new ArcadeDrive(this, robot.getOI().getXbox(), gyro).start();
 			}
 		}
 	}

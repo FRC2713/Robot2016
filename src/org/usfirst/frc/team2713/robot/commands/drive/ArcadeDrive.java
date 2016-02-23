@@ -4,18 +4,19 @@ import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.sensors.IMU;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ArcadeDrive extends Command{
 	
 	DriveSubsystem drive;
 	XBoxController xbox;
-	IMU imu;
+	ADXRS450_Gyro gyro;
 	
-	public ArcadeDrive(DriveSubsystem drive, XBoxController xbox, IMU imu) {
+	public ArcadeDrive(DriveSubsystem drive, XBoxController xbox, ADXRS450_Gyro gyro) {
 		this.drive = drive;
 		this.xbox = xbox;
-		this.imu = imu;
+		this.gyro = gyro;
 		requires(drive);
 		System.out.println("Hi!");
 	}
@@ -34,6 +35,7 @@ public class ArcadeDrive extends Command{
 		scaler =1.0;
 		deadband = 0.1;
 		polarity = -1;
+		System.out.println(drive.rightback.getPosition());
 		drive.arcadeDrive(xbox.getLeftY()*scaler*polarity, xbox.getRightX()*scaler*polarity, deadband);
 		drive.powerTotal = Math.abs(xbox.getLeftY()) + 2 * Math.abs(xbox.getRightX());
 	}

@@ -30,7 +30,6 @@ public class HookArmSubsystem extends BaseSubsystem {
 	
 	public void resetPostition() {
 		arm.setPosition(0);
-		arm.set(0);
 	}
 
 }

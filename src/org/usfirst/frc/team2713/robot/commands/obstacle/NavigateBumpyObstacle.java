@@ -13,7 +13,8 @@ public class NavigateBumpyObstacle extends Command {
 	LightManager lights;
 	int count = 0;
 	XBoxController xbox;
-	
+	double startTime;
+
 	public NavigateBumpyObstacle(DriveSubsystem drive, LightManager lights, XBoxController xbox) {
 		this.drive = drive;
 		this.lights = lights;
@@ -22,8 +23,7 @@ public class NavigateBumpyObstacle extends Command {
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-
+		startTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -34,21 +34,28 @@ public class NavigateBumpyObstacle extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		double tilt = Math
-				.sqrt(drive.imu.getRoll() * drive.imu.getRoll() + drive.imu.getPitch() * drive.imu.getPitch());
-		if (tilt - RobotMap.IS_TILTED_CONSTANT < 0 && tilt + RobotMap.IS_TILTED_CONSTANT > 0) {
-			// Checks if the robot is flat
-			count++;
-			if (count > 10) {
-				lights.setTilted(false);
+		if (drive.imu != null) {
+			double tilt = Math
+					.sqrt(drive.imu.getRoll() * drive.imu.getRoll() + drive.imu.getPitch() * drive.imu.getPitch());
+			if (tilt - RobotMap.IS_TILTED_CONSTANT < 0 && tilt + RobotMap.IS_TILTED_CONSTANT > 0) {
+				// Checks if the robot is flat
+				count++;
+				if (count > 10) {
+					lights.setTilted(false);
+					drive.move(0);
+					return true;
+				}
+			} else {
+				count = 0;
+			}
+		} else {
+			if(System.currentTimeMillis() - startTime > 5000) {
 				drive.move(0);
 				return true;
 			}
-		} else {
-			count = 0;
 		}
 		double xboxTotal = Math.abs(xbox.getRightY()) + Math.abs(xbox.getLeftY());
-		if(xboxTotal > .1) {
+		if (xboxTotal > .1) {
 			return true;
 		}
 		return false;

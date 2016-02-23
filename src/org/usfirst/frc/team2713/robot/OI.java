@@ -56,8 +56,11 @@ public class OI {
 		return gamepad;
 	}
 
-	public OI(HookArmSubsystem hookarm, LoaderSubsystem loader, LightManager lights, DriveSubsystem drive, Robot robot) {
+	public OI() {
 		initController();
+	}
+	
+	public void initCommands(HookArmSubsystem hookarm, LoaderSubsystem loader, LightManager lights, DriveSubsystem drive, Robot robot) {
 		loaderCommands(loader, lights);
 		hookArmCommands(hookarm);
 		obstacleCommands(hookarm, drive, lights, robot);

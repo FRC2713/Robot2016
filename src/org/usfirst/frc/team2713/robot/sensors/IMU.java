@@ -41,7 +41,7 @@ public class IMU extends ADIS16448_IMU {
 	
 	@Override
 	public double getAngle(){
-		return super.getAngle() - angleOffset;
+		return super.getAngle();
 	}
 	
 	public void refreshDashboard() {

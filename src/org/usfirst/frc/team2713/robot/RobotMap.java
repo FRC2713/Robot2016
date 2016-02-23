@@ -18,9 +18,9 @@ public class RobotMap {
 	public static final boolean isTank = false; // Else Arcade Drive
 
 	//Talon stuff
-	public static final int LEFT_TANK = 1;
-	public static final int RIGHT_TANK = 2;
-	public static final int LEFT_TANK_BACK = 3;
+	public static final int LEFT_TANK = 2;
+	public static final int RIGHT_TANK = 3;
+	public static final int LEFT_TANK_BACK = 1;
 	public static final int RIGHT_TANK_BACK = 4;
 	public static final int ARM_MOTOR = 5;
 	public static final int MOVE_LOAD_MOTOR = 6;
@@ -40,20 +40,21 @@ public class RobotMap {
 	public static final double ARM_LOWER_LIMIT = 0;
 	public static final double ARM_UPPER_LIMIT = Math.PI;
 	public static final double ARM_ANGLE_STOP_POINT = .2;
-	public static final int ENCODER_PULSE = 229;
+	public static final int ENCODER_PULSE = 1;
 
 	//Drive Stuff
 	public static final double ACCELERATION_STOP_POINT = .1;
 	public static final double IS_TILTED_CONSTANT = .1;
 
-	//Initilization stuff
+	//Initialization stuff
 	public static final boolean INIT_DRIVE = false;
 	public static final boolean INIT_HOOKARM = false;
-	public static final boolean INIT_LOADER = true;
+	public static final boolean INIT_LOADER = false;
 	public static final boolean INIT_LIGHTS = false;
 	public static final boolean INIT_IMU = false;
 	public static final boolean INIT_CAMERA = false;
-	public static final boolean INIT_SMART_DASHBOARD = true;
+	public static final boolean INIT_SMART_DASHBOARD = false;
+	public static final boolean INIT_GYRO = true;
 	
 	//Limit Switches
 	public static final int LOADER_LIMIT_SWITCH = 0;
@@ -70,7 +71,7 @@ public class RobotMap {
 	public static final int TIME_TO_LOAD_BALL = 200;
 	public static final double KiLoader = 0;
 	public static final double KdLoader = 0;
-	public static final double KpLoader = .5;
+	public static final double KpLoader = 5;
 	public static final double LOADER_LOWER_LIMIT = 0; //Might have to swap
 	public static final double LOADER_UPPER_LIMIT = Math.PI / 2;
 	
@@ -97,6 +98,8 @@ public class RobotMap {
 	public static final int SIDE_ULTRASONIC_TRIGGER_PORT = 4;
 	public static final int FRONT_ULTRASONIC_ECHO_PORT = 5;
 	public static final int FRONT_ULTRASONIC_TRIGGER_PORT = 6;
+
+	public static final boolean TEST = true;
 	
 	public enum ColorThreshold {
 		HIGH_GOAL(new Scalar(35D, 64D, 48D, 0D), new Scalar(93D, 144D, 255D, 0D));

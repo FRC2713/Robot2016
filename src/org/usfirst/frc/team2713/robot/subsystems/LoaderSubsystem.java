@@ -23,9 +23,10 @@ public class LoaderSubsystem extends BaseSubsystem {
 
 	public LoaderSubsystem(LightManager lights, Robot robot) {
 		moveLoader = new CANTalon(RobotMap.MOVE_LOAD_MOTOR);
+		moveLoader.reverseSensor(true);
 		moveLoader.configEncoderCodesPerRev(RobotMap.ENCODER_PULSE);
 		moveLoader.setPID(RobotMap.KpLoader, RobotMap.KiLoader, RobotMap.KdLoader);
-		moveLoader.setPIDSourceType(PIDSourceType.kRate);
+		moveLoader.setPIDSourceType(PIDSourceType.kDisplacement);
 		moveLoader.changeControlMode(TalonControlMode.Position);
 		ballLoader = new CANTalon(RobotMap.BALL_LOADER_MOTOR);
 		loadswitch = new DigitalInput(RobotMap.LOADER_LIMIT_SWITCH);
@@ -71,6 +72,5 @@ public class LoaderSubsystem extends BaseSubsystem {
 	
 	public void resetPossition() {
 		moveLoader.setPosition(0);
-		moveLoader.set(0);
 	}
 }

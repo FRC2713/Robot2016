@@ -24,12 +24,14 @@ public class ManualMoveLoader extends Command {
 	@Override
 	protected void execute() {
 		loader.moveLoader(loader.moveLoader.get() + (Math.PI / 180) * polarity);
+		/*
 		if(loader.moveLoader.get() > RobotMap.LOADER_UPPER_LIMIT) {
 			loader.moveLoader.set(RobotMap.LOADER_UPPER_LIMIT);
 		}
 		if(loader.moveLoader.get() < RobotMap.LOADER_LOWER_LIMIT) {
 			loader.moveLoader.set(RobotMap.LOADER_LOWER_LIMIT);
 		}
+		*/
 	}
 
 	@Override
