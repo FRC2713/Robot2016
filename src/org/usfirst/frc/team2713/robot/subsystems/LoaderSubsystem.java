@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
-import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.grabber.LoadBall;
@@ -10,7 +9,6 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
-import edu.wpi.first.wpilibj.can.CANMessageNotFoundException;
 
 public class LoaderSubsystem extends BaseSubsystem {
 
@@ -28,6 +26,10 @@ public class LoaderSubsystem extends BaseSubsystem {
 		moveLoader.setPID(RobotMap.KpLoader, RobotMap.KiLoader, RobotMap.KdLoader);
 		moveLoader.setPIDSourceType(PIDSourceType.kDisplacement);
 		moveLoader.changeControlMode(TalonControlMode.Position);
+		moveLoader.setForwardSoftLimit(RobotMap.LOADER_UPPER_LIMIT);
+		moveLoader.enableForwardSoftLimit(true);
+		moveLoader.setReverseSoftLimit(RobotMap.LOADER_LOWER_LIMIT);
+		moveLoader.enableReverseSoftLimit(true);
 		ballLoader = new CANTalon(RobotMap.BALL_LOADER_MOTOR);
 		loadswitch = new DigitalInput(RobotMap.LOADER_LIMIT_SWITCH);
 		this.robot = robot;

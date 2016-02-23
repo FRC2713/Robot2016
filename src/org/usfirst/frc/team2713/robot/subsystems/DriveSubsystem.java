@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.Robot;
+
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.drive.ArcadeDrive;
 import org.usfirst.frc.team2713.robot.commands.drive.TankDrive;
@@ -36,9 +37,13 @@ public class DriveSubsystem extends BaseSubsystem {
 		
 		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
 		rightback.configEncoderCodesPerRev(RobotMap.ENCODER_PULSE);
+		rightback.setPID(RobotMap.KpDrive, RobotMap.KiDrive, RobotMap.KiDrive);
+		rightback.setPIDSourceType(PIDSourceType.kRate);
 		
 		leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
 		leftback.configEncoderCodesPerRev(RobotMap.ENCODER_PULSE);
+		leftback.setPID(RobotMap.KpDrive, RobotMap.KiDrive, RobotMap.KiDrive);
+		leftback.setPIDSourceType(PIDSourceType.kRate);
 		
 		left = new CANTalon(RobotMap.LEFT_TANK);
 		left.changeControlMode(TalonControlMode.Follower);

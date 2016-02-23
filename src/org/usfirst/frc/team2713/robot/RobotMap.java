@@ -45,6 +45,9 @@ public class RobotMap {
 	//Drive Stuff
 	public static final double ACCELERATION_STOP_POINT = .1;
 	public static final double IS_TILTED_CONSTANT = .1;
+	public static final double KpDrive = .1;
+	public static final double KiDrive = .00;
+	public static final double KdDrive = .0;
 
 	//Initialization stuff
 	public static final boolean INIT_DRIVE = false;

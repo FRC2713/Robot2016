@@ -23,15 +23,7 @@ public class MoveHook extends Command {
 
 	@Override
 	protected void execute() {
-		if(hookarm.arm.get() < RobotMap.ARM_UPPER_LIMIT && hookarm.arm.get() > RobotMap.ARM_LOWER_LIMIT) {
-			if(hookarm.arm.get() + (Math.PI / 180.0) * polarity > RobotMap.ARM_UPPER_LIMIT) {
-				hookarm.setAngle(RobotMap.ARM_UPPER_LIMIT);
-			} else if(hookarm.arm.get() + (Math.PI / 180.0) * polarity < RobotMap.ARM_LOWER_LIMIT) {
-				hookarm.setAngle(RobotMap.ARM_LOWER_LIMIT);
-			} else {
-				hookarm.setAngle(hookarm.arm.get() + (Math.PI / 180.0) * polarity);
-			}
-		}	
+		hookarm.setAngle(hookarm.arm.get() + (Math.PI / 180.0) * polarity);
 	}
 
 	@Override

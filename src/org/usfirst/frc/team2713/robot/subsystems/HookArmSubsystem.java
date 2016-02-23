@@ -18,6 +18,10 @@ public class HookArmSubsystem extends BaseSubsystem {
 		arm.setPID(RobotMap.KpArm, RobotMap.KiArm, RobotMap.KdArm);
 		arm.setPIDSourceType(PIDSourceType.kRate);
 		arm.changeControlMode(TalonControlMode.Position);
+		arm.setForwardSoftLimit(RobotMap.ARM_UPPER_LIMIT);
+		arm.enableForwardSoftLimit(true);
+		arm.setReverseSoftLimit(RobotMap.ARM_LOWER_LIMIT);
+		arm.enableReverseSoftLimit(true);
 	}
 
 	@Override
