@@ -44,7 +44,7 @@ public class RobotMap {
 
 	//Drive Stuff
 	public static final double ACCELERATION_STOP_POINT = .1;
-	public static final double IS_TILTED_CONSTANT = .1;
+	public static final double IS_TILTED_CONSTANT = 1;
 	public static final double KpDrive = .1;
 	public static final double KiDrive = .00;
 	public static final double KdDrive = .0;
@@ -94,7 +94,6 @@ public class RobotMap {
 	public static final double ROBOT_LENGTH = 28.31; //Front to back
 	public static final double ROBOT_HEIGHT = 13.883;
 
-	
 	//Ultrasonic stuff
 	public static final int SIDE_ULTRASONIC_ECHO_PORT = 3;
 	public static final int SIDE_ULTRASONIC_TRIGGER_PORT = 4;

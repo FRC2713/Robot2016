@@ -19,13 +19,13 @@ public class GyroAccelWrapper extends ADXRS450_Gyro {
 	public double getRoll() {
 		double z = accel.getZ();
 		double y = accel.getY();
-		return Math.atan2(y, z);
+		return Math.atan(y / z) * 180.0 / Math.PI;
 	}
 	
 	public double getPitch() {
 		double x = accel.getX();
 		double z = accel.getZ();
-		return Math.atan2(-x, Math.sqrt(x * x + z * z));
+		return Math.atan(-x / Math.sqrt(x * x + z * z)) * 180.0 / Math.PI;
 	}
 	
 	public double getAccelX() {

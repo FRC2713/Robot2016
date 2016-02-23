@@ -153,7 +153,7 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
-		resetEncoders();
+		resetSensors();
 		boolean isRed = false;
 		boolean leftGoal = false;
 		boolean shouldDoNothing;
@@ -229,7 +229,7 @@ public class Robot extends IterativeRobot {
 
 	public void teleopInit() {
 		if (RobotMap.TEST) {
-			resetEncoders();
+			resetSensors();
 		}
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
@@ -254,7 +254,6 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		System.out.println(gyro.getAngle());
 		Scheduler.getInstance().run();
 		if (lights != null) {
 			lights.managerLights();
@@ -273,7 +272,7 @@ public class Robot extends IterativeRobot {
 		return oi;
 	}
 
-	public void resetEncoders() {
+	public void resetSensors() {
 		if (hookarm != null) {
 			hookarm.resetPostition();
 		}
