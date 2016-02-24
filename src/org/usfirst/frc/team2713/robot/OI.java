@@ -88,11 +88,12 @@ public class OI {
 		
 		if (loader != null) {
 			if (xbox != null) {
-				shootball = new JoystickButton(xbox, 1);
+				shootball = new JoystickButton(gamepad, 4);
 				shootball.whenPressed(new ShootBall(loader, lights));
 			}
 			
 			if (gamepad != null) {
+				System.out.println("Gamepad");
 				loadIn = new JoystickButton(gamepad, 5);
 				loadIn.whileHeld(new ManualLoadBall(loader, -1));
 				loadIn.whenReleased(new ManualLoadBall(loader, 0));
@@ -122,10 +123,10 @@ public class OI {
 
 	public void obstacleCommands(HookArmSubsystem hookarm, DriveSubsystem drive, LightManager lights, Robot robot) {
 		if (drive != null && hookarm != null && xbox != null) {
-			gateButton = new JoystickButton(xbox, 2);
-			gateButton.whenPressed(new NavigateGate(drive, hookarm, lights, robot));
-			chevalDeFriseButton = new JoystickButton(xbox, 3);
-			chevalDeFriseButton.whenPressed(new NavigateChevalDeFrise(drive, hookarm, lights, robot));
+			//gateButton = new JoystickButton(xbox, 2);
+			//gateButton.whenPressed(new NavigateGate(drive, hookarm, lights, robot));
+			//chevalDeFriseButton = new JoystickButton(xbox, 3);
+			//chevalDeFriseButton.whenPressed(new NavigateChevalDeFrise(drive, hookarm, lights, robot));
 		}
 	}
 

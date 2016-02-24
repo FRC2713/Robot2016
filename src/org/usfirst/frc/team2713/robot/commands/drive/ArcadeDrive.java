@@ -34,7 +34,6 @@ public class ArcadeDrive extends Command{
 		scaler =1.0;
 		deadband = 0.1;
 		polarity = -1;
-		System.out.println(drive.rightback.getPosition());
 		drive.arcadeDrive(xbox.getLeftY()*scaler*polarity, xbox.getRightX()*scaler*polarity, deadband);
 		drive.powerTotal = Math.abs(xbox.getLeftY()) + 2 * Math.abs(xbox.getRightX());
 	}

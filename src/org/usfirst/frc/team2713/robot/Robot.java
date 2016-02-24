@@ -79,16 +79,14 @@ public class Robot extends IterativeRobot {
 			lightUpdater = new LightUpdater(lights);
 		}
 		if (drive == null && RobotMap.INIT_DRIVE) {
-			try {
-				drive = new DriveSubsystem(this, gyro);
-			} catch (RuntimeException ex) {
-				drive = null;
-			}
+			drive = new DriveSubsystem(this, gyro);
 		}
 		if (loader == null && RobotMap.INIT_LOADER)
 			loader = new LoaderSubsystem(lights, this);
-		if (hookarm == null && RobotMap.INIT_HOOKARM)
+		if (hookarm == null && RobotMap.INIT_HOOKARM) {
 			hookarm = new HookArmSubsystem();
+			//hookarm.arm.set(45);
+		}
 		if (RobotMap.INIT_SMART_DASHBOARD) {
 			myPossition = new SendableChooser();
 			myPossition.addDefault("Possition Low Bar", 1);
@@ -127,8 +125,9 @@ public class Robot extends IterativeRobot {
 			drive.startDisabled();
 		if (hookarm != null)
 			hookarm.startDisabled();
-		if (loader != null)
+		if (loader != null) {
 			loader.startDisabled();
+		}
 		if (lights != null)
 			lights.startDisabled();
 	}
@@ -255,6 +254,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		System.out.println(drive.getDistanceTraveled());
 		if (lights != null) {
 			lights.managerLights();
 			lightUpdater.updateLights();

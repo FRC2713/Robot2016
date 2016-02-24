@@ -2,6 +2,7 @@ package org.usfirst.frc.team2713.robot.commands.grabber;
 
 import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.commands.GoToAnglePID;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
@@ -26,12 +27,11 @@ public class LoadBall extends Command {
 
 	@Override
 	protected void initialize() {
-		loader.moveLoader.set(15);
+		new GoToAnglePID(loader.moveLoader, 70).start();
 	}
 
 	@Override
 	protected void execute() {
-		System.out.println(loader.moveLoader.getPosition());
 		if(!loader.loadswitch.get()) {
 			if(lights != null) {
 				lights.grabBall();

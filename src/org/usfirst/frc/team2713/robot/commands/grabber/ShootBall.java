@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2713.robot.commands.grabber;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.commands.GoToAnglePID;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
@@ -20,19 +21,20 @@ public class ShootBall extends Command {
 	@Override
 	protected void initialize() {
 		loader.stopLoadCommand();
-		loader.moveLoader.set(0);
+		new GoToAnglePID(loader.moveLoader, 0).start();
+
 	}
 
 	@Override
 	protected void execute() {
-		if(loader.moveLoader.get() <  10 * Math.PI / 180) {
+		if(loader.moveLoader.get() <  10) {
 			shouldContinue = true;
 		}
 		
 	}
 	
 	public boolean releaseBall() {
-		loader.loadBall(-1);
+		loader.loadBall(1);
 		try {
 			Thread.sleep(RobotMap.TIME_TO_RELEASE_BALL);
 		} catch (InterruptedException e) {

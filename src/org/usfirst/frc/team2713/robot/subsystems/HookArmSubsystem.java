@@ -14,9 +14,9 @@ public class HookArmSubsystem extends BaseSubsystem {
 
 	public HookArmSubsystem() {
 		arm = new CANTalon(RobotMap.ARM_MOTOR); // As long as distance per pulse
-		arm.configEncoderCodesPerRev(RobotMap.ENCODER_PULSE);
+		arm.configEncoderCodesPerRev(1);
 		arm.setPID(RobotMap.KpArm, RobotMap.KiArm, RobotMap.KdArm);
-		arm.setPIDSourceType(PIDSourceType.kRate);
+		arm.setPIDSourceType(PIDSourceType.kDisplacement);
 		arm.changeControlMode(TalonControlMode.Position);
 		arm.setForwardSoftLimit(RobotMap.ARM_UPPER_LIMIT);
 		arm.enableForwardSoftLimit(true);
