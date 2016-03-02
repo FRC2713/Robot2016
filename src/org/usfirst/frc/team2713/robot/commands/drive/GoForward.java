@@ -27,6 +27,8 @@ public class GoForward extends Command {
 
 	@Override
 	protected void initialize() {
+		drive.leftback.changeControlMode(TalonControlMode.Position);
+		drive.rightback.changeControlMode(TalonControlMode.Position);
 		drive.resetPosition();
 		drive.move(distance);
 	}
