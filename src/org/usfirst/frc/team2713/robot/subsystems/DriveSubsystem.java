@@ -5,8 +5,6 @@ import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.drive.ArcadeDrive;
 import org.usfirst.frc.team2713.robot.commands.drive.TankDrive;
 import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
-import org.usfirst.frc.team2713.robot.subsystems.lights.LightSubsystem;
-
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Encoder;
@@ -24,7 +22,6 @@ public class DriveSubsystem extends BaseSubsystem {
 	public CANTalon rightback;
 	private Robot robot;
 	public GyroAccelWrapper gyro;
-	LightSubsystem lights = new LightSubsystem();
 	public double powerTotal;
 
 	public DriveSubsystem(Robot robot, GyroAccelWrapper gyro) {

@@ -51,20 +51,20 @@ public class RobotMap {
 
 	//Initialization stuff
 	public static final boolean INIT_DRIVE = true;
-	public static final boolean INIT_HOOKARM = false;
-	public static final boolean INIT_LOADER = false;
-	public static final boolean INIT_LIGHTS = false;
-	public static final boolean INIT_CAMERA = false;
-	public static final boolean INIT_SMART_DASHBOARD = false;
+	public static final boolean INIT_HOOKARM = true;
+	public static final boolean INIT_LOADER = true;
+	public static final boolean INIT_LIGHTS = true;
+	public static final boolean INIT_CAMERA = true;
+	public static final boolean INIT_SMART_DASHBOARD = true;
 	public static final boolean INIT_GYRO = true;
 	
 	//Limit Switches
 	public static final int LOADER_LIMIT_SWITCH = 1;
 
 	//Light stuff
-	public static final int RED_DIO_PORT = 2;
-	public static final int GREEN_DIO_PORT = 3;
-	public static final int BLUE_DIO_PORT = 4;
+	public static final int RED_DIO_PORT = 7;
+	public static final int GREEN_DIO_PORT = 8;
+	public static final int BLUE_DIO_PORT = 9;
 	public static final boolean doMatchDance = true;
 	
 	//Loader Stuff

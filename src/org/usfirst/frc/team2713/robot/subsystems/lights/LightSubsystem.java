@@ -16,8 +16,11 @@ public class LightSubsystem extends BaseSubsystem {
 	
 	public LightSubsystem() {
 		red = new DigitalOutput(RobotMap.RED_DIO_PORT);
+		red.enablePWM(0);
 		green = new DigitalOutput(RobotMap.GREEN_DIO_PORT);
+		green.enablePWM(0);
 		blue = new DigitalOutput(RobotMap.BLUE_DIO_PORT);
+		blue.enablePWM(0);
 	}
 
 	protected void setColor(Color color) {

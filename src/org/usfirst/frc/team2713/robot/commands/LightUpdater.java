@@ -17,35 +17,11 @@ public class LightUpdater {
 	}
 	
 	public void updateLights() {
-		double blueWait = (1 - lights.blueVal) * 20;
-		double redWait = (1 - lights.redVal) * 20;
-		double greenWait = (1 - lights.greenVal) * 20;
-		if(System.currentTimeMillis() - blueTime > blueWait) {
-			if(blueOn) {
-				lights.blue.set(false);
-			} else {
-				lights.blue.set(true);
-			}
-			blueTime = System.currentTimeMillis();
-			blueOn = !blueOn;
-		}
-		if(System.currentTimeMillis() - redTime > redWait) {
-			if(redOn) {
-				lights.red.set(false);
-			} else {
-				lights.red.set(true);
-			}
-			redTime = System.currentTimeMillis();
-			redOn = !redOn;
-		}
-		if(System.currentTimeMillis() - greenTime > greenWait) {
-			if(greenOn) {
-				lights.green.set(false);
-			} else {
-				lights.green.set(true);
-			}
-			greenTime = System.currentTimeMillis();
-			greenOn = !greenOn;
-		}
+		double blueWait = (lights.blueVal / 255) * 20;
+		double redWait = (lights.redVal / 255) * 20;
+		double greenWait = (lights.greenVal / 255) * 20;
+		lights.blue.setPWMRate(blueWait);
+		lights.red.setPWMRate(redWait);
+		lights.green.setPWMRate(greenWait);
 	}
 }

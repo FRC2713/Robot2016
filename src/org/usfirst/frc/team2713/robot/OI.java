@@ -4,8 +4,6 @@ import org.usfirst.frc.team2713.robot.commands.arm.MoveHook;
 import org.usfirst.frc.team2713.robot.commands.grabber.ManualLoadBall;
 import org.usfirst.frc.team2713.robot.commands.grabber.ManualMoveLoader;
 import org.usfirst.frc.team2713.robot.commands.grabber.ShootBall;
-import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateChevalDeFrise;
-import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateGate;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
