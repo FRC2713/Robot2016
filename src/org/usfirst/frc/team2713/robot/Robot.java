@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2713.robot;
 
-import org.usfirst.frc.team2713.robot.commands.LightUpdater;
 import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomousCommand;
 import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
 import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
@@ -29,7 +28,6 @@ public class Robot extends IterativeRobot {
 	private HookArmSubsystem hookarm;
 	private LoaderSubsystem loader;
 	private LightManager lights;
-	private LightUpdater lightUpdater;
 	private CameraSubsystem camera;
 	private SendableChooser myPossition;
 	private SendableChooser myObstacle;
@@ -76,7 +74,6 @@ public class Robot extends IterativeRobot {
 			camera = new CameraSubsystem();
 		if (lights == null && RobotMap.INIT_LIGHTS) {
 			lights = new LightManager();
-			lightUpdater = new LightUpdater(lights);
 		}
 		if (drive == null && RobotMap.INIT_DRIVE) {
 			drive = new DriveSubsystem(this, gyro);
@@ -135,7 +132,6 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		if (lights != null) {
 			lights.managerLights();
-			lightUpdater.updateLights();
 		}
 		Scheduler.getInstance().run();
 	}
@@ -222,7 +218,6 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		if (lights != null) {
 			lights.managerLights();
-			lightUpdater.updateLights();
 		}
 	}
 
@@ -257,7 +252,6 @@ public class Robot extends IterativeRobot {
 		System.out.println(drive.getDistanceTraveled());
 		if (lights != null) {
 			lights.managerLights();
-			lightUpdater.updateLights();
 		}
 	}
 

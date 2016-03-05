@@ -10,23 +10,17 @@ public class LightSubsystem extends BaseSubsystem {
 	public DigitalOutput red;
 	public DigitalOutput green;
 	public DigitalOutput blue;
-	public double redVal;
-	public double blueVal;
-	public double greenVal;
 	
 	public LightSubsystem() {
 		red = new DigitalOutput(RobotMap.RED_DIO_PORT);
-		red.enablePWM(0);
 		green = new DigitalOutput(RobotMap.GREEN_DIO_PORT);
-		green.enablePWM(0);
 		blue = new DigitalOutput(RobotMap.BLUE_DIO_PORT);
-		blue.enablePWM(0);
 	}
 
 	protected void setColor(Color color) {
-		redVal = (color.getRed()); // "Temporary" method, only shuts colors off/on
-		greenVal = (color.getGreen());
-		blueVal = (color.getBlue());
+		red.set(color.getRed() > 0);
+		blue.set(color.getBlue() > 0);
+		green.set(color.getGreen() > 0);
 	}
 
 	@Override

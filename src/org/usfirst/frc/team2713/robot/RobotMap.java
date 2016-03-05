@@ -50,13 +50,13 @@ public class RobotMap {
 	public static final double KdDrive = 2;
 
 	//Initialization stuff
-	public static final boolean INIT_DRIVE = true;
-	public static final boolean INIT_HOOKARM = true;
-	public static final boolean INIT_LOADER = true;
+	public static final boolean INIT_DRIVE = false;
+	public static final boolean INIT_HOOKARM = false;
+	public static final boolean INIT_LOADER = false;
 	public static final boolean INIT_LIGHTS = true;
-	public static final boolean INIT_CAMERA = true;
-	public static final boolean INIT_SMART_DASHBOARD = true;
-	public static final boolean INIT_GYRO = true;
+	public static final boolean INIT_CAMERA = false;
+	public static final boolean INIT_SMART_DASHBOARD = false;
+	public static final boolean INIT_GYRO = false;
 	
 	//Limit Switches
 	public static final int LOADER_LIMIT_SWITCH = 1;
