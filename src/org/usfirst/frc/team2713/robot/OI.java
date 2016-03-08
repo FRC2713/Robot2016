@@ -1,6 +1,6 @@
 package org.usfirst.frc.team2713.robot;
 
-import org.usfirst.frc.team2713.robot.commands.arm.MoveHook;
+import org.usfirst.frc.team2713.robot.commands.arm.ManualMoveArm;
 import org.usfirst.frc.team2713.robot.commands.grabber.ManualLoadBall;
 import org.usfirst.frc.team2713.robot.commands.grabber.ManualMoveLoader;
 import org.usfirst.frc.team2713.robot.commands.grabber.ShootBall;
@@ -91,7 +91,6 @@ public class OI {
 			}
 			
 			if (gamepad != null) {
-				System.out.println("Gamepad");
 				loadIn = new JoystickButton(gamepad, 5);
 				loadIn.whileHeld(new ManualLoadBall(loader, -1));
 				loadIn.whenReleased(new ManualLoadBall(loader, 0));
@@ -111,11 +110,11 @@ public class OI {
 	public void hookArmCommands(HookArmSubsystem hookarm) {
 		if (hookarm != null && gamepad != null) {
 			armUp = new JoystickButton(gamepad, 6);
-			armUp.whileHeld(new MoveHook(hookarm, -10));
-			armUp.whenReleased(new MoveHook(hookarm, 0));
+			armUp.whileHeld(new ManualMoveArm(hookarm, -1));
+			armUp.whenReleased(new ManualMoveArm(hookarm, 0));
 			armDown = new JoystickButton(gamepad, 2);
-			armDown.whileHeld(new MoveHook(hookarm, 10));
-			armDown.whenReleased(new MoveHook(hookarm, 0));
+			armDown.whileHeld(new ManualMoveArm(hookarm, 1));
+			armDown.whenReleased(new ManualMoveArm(hookarm, 0));
 		}
 	}
 

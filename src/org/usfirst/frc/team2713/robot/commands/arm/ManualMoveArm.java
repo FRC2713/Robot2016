@@ -2,31 +2,33 @@ package org.usfirst.frc.team2713.robot.commands.arm;
 
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class MoveHook extends Command {
-
-	HookArmSubsystem hookarm;
-	double polarity;
+public class ManualMoveArm extends Command {
 	
-	public MoveHook(HookArmSubsystem hookarm, double polarity){
-		this.hookarm = hookarm;
+	double polarity;
+	HookArmSubsystem hookarm;
+	
+	public ManualMoveArm(HookArmSubsystem hookarm, double polarity) {
 		this.polarity = polarity;
-		requires(hookarm);
+		this.hookarm = hookarm;
 	}
+	
 	@Override
 	protected void initialize() {
-
+		hookarm.arm.changeControlMode(TalonControlMode.PercentVbus);
 	}
 
 	@Override
 	protected void execute() {
-		hookarm.setAngle(hookarm.arm.get() + (Math.PI / 180.0) * polarity);
+		hookarm.arm.set(polarity);
 	}
 
 	@Override
 	protected boolean isFinished() {
 		if(polarity == 0) {
+			hookarm.arm.changeControlMode(TalonControlMode.Position);
 			return true;
 		}
 		return false;

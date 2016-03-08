@@ -130,10 +130,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void disabledPeriodic() {
-		if (lights != null) {
-			lights.managerLights();
-		}
 		Scheduler.getInstance().run();
+		commandsToAlwaysRun();
 	}
 
 	/**
@@ -216,9 +214,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		if (lights != null) {
-			lights.managerLights();
-		}
+		commandsToAlwaysRun();
 	}
 
 	public void teleopInit() {
@@ -249,10 +245,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		System.out.println(drive.getDistanceTraveled());
-		if (lights != null) {
-			lights.managerLights();
-		}
+		commandsToAlwaysRun();
 	}
 
 	/**
@@ -278,6 +271,32 @@ public class Robot extends IterativeRobot {
 		}
 		if(gyro != null) {
 			gyro.reset();
+		}
+	}
+	
+	public void checkLimitSwitches() {
+		if(hookarm != null) {
+			if(hookarm.arm.isFwdLimitSwitchClosed()) {
+				hookarm.arm.setPosition(RobotMap.ARM_LOWER_LIMIT);
+			}
+			if(hookarm.arm.isRevLimitSwitchClosed()) {
+				hookarm.arm.setPosition(RobotMap.ARM_UPPER_LIMIT);
+			}
+		}
+		if(loader != null) {
+			if(loader.moveLoader.isFwdLimitSwitchClosed()) {
+				loader.moveLoader.setPosition(RobotMap.LOADER_LOWER_LIMIT);
+			}
+			if(loader.moveLoader.isRevLimitSwitchClosed()) {
+				loader.moveLoader.setPosition(RobotMap.LOADER_UPPER_LIMIT);
+			}
+		}
+	}
+	
+	public void commandsToAlwaysRun() {
+		checkLimitSwitches();
+		if (lights != null) {
+			lights.managerLights();
 		}
 	}
 }
