@@ -14,14 +14,14 @@ public class HookArmSubsystem extends BaseSubsystem {
 
 	public HookArmSubsystem() {
 		arm = new CANTalon(RobotMap.ARM_MOTOR); // As long as distance per pulse
+		arm.reverseOutput(true); // If the arm moves the wrong way, swap this.
 		arm.configEncoderCodesPerRev(1);
 		arm.setPID(RobotMap.KpArm, RobotMap.KiArm, RobotMap.KdArm);
 		arm.setPIDSourceType(PIDSourceType.kDisplacement);
 		arm.changeControlMode(TalonControlMode.Position);
-		arm.setForwardSoftLimit(RobotMap.ARM_UPPER_LIMIT);
-		arm.enableForwardSoftLimit(true);
-		arm.setReverseSoftLimit(RobotMap.ARM_LOWER_LIMIT);
-		arm.enableReverseSoftLimit(true);
+		
+		arm.enableForwardSoftLimit(false); // Insurance
+		arm.enableReverseSoftLimit(false); // We PROBABLY don't need it, so that means we need it.
 	}
 
 	@Override

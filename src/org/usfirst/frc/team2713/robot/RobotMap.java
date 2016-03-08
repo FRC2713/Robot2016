@@ -34,9 +34,9 @@ public class RobotMap {
 	public static final int BACKUP_ATTACK_PORT = 3;
 	
 	//Arm Stuff
-	public static final double KpArm = 2;
-	public static final double KiArm = .00;
-	public static final double KdArm = .0;
+	public static final double KpArm = 8D;
+	public static final double KiArm = 0D;
+	public static final double KdArm = 0D;
 	public static final double ARM_LOWER_LIMIT = 0;
 	public static final double ARM_UPPER_LIMIT = Math.PI;
 	public static final double ARM_ANGLE_STOP_POINT = .2;
