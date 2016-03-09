@@ -27,11 +27,13 @@ public class LoadBall extends Command {
 
 	@Override
 	protected void initialize() {
-		new GoToAnglePID(loader.moveLoader, 70).start();
+		///new GoToAnglePID(loader.moveLoader, 45).start();
+		loader.moveLoader.set(45);
 	}
 
 	@Override
 	protected void execute() {
+		System.out.println(loader.moveLoader.getPosition());
 		if(!loader.loadswitch.get()) {
 			if(lights != null) {
 				lights.grabBall();

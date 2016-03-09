@@ -17,7 +17,7 @@ public class LightSubsystem extends BaseSubsystem {
 		blue = new DigitalOutput(RobotMap.BLUE_DIO_PORT);
 	}
 
-	protected void setColor(Color color) {
+	public void setColor(Color color) {
 		red.set(color.getRed() > 0);
 		blue.set(color.getBlue() > 0);
 		green.set(color.getGreen() > 0);

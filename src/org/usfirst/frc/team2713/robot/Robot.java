@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot {
 		initSubsystems();
 
 		oi = new OI();
-		
+
 		oi.initCommands(hookarm, loader, lights, drive, this);
 		SmartDashboard.putData(Scheduler.getInstance());
 
@@ -68,8 +68,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void initSubsystems() {
-		if(gyro == null && RobotMap.INIT_GYRO)
-			gyro = new GyroAccelWrapper(); //Calibrated in ADXRS450_Gyro constructor.
+		if (gyro == null && RobotMap.INIT_GYRO)
+			gyro = new GyroAccelWrapper(); // Calibrated in ADXRS450_Gyro
+											// constructor.
 		if (camera == null && RobotMap.INIT_CAMERA)
 			camera = new CameraSubsystem();
 		if (lights == null && RobotMap.INIT_LIGHTS) {
@@ -82,7 +83,6 @@ public class Robot extends IterativeRobot {
 			loader = new LoaderSubsystem(lights, this);
 		if (hookarm == null && RobotMap.INIT_HOOKARM) {
 			hookarm = new HookArmSubsystem();
-			//hookarm.arm.set(45);
 		}
 		if (RobotMap.INIT_SMART_DASHBOARD) {
 			myPossition = new SendableChooser();
@@ -201,8 +201,11 @@ public class Robot extends IterativeRobot {
 
 			if (lights != null)
 				lights.startAuto(defense, startPos, isRed, leftGoal);
-			autonomousCommand = new AutonomousCommand(defense, startPos, leftGoal, drive, loader, hookarm, lights, this,
-					camera);
+			if(drive != null && loader != null && hookarm != null && lights != null && camera != null) {
+				autonomousCommand = new AutonomousCommand(defense, startPos, leftGoal, drive, loader, hookarm, lights, this,
+						camera);
+			}
+
 			if (autonomousCommand != null)
 				autonomousCommand.start();
 		}
@@ -227,7 +230,6 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
-		System.out.println(drive);
 		if (drive != null)
 			drive.startTeleop();
 		if (hookarm != null)
@@ -269,34 +271,49 @@ public class Robot extends IterativeRobot {
 		if (loader != null) {
 			loader.resetPossition();
 		}
-		if(gyro != null) {
+		if (gyro != null) {
 			gyro.reset();
 		}
 	}
-	
+
 	public void checkLimitSwitches() {
-		if(hookarm != null) {
-			if(hookarm.arm.isFwdLimitSwitchClosed()) {
+		if (hookarm != null) {
+			if (hookarm.arm.isFwdLimitSwitchClosed()) {
 				hookarm.arm.setPosition(RobotMap.ARM_LOWER_LIMIT);
 			}
-			if(hookarm.arm.isRevLimitSwitchClosed()) {
+			if (hookarm.arm.isRevLimitSwitchClosed()) {
 				hookarm.arm.setPosition(RobotMap.ARM_UPPER_LIMIT);
 			}
 		}
-		if(loader != null) {
-			if(loader.moveLoader.isFwdLimitSwitchClosed()) {
+		if (loader != null) {
+			if (loader.moveLoader.isFwdLimitSwitchClosed()) {
 				loader.moveLoader.setPosition(RobotMap.LOADER_LOWER_LIMIT);
 			}
-			if(loader.moveLoader.isRevLimitSwitchClosed()) {
+			if (loader.moveLoader.isRevLimitSwitchClosed()) {
 				loader.moveLoader.setPosition(RobotMap.LOADER_UPPER_LIMIT);
 			}
 		}
 	}
-	
+
 	public void commandsToAlwaysRun() {
 		checkLimitSwitches();
+		checkTilted();
+		// System.out.println(drive.getDistanceTraveled());
 		if (lights != null) {
 			lights.managerLights();
+		}
+	}
+
+	public void checkTilted() {
+		if(gyro != null) {
+			double roll = gyro.getRoll();
+			double pitch = gyro.getPitch();
+			double tilt = Math.sqrt(roll * roll + pitch * pitch) - Math.PI;
+			if (Math.abs(tilt) > RobotMap.IS_TILTED_CONSTANT) {
+				lights.setTilted(true);
+			} else {
+				lights.setTilted(false);
+			}
 		}
 	}
 }

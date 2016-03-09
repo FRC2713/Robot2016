@@ -21,7 +21,7 @@ public class RobotMap {
 	public static final int LEFT_TANK = 1;
 	public static final int RIGHT_TANK = 4;
 	public static final int LEFT_TANK_BACK = 2;
-	public static final int RIGHT_TANK_BACK = 3;
+	public static final int RIGHT_TANK_BACK = 6;
 	public static final int ARM_MOTOR = 5;
 	public static final int MOVE_LOAD_MOTOR = 6;
 	public static final int BALL_LOADER_MOTOR = 7;
@@ -44,10 +44,10 @@ public class RobotMap {
 
 	//Drive Stuff
 	public static final double ACCELERATION_STOP_POINT = .1;
-	public static final double IS_TILTED_CONSTANT = 1;
-	public static final double KpDrive = .03;
+	public static final double IS_TILTED_CONSTANT = 3;
+	public static final double KpDrive = 2;
 	public static final double KiDrive = .00;
-	public static final double KdDrive = 2;
+	public static final double KdDrive = 0;
 
 	//Initialization stuff
 	public static final boolean INIT_DRIVE = false;
@@ -55,8 +55,8 @@ public class RobotMap {
 	public static final boolean INIT_LOADER = false;
 	public static final boolean INIT_LIGHTS = true;
 	public static final boolean INIT_CAMERA = false;
-	public static final boolean INIT_SMART_DASHBOARD = false;
-	public static final boolean INIT_GYRO = false;
+	public static final boolean INIT_SMART_DASHBOARD = true;
+	public static final boolean INIT_GYRO = true;
 	
 	//Limit Switches
 	public static final int LOADER_LIMIT_SWITCH = 1;
@@ -72,7 +72,7 @@ public class RobotMap {
 	public static final int TIME_TO_LOAD_BALL = 200;
 	public static final double KiLoader = 0;
 	public static final double KdLoader = 0;
-	public static final double KpLoader = 25;
+	public static final double KpLoader = 5;
 	public static final double LOADER_LOWER_LIMIT = -10; //Might have to swap
 	public static final double LOADER_UPPER_LIMIT = 90;
 	

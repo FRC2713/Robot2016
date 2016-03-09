@@ -8,13 +8,14 @@ public class LightManager extends LightSubsystem {
 	Boolean redOrBlue;
 	public Boolean autoOrTeleop;
 	double timeCommandStarted;
-	boolean finishedPID;
+	Boolean finishedPID = false;
 	double timePIDFinished;
-	boolean ballGrabbed;
-	boolean tilted;
+	Boolean ballGrabbed = false;
+	Boolean tilted = false;
 
 	public LightManager() {
 		super();
+		System.out.println(DriverStation.getInstance().getAlliance());
 		redOrBlue = DriverStation.getInstance().getAlliance() == Alliance.Red;
 	}
 
@@ -35,13 +36,6 @@ public class LightManager extends LightSubsystem {
 			setColor(Color.GREEN);
 		} else if (ballGrabbed) {
 			setColor(Color.PINK);
-		} else if (finishedPID) {
-			if (System.currentTimeMillis() - timePIDFinished < 4000) {
-				setColor(Color.GREEN);
-			}
-			if (System.currentTimeMillis() - timePIDFinished > 4000) {
-				finishedPID = false;
-			}
 		} else {
 			if (redOrBlue) {
 				setColor(Color.RED);
@@ -85,7 +79,7 @@ public class LightManager extends LightSubsystem {
 	}
 	
 	public void setTilted(boolean tilted) {
-		
+		this.tilted = tilted;
 	}
 
 	public void finishMatch() {

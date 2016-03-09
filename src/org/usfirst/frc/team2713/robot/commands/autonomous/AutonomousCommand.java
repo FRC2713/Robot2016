@@ -21,8 +21,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonomousCommand extends CommandGroup {
 
+	public AutonomousCommand(DriveSubsystem drive, Robot robot) {
+		addSequential(new GoForward(drive, 25.34, false));
+	}
+	
 	public AutonomousCommand(int startPos, int defense, boolean leftGoal, DriveSubsystem drive, LoaderSubsystem loader, HookArmSubsystem hookarm, LightManager lights, Robot robot, CameraSubsystem camera) {
-		this.addSequential(new GoToWayPoit(drive, WaypoitMap.ONE, robot.oi));
+		this.addSequential(new GoToWayPoit(drive, WaypoitMap.ONE, robot));
 		manageDefenses(defense, drive, hookarm, lights, robot);
 		
 		Waypoit waypoit;
@@ -32,15 +36,15 @@ public class AutonomousCommand extends CommandGroup {
 			waypoit = WaypoitMap.GOAL_POIT[1][startPos - 3];
 		}
 		
-		this.addSequential(new GoToWayPoit(drive, waypoit, robot.oi));
-		this.addSequential(new AlignCommand(leftGoal, drive, camera, robot.oi));
+		this.addSequential(new GoToWayPoit(drive, waypoit, robot));
+		this.addSequential(new AlignCommand(leftGoal, drive, camera, robot));
 		this.addSequential(new ShootBall(loader, lights));
 	}
 	
 	public void manageDefenses(int defense, DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lights, Robot robot) {
 		switch (defense) {
 		case 0:
-			manageLowBar(drive, robot.oi.getXbox());
+			manageLowBar(drive, robot);
 			break;
 		case 1:
 			manageGate(drive, hookarm, lights, robot);
@@ -49,7 +53,7 @@ public class AutonomousCommand extends CommandGroup {
 			manageChevalDeFrise(drive, hookarm, lights, robot);
 			break;
 		case 3:
-			manageSmallRamps(drive, robot.oi.getXbox());
+			manageSmallRamps(drive, robot);
 			break;
 		case 4:
 			manageMoat(drive, lights, robot.oi.getXbox());
@@ -70,8 +74,8 @@ public class AutonomousCommand extends CommandGroup {
 
 	}
 	
-	public void manageLowBar(DriveSubsystem drive, XBoxController xbox) {
-		this.addSequential(new GoForward(drive, RobotMap.LOW_BAR_DISTANCE, false, xbox)); //Needs to be Adjusted
+	public void manageLowBar(DriveSubsystem drive, Robot robot) {
+		this.addSequential(new GoForward(drive, RobotMap.LOW_BAR_DISTANCE, false)); //Needs to be Adjusted
 	}
 	
 	public void manageGate(DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lights, Robot robot) {
@@ -82,8 +86,8 @@ public class AutonomousCommand extends CommandGroup {
 		this.addSequential(new NavigateChevalDeFrise(drive, hookarm, lights, robot));
 	}
 	
-	public void manageSmallRamps(DriveSubsystem drive, XBoxController xbox) {
-		this.addSequential(new GoForward(drive, RobotMap.SMALL_RAMP_DISTANCE, false, xbox)); //Needs to be adjusted
+	public void manageSmallRamps(DriveSubsystem drive, Robot robot) {
+		this.addSequential(new GoForward(drive, RobotMap.SMALL_RAMP_DISTANCE, false)); //Needs to be adjusted
 	}
 	
 	public void manageMoat(DriveSubsystem drive, LightManager lights, XBoxController xbox) {

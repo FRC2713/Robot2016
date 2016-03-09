@@ -29,15 +29,15 @@ public class DriveSubsystem extends BaseSubsystem {
 		this.robot = robot;
 		
 		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
-		rightback.configEncoderCodesPerRev(RobotMap.ENCODER_PULSE);
+		rightback.configEncoderCodesPerRev(8);
 		rightback.setPID(RobotMap.KpDrive, RobotMap.KiDrive, RobotMap.KiDrive);
 		rightback.setPIDSourceType(PIDSourceType.kRate);
 		
 		leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
-		leftback.configEncoderCodesPerRev(RobotMap.ENCODER_PULSE);
+		leftback.configEncoderCodesPerRev(8);
 		leftback.setPID(RobotMap.KpDrive, RobotMap.KiDrive, RobotMap.KiDrive);
 		leftback.setPIDSourceType(PIDSourceType.kRate);
-		
+
 		left = new CANTalon(RobotMap.LEFT_TANK);
 		left.changeControlMode(TalonControlMode.Follower);
 		left.set(RobotMap.LEFT_TANK_BACK);
@@ -46,7 +46,7 @@ public class DriveSubsystem extends BaseSubsystem {
 		right.changeControlMode(TalonControlMode.Follower);
 		right.set(RobotMap.RIGHT_TANK_BACK);
 
-		roboDrive = new RobotDrive(leftback, rightback);
+		//roboDrive = new RobotDrive(leftback, rightback);
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class DriveSubsystem extends BaseSubsystem {
 
 	@Override
 	public void startAuto(int defense, int startPos, boolean isRed, boolean leftGoal) {
-
+		
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class DriveSubsystem extends BaseSubsystem {
 	}
 	
 	public double getDistanceTraveled() {
-		return rightback.getPosition();
+		return leftback.getPosition();
 	}
 	
 	public double getAngleRotated() {
@@ -133,6 +133,13 @@ public class DriveSubsystem extends BaseSubsystem {
 
 	public double getDriveTotal() {
 		return powerTotal;
+	}
+	
+	public void setPercentVBus() {
+		leftback.changeControlMode(TalonControlMode.PercentVbus);
+		leftback.set(0);
+		rightback.changeControlMode(TalonControlMode.PercentVbus);
+		rightback.set(0);
 	}
 
 }

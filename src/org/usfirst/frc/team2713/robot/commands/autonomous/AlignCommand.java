@@ -5,6 +5,7 @@ import java.util.List;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.usfirst.frc.team2713.robot.OI;
+import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.RobotMap.ColorThreshold;
 import org.usfirst.frc.team2713.robot.Waypoit;
@@ -36,7 +37,7 @@ public class AlignCommand extends CommandGroup {
 	private CameraSubsystem camera;
 	private DriveSubsystem drive;
 	
-	public AlignCommand(boolean isLeft, DriveSubsystem drive, CameraSubsystem camera, OI oi) {
+	public AlignCommand(boolean isLeft, DriveSubsystem drive, CameraSubsystem camera, Robot robot) {
 		this.drive = drive;
 		this.camera = camera;
 		this.isLeft = isLeft;
@@ -48,14 +49,14 @@ public class AlignCommand extends CommandGroup {
 		ultrasonicSide = createUltrasonic(RobotMap.SIDE_ULTRASONIC_TRIGGER_PORT, RobotMap.SIDE_ULTRASONIC_ECHO_PORT);
 		
 		this.addSequential(new CorrectDistance(drive.gyro.getAngle())); //<-- Lazy stuff happens here
-		this.addSequential(new GoToWayPoit(drive, correctionWaypoit, oi));
-		this.addSequential(new GoToAngle(drive, 60 * (isLeft ? -1 : 1), oi.getXbox()));
+		this.addSequential(new GoToWayPoit(drive, correctionWaypoit, robot));
+		this.addSequential(new GoToAngle(drive, 60 * (isLeft ? -1 : 1), robot.oi.getXbox()));
 		
 		if (camera != null) {
 			this.addSequential(new VisionAlign());
 		}
 		
-		this.addSequential(new GoForward(drive, DISTANCE_TO_FRONT_OF_GOAL, false, oi.getXbox()));
+		this.addSequential(new GoForward(drive, DISTANCE_TO_FRONT_OF_GOAL, false));
 	}
 	
 	private Ultrasonic createUltrasonic(int triggerPort, int echoPort) {

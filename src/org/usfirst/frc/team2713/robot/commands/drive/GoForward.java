@@ -1,7 +1,6 @@
 package org.usfirst.frc.team2713.robot.commands.drive;
 
 import org.usfirst.frc.team2713.robot.RobotMap;
-import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
@@ -14,14 +13,11 @@ public class GoForward extends Command {
 	double distance;
 	double timesRun = 0;
 	boolean shouldStopIfStuck;
-	XBoxController xbox;
 
-
-	public GoForward(DriveSubsystem drive, double distance, boolean shouldStopIfStuck, XBoxController xbox) {
+	public GoForward(DriveSubsystem drive, double distance, boolean shouldStopIfStuck) {
 		this.drive = drive;
 		this.distance = distance;
 		this.shouldStopIfStuck = shouldStopIfStuck;
-		this.xbox = xbox;
 		requires(drive);
 	}
 
@@ -39,14 +35,12 @@ public class GoForward extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		double xboxTotal = Math.abs(xbox.getRightY()) + Math.abs(xbox.getLeftY());
-		if(xboxTotal > .1) {
-			drive.rightback.changeControlMode(TalonControlMode.PercentVbus);
+		if(Math.abs(drive.getDistanceTraveled()) >= distance) {
 			drive.leftback.changeControlMode(TalonControlMode.PercentVbus);
-			drive.move(0);
+			drive.setPercentVBus();
 			return true;
 		}
-		return drive.getDistanceTraveled() == distance;
+		return false;
 	}
 
 	@Override
