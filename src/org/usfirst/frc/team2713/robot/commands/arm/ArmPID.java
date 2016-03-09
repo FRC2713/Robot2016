@@ -34,8 +34,7 @@ public class ArmPID extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		if ((hookarm.arm.get() - RobotMap.ARM_ANGLE_STOP_POINT) <= angle
-				&& (hookarm.arm.get() - RobotMap.ARM_ANGLE_STOP_POINT) >= angle) {
+		if (Math.abs(hookarm.arm.get() - angle) <= RobotMap.ARM_ANGLE_STOP_POINT) {
 			if (lightManager != null) {
 				lightManager.finishPID();
 			}
