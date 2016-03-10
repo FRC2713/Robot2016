@@ -136,8 +136,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
 		commandsToAlwaysRun();
+		Scheduler.getInstance().run();
 	}
 
 	/**
@@ -222,8 +222,8 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
 		commandsToAlwaysRun();
+		Scheduler.getInstance().run();
 	}
 
 	public void teleopInit() {
@@ -253,8 +253,8 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
 		commandsToAlwaysRun();
+		Scheduler.getInstance().run();
 	}
 
 	/**
