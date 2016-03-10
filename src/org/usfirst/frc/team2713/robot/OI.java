@@ -53,6 +53,10 @@ public class OI {
 		
 	}
 	
+	public boolean interupted() {
+		return interuptAll.get();
+	}
+	
 	public boolean manualMoveLoaderWheels() {
 		return loadIn.get() || loadOut.get();
 	}

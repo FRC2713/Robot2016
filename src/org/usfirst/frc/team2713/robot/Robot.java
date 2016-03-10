@@ -351,5 +351,11 @@ public class Robot extends IterativeRobot {
 		} else {
 			interuptDrive = false;
 		}
+		if(oi.interupted()) {
+			interuptLoaderWheels = true;
+			interuptDrive = true;
+			interuptAllLoaderMover = true;
+			interuptArm = true;
+		}
 	}
 }
