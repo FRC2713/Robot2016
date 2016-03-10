@@ -37,17 +37,15 @@ public class OI {
 	}
 	
 	public boolean manualMoveLoaderWheels() {
-		if(loadIn.get() || loadOut.get()) {
-			return true;
-		}
-		return false;
+		return loadIn.get() || loadOut.get();
 	}
 	
 	public boolean manualMoveLoader() {
-		if(loadUp.get() || loadDown.get()) {
-			return true;
-		}
-		return false;
+		return loadUp.get() || loadDown.get();
+	}
+	
+	public boolean manualMoveArm() {
+		return armUp.get() || armDown.get();
 	}
 
 	public Joystick getFightGamepad() {
@@ -111,10 +109,8 @@ public class OI {
 		if (hookarm != null && gamepad != null) {
 			armUp = new JoystickButton(gamepad, 6);
 			armUp.whileHeld(new ManualMoveArm(hookarm, -1));
-			armUp.whenReleased(new ManualMoveArm(hookarm, 0));
 			armDown = new JoystickButton(gamepad, 2);
 			armDown.whileHeld(new ManualMoveArm(hookarm, 1));
-			armDown.whenReleased(new ManualMoveArm(hookarm, 0));
 		}
 	}
 

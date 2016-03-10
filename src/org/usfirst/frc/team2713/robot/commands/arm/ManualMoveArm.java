@@ -27,23 +27,19 @@ public class ManualMoveArm extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		if(polarity == 0) {
-			hookarm.arm.changeControlMode(TalonControlMode.Position);
-			return true;
-		}
 		return false;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	protected void interrupted() {
-		// TODO Auto-generated method stub
-		
+	protected void interrupted() { // whileHeld calls cancel(), so set to 0.
+		hookarm.arm.set(0);
+		double pos = hookarm.arm.getPosition();
+		hookarm.arm.changeControlMode(TalonControlMode.Position); // Position mode
+		hookarm.arm.set(pos); // Hold in place
 	}
 
 }

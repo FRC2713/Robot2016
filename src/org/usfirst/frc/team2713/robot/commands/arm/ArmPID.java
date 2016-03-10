@@ -40,7 +40,7 @@ public class ArmPID extends Command {
 			}
 			return true;
 		}
-		if(robot.oi.manualMoveLoader()) {
+		if(robot.oi.manualMoveArm()) {
 			lightManager.finishPID();
 			return true;
 		}
