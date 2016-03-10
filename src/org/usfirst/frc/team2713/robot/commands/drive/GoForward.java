@@ -23,20 +23,19 @@ public class GoForward extends Command {
 
 	@Override
 	protected void initialize() {
-		drive.leftback.changeControlMode(TalonControlMode.Position);
-		drive.rightback.changeControlMode(TalonControlMode.Position);
-		drive.resetPosition();
-		drive.move(distance);
+		drive.leftback.set(1);
+		drive.rightback.set(1);
 	}
 
 	@Override
 	protected void execute() {
+		System.out.println(drive.leftback.getPosition());
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if(Math.abs(drive.getDistanceTraveled()) >= distance) {
-			drive.leftback.changeControlMode(TalonControlMode.PercentVbus);
+		if(Math.abs(drive.getRightDistanceTraveled()) >= Math.abs(distance)
+				&& Math.abs(drive.getLeftDistanceTraveled()) >= Math.abs(distance)) {
 			drive.setPercentVBus();
 			return true;
 		}
@@ -53,19 +52,6 @@ public class GoForward extends Command {
 	protected void interrupted() {
 		// TODO Auto-generated method stub
 
-	}
-
-	public boolean isStuck() {
-		if (drive.gyro != null) {
-			double x = drive.gyro.getAccelX();
-			double y = drive.gyro.getAccelY();
-			double acceleration = Math.sqrt(x * x + y * y);
-			if (acceleration - RobotMap.ACCELERATION_STOP_POINT < 0
-					&& acceleration + RobotMap.ACCELERATION_STOP_POINT > 0) {
-				//return false;
-			}
-		}
-		return false;
 	}
 
 }

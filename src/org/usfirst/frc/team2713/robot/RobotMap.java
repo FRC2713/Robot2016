@@ -19,9 +19,9 @@ public class RobotMap {
 
 	//Talon stuff
 	public static final int LEFT_TANK = 1;
-	public static final int RIGHT_TANK = 4;
+	public static final int RIGHT_TANK = 3;
 	public static final int LEFT_TANK_BACK = 2;
-	public static final int RIGHT_TANK_BACK = 6;
+	public static final int RIGHT_TANK_BACK = 4;
 	public static final int ARM_MOTOR = 5;
 	public static final int MOVE_LOAD_MOTOR = 6;
 	public static final int BALL_LOADER_MOTOR = 7;
@@ -50,12 +50,12 @@ public class RobotMap {
 	public static final double KdDrive = 0;
 
 	//Initialization stuff
-	public static final boolean INIT_DRIVE = false;
+	public static final boolean INIT_DRIVE = true;
 	public static final boolean INIT_HOOKARM = false;
 	public static final boolean INIT_LOADER = false;
 	public static final boolean INIT_LIGHTS = true;
 	public static final boolean INIT_CAMERA = false;
-	public static final boolean INIT_SMART_DASHBOARD = true;
+	public static final boolean INIT_SMART_DASHBOARD = false;
 	public static final boolean INIT_GYRO = true;
 	
 	//Limit Switches

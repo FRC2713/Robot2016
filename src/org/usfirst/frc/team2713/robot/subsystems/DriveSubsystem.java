@@ -1,9 +1,9 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.Robot;
+
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.drive.ArcadeDrive;
-import org.usfirst.frc.team2713.robot.commands.drive.TankDrive;
 import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
@@ -29,15 +29,9 @@ public class DriveSubsystem extends BaseSubsystem {
 		this.robot = robot;
 		
 		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
-		rightback.configEncoderCodesPerRev(8);
-		rightback.setPID(RobotMap.KpDrive, RobotMap.KiDrive, RobotMap.KiDrive);
-		rightback.setPIDSourceType(PIDSourceType.kRate);
-		
-		leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
-		leftback.configEncoderCodesPerRev(8);
-		leftback.setPID(RobotMap.KpDrive, RobotMap.KiDrive, RobotMap.KiDrive);
-		leftback.setPIDSourceType(PIDSourceType.kRate);
 
+		leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
+		
 		left = new CANTalon(RobotMap.LEFT_TANK);
 		left.changeControlMode(TalonControlMode.Follower);
 		left.set(RobotMap.LEFT_TANK_BACK);
@@ -46,7 +40,7 @@ public class DriveSubsystem extends BaseSubsystem {
 		right.changeControlMode(TalonControlMode.Follower);
 		right.set(RobotMap.RIGHT_TANK_BACK);
 
-		//roboDrive = new RobotDrive(leftback, rightback);
+		roboDrive = new RobotDrive(leftback, rightback);
 	}
 
 	@Override
@@ -54,11 +48,7 @@ public class DriveSubsystem extends BaseSubsystem {
 		rightback.changeControlMode(TalonControlMode.PercentVbus);
 		leftback.changeControlMode(TalonControlMode.PercentVbus);
 		if (robot.getOI().getXbox() != null) {
-			if (RobotMap.isTank) {
-				new TankDrive(this, robot.getOI().getXbox(), gyro).start();
-			} else {
-				new ArcadeDrive(this, robot.getOI().getXbox(), gyro).start();
-			}
+			new ArcadeDrive(this, robot.getOI().getXbox(), gyro).start();
 		}
 	}
 
@@ -114,7 +104,11 @@ public class DriveSubsystem extends BaseSubsystem {
 		rightback.set(pos);
 	}
 	
-	public double getDistanceTraveled() {
+	public double getRightDistanceTraveled() {
+		return rightback.getPosition();
+	}
+	
+	public double getLeftDistanceTraveled() {
 		return leftback.getPosition();
 	}
 	
@@ -137,8 +131,8 @@ public class DriveSubsystem extends BaseSubsystem {
 	
 	public void setPercentVBus() {
 		leftback.changeControlMode(TalonControlMode.PercentVbus);
-		leftback.set(0);
 		rightback.changeControlMode(TalonControlMode.PercentVbus);
+		leftback.set(0);
 		rightback.set(0);
 	}
 

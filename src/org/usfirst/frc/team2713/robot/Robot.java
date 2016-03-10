@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2713.robot;
 
 import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomousCommand;
+import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
 import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
 import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
@@ -239,6 +240,7 @@ public class Robot extends IterativeRobot {
 		if (lights != null)
 			lights.startTeleop();
 		// new DataCollection(drive, hookarm, loader, lights, imu).start();
+		//new GoForward(drive, 72.0, false).start();
 		Scheduler.getInstance().run();
 	}
 
@@ -310,7 +312,7 @@ public class Robot extends IterativeRobot {
 			double pitch = gyro.getPitch();
 			double tilt = Math.sqrt(roll * roll + pitch * pitch) - Math.PI;
 			if (Math.abs(tilt) > RobotMap.IS_TILTED_CONSTANT) {
-				lights.setTilted(true);
+				lights.setTilted(false);
 			} else {
 				lights.setTilted(false);
 			}

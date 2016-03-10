@@ -22,8 +22,6 @@ public class GoToAngle extends Command{
 	
 	@Override
 	protected void initialize() {
-		drive.rightback.changeControlMode(TalonControlMode.Position);
-		drive.leftback.changeControlMode(TalonControlMode.Position);
 		drive.resetPosition();
 		drive.rotate(angle, false);
 	}
@@ -37,13 +35,9 @@ public class GoToAngle extends Command{
 	protected boolean isFinished() {
 		double xboxTotal = Math.abs(xbox.getRightY()) + Math.abs(xbox.getLeftY());
 		if(xboxTotal > .1) {
-			drive.rightback.changeControlMode(TalonControlMode.PercentVbus);
-			drive.leftback.changeControlMode(TalonControlMode.PercentVbus);
 			return true;
 		}
 		if(drive.getAngleRotated() >= angle) {
-			drive.rightback.changeControlMode(TalonControlMode.PercentVbus);
-			drive.leftback.changeControlMode(TalonControlMode.PercentVbus);
 			return true;
 		}
 		return false;
