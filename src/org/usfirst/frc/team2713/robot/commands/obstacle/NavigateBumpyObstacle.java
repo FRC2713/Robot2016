@@ -56,10 +56,7 @@ public class NavigateBumpyObstacle extends Command {
 				return true;
 			}
 		}
-		double xboxTotal = Math.abs(xbox.getRightY()) + Math.abs(xbox.getLeftY());
-		if (xboxTotal > .1) {
-			return true;
-		}
+		
 		return false;
 	}
 

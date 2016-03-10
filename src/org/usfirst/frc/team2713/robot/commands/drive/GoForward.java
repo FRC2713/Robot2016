@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2713.robot.commands.drive;
 
+import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
@@ -13,11 +14,13 @@ public class GoForward extends Command {
 	double distance;
 	double timesRun = 0;
 	boolean shouldStopIfStuck;
+	Robot robot;
 
-	public GoForward(DriveSubsystem drive, double distance, boolean shouldStopIfStuck) {
+	public GoForward(DriveSubsystem drive, double distance, boolean shouldStopIfStuck, Robot robot) {
 		this.drive = drive;
 		this.distance = distance;
 		this.shouldStopIfStuck = shouldStopIfStuck;
+		this.robot = robot;
 		requires(drive);
 	}
 
@@ -36,7 +39,9 @@ public class GoForward extends Command {
 	protected boolean isFinished() {
 		if(Math.abs(drive.getRightDistanceTraveled()) >= Math.abs(distance)
 				&& Math.abs(drive.getLeftDistanceTraveled()) >= Math.abs(distance)) {
-			drive.setPercentVBus();
+			return true;
+		}
+		if(robot.interuptDrive) {
 			return true;
 		}
 		return false;

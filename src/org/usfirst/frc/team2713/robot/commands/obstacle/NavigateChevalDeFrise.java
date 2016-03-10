@@ -12,9 +12,20 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class NavigateChevalDeFrise extends CommandGroup {
 
+	Robot robot;
+	
 	public NavigateChevalDeFrise(DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lightManager, Robot robot) {
+		this.robot = robot;
 		this.addSequential(new ArmPID(hookarm, RobotMap.ARM_LOWER_LIMIT, lightManager, robot));
-		this.addSequential(new GoForward(drive, RobotMap.CHEVAL_DE_FRISE_DISTANCE, false));
+		this.addSequential(new GoForward(drive, RobotMap.CHEVAL_DE_FRISE_DISTANCE, false, robot));
+	}
+	
+	@Override
+	protected boolean isFinished() {
+		if(robot.interuptArm || robot.interuptLoaderWheels) {
+			return true;
+		}
+		return false;
 	}
 
 }

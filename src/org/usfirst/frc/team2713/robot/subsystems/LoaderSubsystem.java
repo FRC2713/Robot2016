@@ -72,7 +72,7 @@ public class LoaderSubsystem extends BaseSubsystem {
 		if (loadCommand != null) {
 			loadCommand.cancel();
 		}
-		loadCommand = new LoadBall(this, lights, robot.oi);
+		loadCommand = new LoadBall(this, lights, robot);
 		loadCommand.start();
 	}
 	

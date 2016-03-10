@@ -12,10 +12,21 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class NavigateGate extends CommandGroup {
 	
+	Robot robot;
+	
 	public NavigateGate(DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lightManager, Robot robot) {
 		addSequential(new ArmPID(hookarm, 0, lightManager, robot));
 		addParallel(new ArmPID(hookarm, Math.PI / 2, lightManager, robot));
-		addParallel(new GoForward(drive, RobotMap.GATE_DISTANCE, false));
+		addParallel(new GoForward(drive, RobotMap.GATE_DISTANCE, false, robot));
+		this.robot = robot;
 	}	
+	
+	@Override
+	protected boolean isFinished() {
+		if(robot.interuptArm || robot.interuptLoaderWheels) {
+			return true;
+		}
+		return false;
+	}
 
 }

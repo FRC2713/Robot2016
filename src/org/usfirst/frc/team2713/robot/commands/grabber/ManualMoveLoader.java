@@ -27,10 +27,6 @@ public class ManualMoveLoader extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		if(polarity == 0) {
-			loader.moveLoader.changeControlMode(TalonControlMode.Position);
-			return true;
-		}
 		return false;
 	}
 
@@ -42,8 +38,10 @@ public class ManualMoveLoader extends Command {
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
-		
+		loader.moveLoader.set(0);
+		double pos = loader.moveLoader.getPosition();
+		loader.moveLoader.changeControlMode(TalonControlMode.Position); // Position mode
+		loader.moveLoader.set(pos); // Hold in place		
 	}
 
 }

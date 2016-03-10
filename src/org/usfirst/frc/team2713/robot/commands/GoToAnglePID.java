@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2713.robot.commands;
 
+import org.usfirst.frc.team2713.robot.Robot;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -8,10 +10,12 @@ public class GoToAnglePID extends Command {
 	double angle;
 	double currentAngle = 0;
 	CANTalon thisTalon;
+	Robot robot;
 	
-	public GoToAnglePID(CANTalon thisTalon, double angle) {
+	public GoToAnglePID(CANTalon thisTalon, double angle, Robot robot) {
 		this.thisTalon = thisTalon;
 		this.angle = angle;
+		this.robot = robot;
 	}
 	
 	@Override
@@ -34,6 +38,9 @@ public class GoToAnglePID extends Command {
 	@Override
 	protected boolean isFinished() {
 		if(Math.abs(thisTalon.get() - angle) < 3) {
+			return true;
+		}
+		if(robot.interuptArm) {
 			return true;
 		}
 		return false;

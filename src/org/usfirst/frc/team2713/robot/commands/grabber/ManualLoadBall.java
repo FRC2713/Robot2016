@@ -16,8 +16,7 @@ public class ManualLoadBall extends Command {
 	
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -27,10 +26,6 @@ public class ManualLoadBall extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		if(polarity == 0) {
-			loader.ballLoader.set(0);
-			return true;
-		}
 		return false;
 	}
 
@@ -42,8 +37,7 @@ public class ManualLoadBall extends Command {
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
-		
+		loader.ballLoader.set(0);
 	}
 
 }

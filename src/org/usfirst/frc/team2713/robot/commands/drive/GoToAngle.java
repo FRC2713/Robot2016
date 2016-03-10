@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2713.robot.commands.drive;
 
+import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
@@ -33,10 +34,6 @@ public class GoToAngle extends Command{
 
 	@Override
 	protected boolean isFinished() {
-		double xboxTotal = Math.abs(xbox.getRightY()) + Math.abs(xbox.getLeftY());
-		if(xboxTotal > .1) {
-			return true;
-		}
 		if(drive.getAngleRotated() >= angle) {
 			return true;
 		}

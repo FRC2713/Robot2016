@@ -1,7 +1,7 @@
 package org.usfirst.frc.team2713.robot;
 
 import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomousCommand;
-import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
+
 import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
 import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
@@ -34,6 +34,11 @@ public class Robot extends IterativeRobot {
 	private SendableChooser myObstacle;
 	private SendableChooser doNothing;
 	private GyroAccelWrapper gyro;
+	public Boolean interuptArm = false;
+	public Boolean interuptAllLoaderMover = false;
+	public Boolean interuptUpperLevelLoaderMover = false;
+	public Boolean interuptLoaderWheels = false;
+	public Boolean interuptDrive = false;
 
 	AutonomousCommand autonomousCommand;
 
@@ -300,6 +305,7 @@ public class Robot extends IterativeRobot {
 	public void commandsToAlwaysRun() {
 		checkLimitSwitches();
 		checkTilted();
+		checkInteruptions();
 		// System.out.println(drive.getDistanceTraveled());
 		if (lights != null) {
 			lights.managerLights();
@@ -316,6 +322,34 @@ public class Robot extends IterativeRobot {
 			} else {
 				lights.setTilted(false);
 			}
+		}
+	}
+	
+	public void checkInteruptions() {
+		if(oi.manualMoveArm()) {
+			interuptArm = true;
+		} else {
+			interuptArm = false;
+		}
+		if(oi.manualMoveLoader()) {
+			interuptAllLoaderMover = true;
+		} else {
+			interuptAllLoaderMover = false;
+		}
+		if(oi.upperLevelMoveLoader()) {
+			interuptUpperLevelLoaderMover = true;
+		} else {
+			interuptUpperLevelLoaderMover = false;
+		}
+		if(oi.manualMoveLoaderWheels()) {
+			interuptLoaderWheels = true;
+		} else {
+			interuptLoaderWheels = false;
+		}
+		if(oi.manualMoveDrive()) {
+			interuptDrive = true;
+		} else {
+			interuptDrive = false;
 		}
 	}
 }

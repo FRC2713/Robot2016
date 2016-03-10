@@ -1,8 +1,7 @@
 package org.usfirst.frc.team2713.robot.commands.grabber;
 
-import org.usfirst.frc.team2713.robot.OI;
+import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
-import org.usfirst.frc.team2713.robot.commands.GoToAnglePID;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
@@ -14,12 +13,12 @@ public class LoadBall extends Command {
 	private double polarity = 1;
 	LoaderSubsystem loader;
 	LightManager lights;
-	OI oi;
+	Robot robot;
 	
-	public LoadBall(LoaderSubsystem loader, LightManager lights, OI oi) {
+	public LoadBall(LoaderSubsystem loader, LightManager lights, Robot robot) {
 		this.lights = lights;
 		this.loader = loader;
-		this.oi = oi;
+		this.robot = robot;
 		requires(loader);
 	}
 	
@@ -27,7 +26,6 @@ public class LoadBall extends Command {
 
 	@Override
 	protected void initialize() {
-		///new GoToAnglePID(loader.moveLoader, 45).start();
 		loader.moveLoader.set(45);
 	}
 
@@ -52,8 +50,7 @@ public class LoadBall extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		if(oi.manualMoveLoaderWheels()) {
-			loader.loadBall(0);
+		if(robot.interuptAllLoaderMover || robot.interuptUpperLevelLoaderMover || robot.interuptLoaderWheels) {
 			return true;
 		}
 		return false;

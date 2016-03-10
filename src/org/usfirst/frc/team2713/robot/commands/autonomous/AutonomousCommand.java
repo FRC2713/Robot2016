@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutonomousCommand extends CommandGroup {
 
 	public AutonomousCommand(DriveSubsystem drive, Robot robot) {
-		addSequential(new GoForward(drive, 25.34, false));
+		addSequential(new GoForward(drive, 25.34, false, robot));
 	}
 	
 	public AutonomousCommand(int startPos, int defense, boolean leftGoal, DriveSubsystem drive, LoaderSubsystem loader, HookArmSubsystem hookarm, LightManager lights, Robot robot, CameraSubsystem camera) {
@@ -38,7 +38,7 @@ public class AutonomousCommand extends CommandGroup {
 		
 		this.addSequential(new GoToWayPoit(drive, waypoit, robot));
 		this.addSequential(new AlignCommand(leftGoal, drive, camera, robot));
-		this.addSequential(new ShootBall(loader, lights));
+		this.addSequential(new ShootBall(loader, lights, robot));
 	}
 	
 	public void manageDefenses(int defense, DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lights, Robot robot) {
@@ -75,7 +75,7 @@ public class AutonomousCommand extends CommandGroup {
 	}
 	
 	public void manageLowBar(DriveSubsystem drive, Robot robot) {
-		this.addSequential(new GoForward(drive, RobotMap.LOW_BAR_DISTANCE, false)); //Needs to be Adjusted
+		this.addSequential(new GoForward(drive, RobotMap.LOW_BAR_DISTANCE, false, robot)); //Needs to be Adjusted
 	}
 	
 	public void manageGate(DriveSubsystem drive, HookArmSubsystem hookarm, LightManager lights, Robot robot) {
@@ -87,7 +87,7 @@ public class AutonomousCommand extends CommandGroup {
 	}
 	
 	public void manageSmallRamps(DriveSubsystem drive, Robot robot) {
-		this.addSequential(new GoForward(drive, RobotMap.SMALL_RAMP_DISTANCE, false)); //Needs to be adjusted
+		this.addSequential(new GoForward(drive, RobotMap.SMALL_RAMP_DISTANCE, false, robot)); //Needs to be adjusted
 	}
 	
 	public void manageMoat(DriveSubsystem drive, LightManager lights, XBoxController xbox) {

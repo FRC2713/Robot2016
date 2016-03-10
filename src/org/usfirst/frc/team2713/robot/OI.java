@@ -1,9 +1,13 @@
 package org.usfirst.frc.team2713.robot;
 
 import org.usfirst.frc.team2713.robot.commands.arm.ManualMoveArm;
+import org.usfirst.frc.team2713.robot.commands.grabber.LoadBall;
+import org.usfirst.frc.team2713.robot.commands.grabber.LoaderPID;
 import org.usfirst.frc.team2713.robot.commands.grabber.ManualLoadBall;
 import org.usfirst.frc.team2713.robot.commands.grabber.ManualMoveLoader;
 import org.usfirst.frc.team2713.robot.commands.grabber.ShootBall;
+import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateChevalDeFrise;
+import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateGate;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
@@ -20,11 +24,16 @@ public class OI {
 	private JoystickButton armDown;
 	private JoystickButton loadIn;
 	private JoystickButton loadOut;
+	private JoystickButton setLoader90;
+	private JoystickButton setLoader45;
 	private JoystickButton loadUp;
 	private JoystickButton loadDown;
-	private JoystickButton shootball;
+	private JoystickButton startLoadCommand;
+	private JoystickButton shootballGamepad;
 	private JoystickButton gateButton;
 	private JoystickButton chevalDeFriseButton;
+	private JoystickButton shootballXbox;
+	private JoystickButton interuptAll;
 	Robot robot;
 
 	/**
@@ -36,12 +45,24 @@ public class OI {
 		return xbox;
 	}
 	
+	public boolean manualMoveDrive() {
+		if(Math.abs(xbox.getLeftY()) + Math.abs(xbox.getRightX()) > .4) {
+			return true;
+		}
+		return false;
+		
+	}
+	
 	public boolean manualMoveLoaderWheels() {
 		return loadIn.get() || loadOut.get();
 	}
 	
 	public boolean manualMoveLoader() {
 		return loadUp.get() || loadDown.get();
+	}
+	
+	public boolean upperLevelMoveLoader() {
+		return setLoader90.get() || setLoader45.get();
 	}
 	
 	public boolean manualMoveArm() {
@@ -57,7 +78,7 @@ public class OI {
 	}
 	
 	public void initCommands(HookArmSubsystem hookarm, LoaderSubsystem loader, LightManager lights, DriveSubsystem drive, Robot robot) {
-		loaderCommands(loader, lights);
+		loaderCommands(loader, lights, robot);
 		hookArmCommands(hookarm);
 		obstacleCommands(hookarm, drive, lights, robot);
 	}
@@ -77,30 +98,36 @@ public class OI {
 		}
 		if (gamepad == null) {
 			gamepad = new XBoxController(RobotMap.BACKUP_ATTACK_PORT);
+			interuptAll = new JoystickButton(gamepad, 10);
 		}
 	}
 
-	public void loaderCommands(LoaderSubsystem loader, LightManager lights) {
+	public void loaderCommands(LoaderSubsystem loader, LightManager lights, Robot robot) {
 		
 		if (loader != null) {
 			if (xbox != null) {
-				shootball = new JoystickButton(gamepad, 4);
-				shootball.whenPressed(new ShootBall(loader, lights));
+				shootballGamepad = new JoystickButton(gamepad, 4);
+				shootballGamepad.whenPressed(new ShootBall(loader, lights, robot));
+				shootballXbox = new JoystickButton(xbox, 3);
+				shootballXbox.whenPressed(new ShootBall(loader, lights, robot));
 			}
 			
 			if (gamepad != null) {
+				setLoader45 = new JoystickButton(xbox, 6);
+				setLoader45.whenPressed(new LoaderPID(loader, 45, lights, robot));
+				setLoader90 = new JoystickButton(xbox, 5);
+				setLoader90.whenPressed(new LoaderPID(loader, 90, lights, robot));
 				loadIn = new JoystickButton(gamepad, 5);
 				loadIn.whileHeld(new ManualLoadBall(loader, -1));
-				loadIn.whenReleased(new ManualLoadBall(loader, 0));
 				loadOut = new JoystickButton(gamepad, 1);
 				loadOut.whileHeld(new ManualLoadBall(loader, 1));
-				loadOut.whenReleased(new ManualLoadBall(loader, 0));
 				loadUp = new JoystickButton(gamepad, 7);
-				loadUp.whileHeld(new ManualMoveLoader(loader, 2));
-				loadUp.whenReleased(new ManualMoveLoader(loader, 0));
+				loadUp.whileHeld(new ManualMoveLoader(loader, 1));
 				loadDown = new JoystickButton(gamepad, 3);
-				loadDown.whileHeld(new ManualMoveLoader(loader, -2));
-				loadDown.whenReleased(new ManualMoveLoader(loader, 0));
+				loadDown.whileHeld(new ManualMoveLoader(loader, -1));
+				startLoadCommand = new JoystickButton(gamepad, 9);
+				startLoadCommand.whenPressed(new LoadBall(loader, lights, robot));
+				
 			}
 		}
 	}
@@ -116,10 +143,10 @@ public class OI {
 
 	public void obstacleCommands(HookArmSubsystem hookarm, DriveSubsystem drive, LightManager lights, Robot robot) {
 		if (drive != null && hookarm != null && xbox != null) {
-			//gateButton = new JoystickButton(xbox, 2);
-			//gateButton.whenPressed(new NavigateGate(drive, hookarm, lights, robot));
-			//chevalDeFriseButton = new JoystickButton(xbox, 3);
-			//chevalDeFriseButton.whenPressed(new NavigateChevalDeFrise(drive, hookarm, lights, robot));
+			gateButton = new JoystickButton(xbox, 1);
+			gateButton.whenPressed(new NavigateGate(drive, hookarm, lights, robot));
+			chevalDeFriseButton = new JoystickButton(xbox, 4);
+			chevalDeFriseButton.whenPressed(new NavigateChevalDeFrise(drive, hookarm, lights, robot));
 		}
 	}
 

@@ -56,7 +56,7 @@ public class AlignCommand extends CommandGroup {
 			this.addSequential(new VisionAlign());
 		}
 		
-		this.addSequential(new GoForward(drive, DISTANCE_TO_FRONT_OF_GOAL, false));
+		this.addSequential(new GoForward(drive, DISTANCE_TO_FRONT_OF_GOAL, false, robot));
 	}
 	
 	private Ultrasonic createUltrasonic(int triggerPort, int echoPort) {

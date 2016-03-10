@@ -24,7 +24,7 @@ public class ArmPID extends Command {
 
 	@Override
 	protected void initialize() {
-		new GoToAnglePID(hookarm.arm, angle).start();
+		new GoToAnglePID(hookarm.arm, angle, robot).start();
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class ArmPID extends Command {
 			}
 			return true;
 		}
-		if(robot.oi.manualMoveArm()) {
+		if(robot.interuptArm) {
 			lightManager.finishPID();
 			return true;
 		}
