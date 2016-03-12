@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2713.robot;
 
+
 import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomousCommand;
 
 import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
@@ -8,6 +9,7 @@ import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
+import org.usfirst.frc.team2713.robot.subsystems.lights.LightSubsystem.Color;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -136,8 +138,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void disabledPeriodic() {
-		commandsToAlwaysRun();
 		Scheduler.getInstance().run();
+		commandsToAlwaysRun();
 	}
 
 	/**
@@ -222,8 +224,8 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		commandsToAlwaysRun();
 		Scheduler.getInstance().run();
+		commandsToAlwaysRun();
 	}
 
 	public void teleopInit() {
@@ -238,8 +240,9 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 		if (drive != null)
 			drive.startTeleop();
-		if (hookarm != null)
+		if (hookarm != null) {
 			hookarm.startTeleop();
+		}
 		if (loader != null)
 			loader.startTeleop();
 		if (lights != null)
@@ -253,8 +256,8 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		commandsToAlwaysRun();
 		Scheduler.getInstance().run();
+		commandsToAlwaysRun();
 	}
 
 	/**
@@ -293,11 +296,8 @@ public class Robot extends IterativeRobot {
 			}
 		}
 		if (loader != null) {
-			if (loader.moveLoader.isFwdLimitSwitchClosed()) {
+			if (!loader.moveLoader.isRevLimitSwitchClosed()) {
 				loader.moveLoader.setPosition(RobotMap.LOADER_LOWER_LIMIT);
-			}
-			if (loader.moveLoader.isRevLimitSwitchClosed()) {
-				loader.moveLoader.setPosition(RobotMap.LOADER_UPPER_LIMIT);
 			}
 		}
 	}
@@ -306,7 +306,6 @@ public class Robot extends IterativeRobot {
 		checkLimitSwitches();
 		checkTilted();
 		checkInteruptions();
-		// System.out.println(drive.getDistanceTraveled());
 		if (lights != null) {
 			lights.managerLights();
 		}

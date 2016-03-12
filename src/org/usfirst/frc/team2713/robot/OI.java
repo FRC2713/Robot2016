@@ -5,6 +5,7 @@ import org.usfirst.frc.team2713.robot.commands.grabber.LoadBall;
 import org.usfirst.frc.team2713.robot.commands.grabber.LoaderPID;
 import org.usfirst.frc.team2713.robot.commands.grabber.ManualLoadBall;
 import org.usfirst.frc.team2713.robot.commands.grabber.ManualMoveLoader;
+import org.usfirst.frc.team2713.robot.commands.grabber.PutLoaderAtTopOrBotton;
 import org.usfirst.frc.team2713.robot.commands.grabber.ShootBall;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateChevalDeFrise;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateGate;
@@ -24,8 +25,8 @@ public class OI {
 	private JoystickButton armDown;
 	private JoystickButton loadIn;
 	private JoystickButton loadOut;
-	private JoystickButton setLoader90;
-	private JoystickButton setLoader45;
+	private JoystickButton putLoaderAtBottom;
+	private JoystickButton putLoaderAtTop;
 	private JoystickButton loadUp;
 	private JoystickButton loadDown;
 	private JoystickButton startLoadCommand;
@@ -54,23 +55,38 @@ public class OI {
 	}
 	
 	public boolean interupted() {
+		if(interuptAll != null) {
 		return interuptAll.get();
+		}
+		return false;
 	}
 	
 	public boolean manualMoveLoaderWheels() {
-		return loadIn.get() || loadOut.get();
+		if(loadIn != null && loadOut != null) {
+			return loadIn.get() || loadOut.get();
+		}
+		return false;
 	}
 	
 	public boolean manualMoveLoader() {
-		return loadUp.get() || loadDown.get();
+		if(loadUp != null && loadDown != null) {
+			return loadUp.get() || loadDown.get();
+		}
+		return false;
 	}
 	
 	public boolean upperLevelMoveLoader() {
-		return setLoader90.get() || setLoader45.get();
+		if(putLoaderAtBottom != null && putLoaderAtTop != null) {
+			return putLoaderAtBottom.get() || putLoaderAtTop.get();
+		}
+		return false;
 	}
 	
 	public boolean manualMoveArm() {
-		return armUp.get() || armDown.get();
+		if(armUp != null && armDown != null) {
+			return armUp.get() || armDown.get();
+		} 
+		return false;
 	}
 
 	public Joystick getFightGamepad() {
@@ -117,20 +133,20 @@ public class OI {
 			}
 			
 			if (gamepad != null) {
-				setLoader45 = new JoystickButton(xbox, 6);
-				setLoader45.whenPressed(new LoaderPID(loader, 45, lights, robot));
-				setLoader90 = new JoystickButton(xbox, 5);
-				setLoader90.whenPressed(new LoaderPID(loader, 90, lights, robot));
+				putLoaderAtTop = new JoystickButton(xbox, 6);
+				putLoaderAtTop.whenPressed(new PutLoaderAtTopOrBotton(true, loader));
+				putLoaderAtBottom = new JoystickButton(xbox, 5);
+				putLoaderAtBottom.whenPressed(new PutLoaderAtTopOrBotton(false, loader));
 				loadIn = new JoystickButton(gamepad, 5);
 				loadIn.whileHeld(new ManualLoadBall(loader, -1));
 				loadOut = new JoystickButton(gamepad, 1);
 				loadOut.whileHeld(new ManualLoadBall(loader, 1));
-				loadUp = new JoystickButton(gamepad, 7);
+				loadUp = new JoystickButton(gamepad, 6);
 				loadUp.whileHeld(new ManualMoveLoader(loader, 1));
-				loadDown = new JoystickButton(gamepad, 3);
+				loadDown = new JoystickButton(gamepad, 2);
 				loadDown.whileHeld(new ManualMoveLoader(loader, -1));
-				startLoadCommand = new JoystickButton(gamepad, 9);
-				startLoadCommand.whenPressed(new LoadBall(loader, lights, robot));
+				//startLoadCommand = new JoystickButton(gamepad, 8);
+				//startLoadCommand.whenPressed(new LoadBall(loader, lights, robot));
 				
 			}
 		}
@@ -138,9 +154,9 @@ public class OI {
 
 	public void hookArmCommands(HookArmSubsystem hookarm) {
 		if (hookarm != null && gamepad != null) {
-			armUp = new JoystickButton(gamepad, 6);
+			armUp = new JoystickButton(gamepad, 7);
 			armUp.whileHeld(new ManualMoveArm(hookarm, -1));
-			armDown = new JoystickButton(gamepad, 2);
+			armDown = new JoystickButton(gamepad, 3);
 			armDown.whileHeld(new ManualMoveArm(hookarm, 1));
 		}
 	}

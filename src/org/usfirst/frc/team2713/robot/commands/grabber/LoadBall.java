@@ -26,13 +26,13 @@ public class LoadBall extends Command {
 
 	@Override
 	protected void initialize() {
-		loader.moveLoader.set(45);
+		//loader.moveLoader.set(50);
 	}
 
 	@Override
 	protected void execute() {
 		System.out.println(loader.moveLoader.getPosition());
-		if(!loader.loadswitch.get()) {
+		if(loader.loadswitch.get()) {
 			if(lights != null) {
 				lights.grabBall();
 			}

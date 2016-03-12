@@ -16,7 +16,7 @@ public class LightManager extends LightSubsystem {
 	public LightManager() {
 		super();
 		System.out.println(DriverStation.getInstance().getAlliance());
-		redOrBlue = DriverStation.getInstance().getAlliance() == Alliance.Red;
+		redOrBlue = true;
 	}
 
 	public void managerLights() {

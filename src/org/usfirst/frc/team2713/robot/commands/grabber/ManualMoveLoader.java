@@ -40,8 +40,8 @@ public class ManualMoveLoader extends Command {
 	protected void interrupted() {
 		loader.moveLoader.set(0);
 		double pos = loader.moveLoader.getPosition();
-		loader.moveLoader.changeControlMode(TalonControlMode.Position); // Position mode
-		loader.moveLoader.set(pos); // Hold in place		
+		//loader.moveLoader.changeControlMode(TalonControlMode.Position); // Position mode
+		//loader.moveLoader.set(pos); // Hold in place		
 	}
 
 }

@@ -25,12 +25,13 @@ public class LoaderSubsystem extends BaseSubsystem {
 		moveLoader.configEncoderCodesPerRev(1);
 		moveLoader.setPID(RobotMap.KpLoader, RobotMap.KiLoader, RobotMap.KdLoader);
 		moveLoader.setPIDSourceType(PIDSourceType.kDisplacement);
-		moveLoader.changeControlMode(TalonControlMode.Position);
+		moveLoader.changeControlMode(TalonControlMode.PercentVbus);
 		
 		moveLoader.reverseSensor(true);
 		moveLoader.enableForwardSoftLimit(false);
 		moveLoader.enableReverseSoftLimit(false);
 		
+		moveLoader.ConfigRevLimitSwitchNormallyOpen(true);
 		moveLoader.enableLimitSwitch(false, false);
 		
 		ballLoader = new CANTalon(RobotMap.BALL_LOADER_MOTOR);
@@ -61,22 +62,24 @@ public class LoaderSubsystem extends BaseSubsystem {
 	}
 
 	public void moveLoader(double polarity) {
+		System.out.println(polarity);
 		moveLoader.set(polarity);
 	}
 
 	public void stopLoadCommand() {
-		loadCommand.cancel();
+		//loadCommand.cancel();
 	}
 
 	public void startLoadCommand() {
 		if (loadCommand != null) {
 			loadCommand.cancel();
 		}
-		loadCommand = new LoadBall(this, lights, robot);
-		loadCommand.start();
+		//loadCommand = new LoadBall(this, lights, robot);
+		//loadCommand.start();
 	}
 	
 	public void resetPossition() {
-		moveLoader.setPosition(0);
+		System.out.println("Reset");
+		moveLoader.setPosition(-5);
 	}
 }

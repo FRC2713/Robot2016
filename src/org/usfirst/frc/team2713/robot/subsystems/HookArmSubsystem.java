@@ -24,7 +24,7 @@ public class HookArmSubsystem extends BaseSubsystem {
 		arm.enableForwardSoftLimit(false); // Insurance
 		arm.enableReverseSoftLimit(false); // We PROBABLY don't need it, so that means we need it.
 		
-		arm.enableLimitSwitch(true, true);
+		arm.enableLimitSwitch(false, true);
 	}
 
 	@Override

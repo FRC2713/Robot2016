@@ -50,20 +50,20 @@ public class RobotMap {
 	public static final double KdDrive = 0;
 
 	//Initialization stuff
-	public static final boolean INIT_DRIVE = true;
-	public static final boolean INIT_HOOKARM = false;
-	public static final boolean INIT_LOADER = false;
+	public static final boolean INIT_DRIVE = false;
+	public static final boolean INIT_HOOKARM = true;
+	public static final boolean INIT_LOADER = true;
 	public static final boolean INIT_LIGHTS = true;
-	public static final boolean INIT_CAMERA = false;
-	public static final boolean INIT_SMART_DASHBOARD = false;
+	public static final boolean INIT_CAMERA = true;
+	public static final boolean INIT_SMART_DASHBOARD = true;
 	public static final boolean INIT_GYRO = true;
 	
 	//Limit Switches
 	public static final int LOADER_LIMIT_SWITCH = 1;
 
 	//Light stuff
-	public static final int RED_DIO_PORT = 7;
-	public static final int GREEN_DIO_PORT = 8;
+	public static final int RED_DIO_PORT = 8;
+	public static final int GREEN_DIO_PORT = 7;
 	public static final int BLUE_DIO_PORT = 9;
 	public static final boolean doMatchDance = true;
 	
@@ -72,12 +72,12 @@ public class RobotMap {
 	public static final int TIME_TO_LOAD_BALL = 200;
 	public static final double KiLoader = 0;
 	public static final double KdLoader = 0;
-	public static final double KpLoader = 5;
-	public static final double LOADER_LOWER_LIMIT = -10; //Might have to swap
-	public static final double LOADER_UPPER_LIMIT = 90;
+	public static final double KpLoader = .0001;
+	public static final double LOADER_LOWER_LIMIT = -5;
 	
 	//Camera Stuff
-	public static final int FRONT_CAMERA = 0;
+	public static final int BACK_CAMERA = 0;
+	public static final int FRONT_CAMERA = 1;
 	public static final int CAMERA_VIEW_ANGLE = 52;
 
 	//Obstacle Settings
@@ -93,10 +93,10 @@ public class RobotMap {
 	public static final double ROBOT_HEIGHT = 13.883;
 
 	//Ultrasonic stuff
-	public static final int SIDE_ULTRASONIC_ECHO_PORT = 5;
-	public static final int SIDE_ULTRASONIC_TRIGGER_PORT = 6;
-	public static final int FRONT_ULTRASONIC_ECHO_PORT = 3;
-	public static final int FRONT_ULTRASONIC_TRIGGER_PORT = 4;
+	public static final int SIDE_ULTRASONIC_ECHO_PORT = 3;
+	public static final int SIDE_ULTRASONIC_TRIGGER_PORT = 4;
+	public static final int FRONT_ULTRASONIC_ECHO_PORT = 5;
+	public static final int FRONT_ULTRASONIC_TRIGGER_PORT = 6;
 
 	public static final boolean TEST = true;
 	
