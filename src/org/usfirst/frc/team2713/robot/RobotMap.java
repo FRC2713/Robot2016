@@ -77,8 +77,7 @@ public class RobotMap {
 	public static final double LOADER_UPPER_LIMIT = 90;
 	
 	//Camera Stuff
-	public static final int BACK_CAMERA = 0;
-	public static final int FRONT_CAMERA = 1;
+	public static final int FRONT_CAMERA = 0;
 	public static final int CAMERA_VIEW_ANGLE = 52;
 
 	//Obstacle Settings

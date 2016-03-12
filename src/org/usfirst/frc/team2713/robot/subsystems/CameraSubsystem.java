@@ -22,12 +22,18 @@ import org.opencv.videoio.Videoio;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.RobotMap.ColorThreshold;
 
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.vision.USBCamera;
+
 public class CameraSubsystem extends BaseSubsystem {
 	private static final Size IMAGE_SIZE = new Size(320, 240);
+	private CameraServer driveCamera;
 	private VideoCapture processingCapture;
 	
 	public CameraSubsystem() {
-		processingCapture = new VideoCapture(RobotMap.BACK_CAMERA);
+		driveCamera = CameraServer.getInstance();
+		driveCamera.startAutomaticCapture("cam0");
+		processingCapture = new VideoCapture("http://axis-camera-2713.local");
 		
 		/*
 		 * Rant time.
@@ -38,9 +44,11 @@ public class CameraSubsystem extends BaseSubsystem {
 		 * Whatever. This setting works. Dealing with it.
 		 * Oh, and, remember to use a version of OpenCV which supports these values.
 		 * ...we had to make our own.
+		 * 
+		 * As of 4 March 2016, we are no longer using the Microsoft Lifecam
+		 * for vision processing. Finally.
 		 */
-		processingCapture.set(Videoio.CAP_PROP_EXPOSURE_AUTO, 0.34D); // 0.34 * 3 is about 1, the Manual setting.
-		processingCapture.set(Videoio.CAP_PROP_EXPOSURE_ABSOLUTE, 0D); // Sets exposure to 5, the minimum.
+		processingCapture.set(Videoio.CAP_PROP_EXPOSURE, 0.1D);
 		
 		if (!processingCapture.isOpened()) {
 			throw new RuntimeException("Camera capture couldn't be started.");
