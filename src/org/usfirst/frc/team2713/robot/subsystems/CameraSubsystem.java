@@ -22,25 +22,15 @@ import org.opencv.videoio.Videoio;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.RobotMap.ColorThreshold;
 
+import edu.wpi.first.wpilibj.CameraServer;
+
 public class CameraSubsystem extends BaseSubsystem {
 	private static final Size IMAGE_SIZE = new Size(320, 240);
 	private VideoCapture processingCapture;
 	
 	public CameraSubsystem() {
 		processingCapture = new VideoCapture(RobotMap.BACK_CAMERA);
-		
-		/*
-		 * Rant time.
-		 * 
-		 * The Microsoft Lifecam 3000 does not like having its exposure set.
-		 * Changing the value a slight bit gives an insane change in exposure.
-		 * Move the value up? Sometimes it goes down.
-		 * Whatever. This setting works. Dealing with it.
-		 * Oh, and, remember to use a version of OpenCV which supports these values.
-		 * ...we had to make our own.
-		 */
-		processingCapture.set(Videoio.CAP_PROP_EXPOSURE_AUTO, 0.34D); // 0.34 * 3 is about 1, the Manual setting.
-		processingCapture.set(Videoio.CAP_PROP_EXPOSURE_ABSOLUTE, 0D); // Sets exposure to 5, the minimum.
+		System.out.println("Init Camera");
 		
 		if (!processingCapture.isOpened()) {
 			throw new RuntimeException("Camera capture couldn't be started.");

@@ -39,12 +39,12 @@ public class DriveSubsystem extends BaseSubsystem {
 		right = new CANTalon(RobotMap.RIGHT_TANK);
 		right.changeControlMode(TalonControlMode.Follower);
 		right.set(RobotMap.RIGHT_TANK_BACK);
-
-		roboDrive = new RobotDrive(leftback, rightback);
 	}
 
 	@Override
 	public void startTeleop() {
+		roboDrive = new RobotDrive(leftback, rightback);
+		System.out.println(robot.getOI().getXbox());
 		rightback.changeControlMode(TalonControlMode.PercentVbus);
 		leftback.changeControlMode(TalonControlMode.PercentVbus);
 		if (robot.getOI().getXbox() != null) {

@@ -1,16 +1,16 @@
 package org.usfirst.frc.team2713.robot;
 
-
 import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomousCommand;
 
+import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
 import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
 import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
-import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightSubsystem.Color;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -27,10 +27,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public OI oi;
+	private CameraServer server;
 	private DriveSubsystem drive;
-	private HookArmSubsystem hookarm;
 	private LoaderSubsystem loader;
-	private LightManager lights;
+	public LightManager lights;
 	private CameraSubsystem camera;
 	private SendableChooser myPossition;
 	private SendableChooser myObstacle;
@@ -47,7 +47,8 @@ public class Robot extends IterativeRobot {
 	static {
 		try {
 			System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
-		} catch (SecurityException | UnsatisfiedLinkError | NullPointerException e) {
+		} catch (SecurityException | UnsatisfiedLinkError
+				| NullPointerException e) {
 			e.printStackTrace();
 			System.out.println("OpenCV could not be loaded. Is it installed?");
 			System.exit(8);
@@ -63,7 +64,7 @@ public class Robot extends IterativeRobot {
 
 		oi = new OI();
 
-		oi.initCommands(hookarm, loader, lights, drive, this);
+		oi.initCommands(loader, lights, drive, this);
 		SmartDashboard.putData(Scheduler.getInstance());
 
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -76,6 +77,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void initSubsystems() {
+		server = CameraServer.getInstance();
+		server.setQuality(50);
+		server.startAutomaticCapture("cam0");
 		if (gyro == null && RobotMap.INIT_GYRO)
 			gyro = new GyroAccelWrapper(); // Calibrated in ADXRS450_Gyro
 											// constructor.
@@ -89,9 +93,6 @@ public class Robot extends IterativeRobot {
 		}
 		if (loader == null && RobotMap.INIT_LOADER)
 			loader = new LoaderSubsystem(lights, this);
-		if (hookarm == null && RobotMap.INIT_HOOKARM) {
-			hookarm = new HookArmSubsystem();
-		}
 		if (RobotMap.INIT_SMART_DASHBOARD) {
 			myPossition = new SendableChooser();
 			myPossition.addDefault("Possition Low Bar", 1);
@@ -128,8 +129,6 @@ public class Robot extends IterativeRobot {
 	public void disabledInit() {
 		if (drive != null)
 			drive.startDisabled();
-		if (hookarm != null)
-			hookarm.startDisabled();
 		if (loader != null) {
 			loader.startDisabled();
 		}
@@ -198,22 +197,15 @@ public class Robot extends IterativeRobot {
 		System.out.printf("Defense: %s\nPosition: %d", defenseStr, startPos);
 		// End of debug messages
 		if (!shouldDoNothing) {
-
 			if (drive != null)
 				drive.startAuto(defense, startPos, isRed, leftGoal);
-
-			if (hookarm != null)
-				hookarm.startAuto(defense, startPos, isRed, leftGoal);
 			if (loader != null)
 				loader.startAuto(defense, startPos, isRed, leftGoal);
-
 			if (lights != null)
 				lights.startAuto(defense, startPos, isRed, leftGoal);
-			if(drive != null && loader != null && hookarm != null && lights != null && camera != null) {
-				autonomousCommand = new AutonomousCommand(defense, startPos, leftGoal, drive, loader, hookarm, lights, this,
-						camera);
-			}
-
+		}
+		if (!shouldDoNothing) {
+			autonomousCommand = new AutonomousCommand(drive, loader, this, defense);
 			if (autonomousCommand != null)
 				autonomousCommand.start();
 		}
@@ -240,15 +232,12 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 		if (drive != null)
 			drive.startTeleop();
-		if (hookarm != null) {
-			hookarm.startTeleop();
-		}
 		if (loader != null)
 			loader.startTeleop();
 		if (lights != null)
 			lights.startTeleop();
 		// new DataCollection(drive, hookarm, loader, lights, imu).start();
-		//new GoForward(drive, 72.0, false).start();
+		// new GoForward(drive, 72.0, false).start();
 		Scheduler.getInstance().run();
 	}
 
@@ -272,9 +261,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void resetSensors() {
-		if (hookarm != null) {
-			hookarm.resetPostition();
-		}
 		if (drive != null) {
 			drive.resetPosition();
 		}
@@ -287,14 +273,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void checkLimitSwitches() {
-		if (hookarm != null) {
-			if (hookarm.arm.isFwdLimitSwitchClosed()) {
-				hookarm.arm.setPosition(RobotMap.ARM_LOWER_LIMIT);
-			}
-			if (hookarm.arm.isRevLimitSwitchClosed()) {
-				hookarm.arm.setPosition(RobotMap.ARM_UPPER_LIMIT);
-			}
-		}
 		if (loader != null) {
 			if (!loader.moveLoader.isRevLimitSwitchClosed()) {
 				loader.moveLoader.setPosition(RobotMap.LOADER_LOWER_LIMIT);
@@ -306,13 +284,14 @@ public class Robot extends IterativeRobot {
 		checkLimitSwitches();
 		checkTilted();
 		checkInteruptions();
+
 		if (lights != null) {
 			lights.managerLights();
 		}
 	}
 
 	public void checkTilted() {
-		if(gyro != null) {
+		if (gyro != null) {
 			double roll = gyro.getRoll();
 			double pitch = gyro.getPitch();
 			double tilt = Math.sqrt(roll * roll + pitch * pitch) - Math.PI;
@@ -323,34 +302,34 @@ public class Robot extends IterativeRobot {
 			}
 		}
 	}
-	
+
 	public void checkInteruptions() {
-		if(oi.manualMoveArm()) {
+		if (oi.manualMoveArm()) {
 			interuptArm = true;
 		} else {
 			interuptArm = false;
 		}
-		if(oi.manualMoveLoader()) {
+		if (oi.manualMoveLoader()) {
 			interuptAllLoaderMover = true;
 		} else {
 			interuptAllLoaderMover = false;
 		}
-		if(oi.upperLevelMoveLoader()) {
+		if (oi.upperLevelMoveLoader()) {
 			interuptUpperLevelLoaderMover = true;
 		} else {
 			interuptUpperLevelLoaderMover = false;
 		}
-		if(oi.manualMoveLoaderWheels()) {
+		if (oi.manualMoveLoaderWheels()) {
 			interuptLoaderWheels = true;
 		} else {
 			interuptLoaderWheels = false;
 		}
-		if(oi.manualMoveDrive()) {
+		if (oi.manualMoveDrive()) {
 			interuptDrive = true;
 		} else {
 			interuptDrive = false;
 		}
-		if(oi.interupted()) {
+		if (oi.interupted()) {
 			interuptLoaderWheels = true;
 			interuptDrive = true;
 			interuptAllLoaderMover = true;

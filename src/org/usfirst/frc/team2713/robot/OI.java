@@ -1,17 +1,12 @@
 package org.usfirst.frc.team2713.robot;
 
-import org.usfirst.frc.team2713.robot.commands.arm.ManualMoveArm;
-import org.usfirst.frc.team2713.robot.commands.grabber.LoadBall;
-import org.usfirst.frc.team2713.robot.commands.grabber.LoaderPID;
 import org.usfirst.frc.team2713.robot.commands.grabber.ManualLoadBall;
 import org.usfirst.frc.team2713.robot.commands.grabber.ManualMoveLoader;
-import org.usfirst.frc.team2713.robot.commands.grabber.PutLoaderAtTopOrBotton;
 import org.usfirst.frc.team2713.robot.commands.grabber.ShootBall;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateChevalDeFrise;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateGate;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
-import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
@@ -47,9 +42,9 @@ public class OI {
 	}
 	
 	public boolean manualMoveDrive() {
-		if(Math.abs(xbox.getLeftY()) + Math.abs(xbox.getRightX()) > .4) {
-			return true;
-		}
+		//if(Math.abs(xbox.getLeftY()) + Math.abs(xbox.getRightX()) > .4) {
+		//	return true;
+		//}
 		return false;
 		
 	}
@@ -62,30 +57,30 @@ public class OI {
 	}
 	
 	public boolean manualMoveLoaderWheels() {
-		if(loadIn != null && loadOut != null) {
-			return loadIn.get() || loadOut.get();
-		}
+		//if(loadIn != null && loadOut != null) {
+		//	return loadIn.get() || loadOut.get();
+		//S}
 		return false;
 	}
 	
 	public boolean manualMoveLoader() {
-		if(loadUp != null && loadDown != null) {
-			return loadUp.get() || loadDown.get();
-		}
+		//if(loadUp != null && loadDown != null) {
+		//	return loadUp.get() || loadDown.get();
+		//}
 		return false;
 	}
 	
 	public boolean upperLevelMoveLoader() {
-		if(putLoaderAtBottom != null && putLoaderAtTop != null) {
-			return putLoaderAtBottom.get() || putLoaderAtTop.get();
-		}
+		//if(putLoaderAtBottom != null && putLoaderAtTop != null) {
+		//	return putLoaderAtBottom.get() || putLoaderAtTop.get();
+		//}
 		return false;
 	}
 	
 	public boolean manualMoveArm() {
-		if(armUp != null && armDown != null) {
-			return armUp.get() || armDown.get();
-		} 
+		//if(armUp != null && armDown != null) {
+		//	return armUp.get() || armDown.get();
+		//s} 
 		return false;
 	}
 
@@ -97,10 +92,8 @@ public class OI {
 		initController();
 	}
 	
-	public void initCommands(HookArmSubsystem hookarm, LoaderSubsystem loader, LightManager lights, DriveSubsystem drive, Robot robot) {
+	public void initCommands(LoaderSubsystem loader, LightManager lights, DriveSubsystem drive, Robot robot) {
 		loaderCommands(loader, lights, robot);
-		hookArmCommands(hookarm);
-		obstacleCommands(hookarm, drive, lights, robot);
 	}
 
 	public void initController() {
@@ -126,47 +119,25 @@ public class OI {
 		
 		if (loader != null) {
 			if (xbox != null) {
-				shootballGamepad = new JoystickButton(gamepad, 4);
-				shootballGamepad.whenPressed(new ShootBall(loader, lights, robot));
-				shootballXbox = new JoystickButton(xbox, 3);
-				shootballXbox.whenPressed(new ShootBall(loader, lights, robot));
+				//shootballGamepad = new JoystickButton(gamepad, 4);
+				//shootballGamepad.whenPressed(new ShootBall(loader, lights, robot));
+				//shootballXbox = new JoystickButton(xbox, 3);
+				//shootballXbox.whenPressed(new ShootBall(loader, lights, robot));
 			}
 			
 			if (gamepad != null) {
-				putLoaderAtTop = new JoystickButton(xbox, 6);
-				putLoaderAtTop.whenPressed(new PutLoaderAtTopOrBotton(true, loader));
-				putLoaderAtBottom = new JoystickButton(xbox, 5);
-				putLoaderAtBottom.whenPressed(new PutLoaderAtTopOrBotton(false, loader));
 				loadIn = new JoystickButton(gamepad, 5);
-				loadIn.whileHeld(new ManualLoadBall(loader, -1));
+				loadIn.whileHeld(new ManualLoadBall(loader, -100));
 				loadOut = new JoystickButton(gamepad, 1);
-				loadOut.whileHeld(new ManualLoadBall(loader, 1));
-				loadUp = new JoystickButton(gamepad, 6);
-				loadUp.whileHeld(new ManualMoveLoader(loader, 1));
-				loadDown = new JoystickButton(gamepad, 2);
-				loadDown.whileHeld(new ManualMoveLoader(loader, -1));
+				loadOut.whileHeld(new ManualLoadBall(loader, 100));
+				loadUp = new JoystickButton(xbox, 6);
+				loadUp.whileHeld(new ManualMoveLoader(loader, -1));
+				loadDown = new JoystickButton(xbox, 5);
+				loadDown.whileHeld(new ManualMoveLoader(loader, 1));
 				//startLoadCommand = new JoystickButton(gamepad, 8);
 				//startLoadCommand.whenPressed(new LoadBall(loader, lights, robot));
 				
 			}
-		}
-	}
-
-	public void hookArmCommands(HookArmSubsystem hookarm) {
-		if (hookarm != null && gamepad != null) {
-			armUp = new JoystickButton(gamepad, 7);
-			armUp.whileHeld(new ManualMoveArm(hookarm, -1));
-			armDown = new JoystickButton(gamepad, 3);
-			armDown.whileHeld(new ManualMoveArm(hookarm, 1));
-		}
-	}
-
-	public void obstacleCommands(HookArmSubsystem hookarm, DriveSubsystem drive, LightManager lights, Robot robot) {
-		if (drive != null && hookarm != null && xbox != null) {
-			gateButton = new JoystickButton(xbox, 1);
-			gateButton.whenPressed(new NavigateGate(drive, hookarm, lights, robot));
-			chevalDeFriseButton = new JoystickButton(xbox, 4);
-			chevalDeFriseButton.whenPressed(new NavigateChevalDeFrise(drive, hookarm, lights, robot));
 		}
 	}
 

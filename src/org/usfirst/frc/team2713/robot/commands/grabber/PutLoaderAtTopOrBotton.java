@@ -8,25 +8,26 @@ public class PutLoaderAtTopOrBotton extends Command {
 
 	boolean topOrBottom;
 	LoaderSubsystem loader;
+	double startTime = 0;
 	
-	public PutLoaderAtTopOrBotton(boolean topOrBotton, LoaderSubsystem loader) {
+	public PutLoaderAtTopOrBotton(boolean topOrBottom, LoaderSubsystem loader) {
 		this.loader = loader;
 		this.topOrBottom = topOrBottom;
 	}
 	
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		
+		startTime = System.currentTimeMillis();
 	}
 
 	@Override
 	protected void execute() {
 		if(topOrBottom && !loader.moveLoader.isRevLimitSwitchClosed()) {
-			loader.moveLoader(-1);
+			System.out.println("Hi!");
+			//loader.moveLoader(-1);
 		}
 		if(!topOrBottom) {
-			loader.moveLoader(1);
+			loader.moveLoader(-1);
 		}
 	}
 
@@ -36,13 +37,8 @@ public class PutLoaderAtTopOrBotton extends Command {
 			loader.moveLoader(0);
 			return true;
 		}
-		if(!topOrBottom) {
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		if(!topOrBottom && System.currentTimeMillis() - startTime > 200) {
+			loader.moveLoader(0);
 			return true;
 		}
 		return false;
