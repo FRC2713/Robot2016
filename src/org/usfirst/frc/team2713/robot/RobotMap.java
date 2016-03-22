@@ -93,10 +93,10 @@ public class RobotMap {
 	public static final double ROBOT_HEIGHT = 13.883;
 
 	//Ultrasonic stuff
-	public static final int SIDE_ULTRASONIC_ECHO_PORT = 3;
-	public static final int SIDE_ULTRASONIC_TRIGGER_PORT = 4;
-	public static final int FRONT_ULTRASONIC_ECHO_PORT = 5;
-	public static final int FRONT_ULTRASONIC_TRIGGER_PORT = 6;
+	public static final int SIDE_ULTRASONIC_ECHO_PORT = 5;
+	public static final int SIDE_ULTRASONIC_TRIGGER_PORT = 6;
+	public static final int FRONT_ULTRASONIC_ECHO_PORT = 3;
+	public static final int FRONT_ULTRASONIC_TRIGGER_PORT = 4;
 
 	public static final boolean TEST = true;
 	
