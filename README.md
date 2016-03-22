@@ -10,7 +10,7 @@ git submodule init
 git submodule update
 ```
 
-Once the project is imported, save the OpenCV 3.1.0 Java wrapper library as "(project root directory)/lib/opencv-310.jar". We use a custom version of OpenCV 3.1.0. You can find it [here](https://github.com/mmiillkkaa/opencv).
+Once the project is imported, save the OpenCV 3.1.0 Java wrapper library as "(project root directory)/lib/opencv-310.jar".
 
 ## Deploying
 In order to build/deploy from this branch, OpenCV 3.1.0 must be installed on the RoboRIO to /usr/local.
