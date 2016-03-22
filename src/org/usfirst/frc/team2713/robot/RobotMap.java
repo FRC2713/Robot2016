@@ -22,7 +22,6 @@ public class RobotMap {
 	public static final int RIGHT_TANK = 3;
 	public static final int LEFT_TANK_BACK = 2;
 	public static final int RIGHT_TANK_BACK = 4;
-	public static final int ARM_MOTOR = 5;
 	public static final int MOVE_LOAD_MOTOR = 6;
 	public static final int BALL_LOADER_MOTOR = 7;
 
@@ -30,8 +29,8 @@ public class RobotMap {
 	public static final String XBOX_NAME = "Controller (XBOX 360 For Windows)";
 	public static final String ATTACK_NAME = "Logitech Attack 3";
 	public static final String GAMEPAD_NAME = "Mayflash Arcade Stick";
-	public static final int BACKUP_XBOX_PORT = 2;
-	public static final int BACKUP_ATTACK_PORT = 3;
+	public static final int BACKUP_XBOX_PORT = 12;
+	public static final int BACKUP_ATTACK_PORT = 21;
 	
 	//Arm Stuff
 	public static final double KpArm = 8D;
@@ -50,13 +49,14 @@ public class RobotMap {
 	public static final double KdDrive = 0;
 
 	//Initialization stuff
-	public static final boolean INIT_DRIVE = false;
-	public static final boolean INIT_HOOKARM = true;
+	public static final boolean INIT_DRIVE = true;
+	public static final boolean INIT_HOOKARM = false;
 	public static final boolean INIT_LOADER = true;
 	public static final boolean INIT_LIGHTS = true;
-	public static final boolean INIT_CAMERA = true;
+	public static final boolean INIT_CAMERA = false;
 	public static final boolean INIT_SMART_DASHBOARD = true;
 	public static final boolean INIT_GYRO = true;
+	
 	
 	//Limit Switches
 	public static final int LOADER_LIMIT_SWITCH = 1;
@@ -98,7 +98,7 @@ public class RobotMap {
 	public static final int FRONT_ULTRASONIC_ECHO_PORT = 3;
 	public static final int FRONT_ULTRASONIC_TRIGGER_PORT = 4;
 
-	public static final boolean TEST = true;
+	public static final boolean TEST = false;
 	
 	public enum ColorThreshold {
 		HIGH_GOAL(new Scalar(35D, 64D, 48D, 0D), new Scalar(93D, 144D, 255D, 0D));

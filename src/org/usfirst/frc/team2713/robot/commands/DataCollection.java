@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
-import org.usfirst.frc.team2713.robot.subsystems.HookArmSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightSubsystem;
 
@@ -16,7 +15,6 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DataCollection extends Command {
 	DriveSubsystem drive;
-	HookArmSubsystem hookarm;
 	LoaderSubsystem loader;
 	LightSubsystem light;
 	ArrayList<Double> batteryVoltage;
@@ -28,9 +26,8 @@ public class DataCollection extends Command {
 	ArrayList<Double> timeData;
 	double startTime;
 
-	public DataCollection(DriveSubsystem drive, HookArmSubsystem hookarm, LoaderSubsystem loader, LightSubsystem light) {
+	public DataCollection(DriveSubsystem drive, LoaderSubsystem loader, LightSubsystem light) {
 		this.drive = drive;
-		this.hookarm = hookarm;
 		this.loader = loader;
 		this.light = light;
 		batteryVoltage = new ArrayList<Double>();
@@ -54,12 +51,6 @@ public class DataCollection extends Command {
 			driveTotal.add(drive.getDriveTotal());
 		} else {
 			driveTotal.add(0.0);
-		}
-		
-		if (hookarm != null) {
-			armTotal.add(Math.abs(hookarm.arm.getBusVoltage()));
-		} else {
-			armTotal.add(0.0);
 		}
 		
 		if (loader != null) {
@@ -116,13 +107,6 @@ public class DataCollection extends Command {
 				if (batteryVoltage != null) {
 					try {
 						print.print(batteryVoltage.get(i) + ",");
-					} catch (IndexOutOfBoundsException ex) {
-
-					}
-				}
-				if (armTotal != null) {
-					try {
-						print.print(armTotal.get(i) + ",");
 					} catch (IndexOutOfBoundsException ex) {
 
 					}
