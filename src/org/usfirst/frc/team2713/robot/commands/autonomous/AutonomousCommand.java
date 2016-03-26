@@ -40,14 +40,14 @@ public class AutonomousCommand extends CommandGroup {
 		this.addSequential(new GoToWayPoint(drive, WaypointMap.ONE, robot));
 		manageDefenses(defense, drive, lights, robot);
 
-		Waypoint waypoit;
+		Waypoint waypoint;
 		if (leftGoal) {
-			waypoit = WaypointMap.GOAL_POIT[0][startPos];
+			waypoint = WaypointMap.GOAL_POIT[0][startPos];
 		} else {
-			waypoit = WaypointMap.GOAL_POIT[1][startPos - 3];
+			waypoint = WaypointMap.GOAL_POIT[1][startPos - 3];
 		}
 
-		this.addSequential(new GoToWayPoint(drive, waypoit, robot));
+		this.addSequential(new GoToWayPoint(drive, waypoint, robot));
 		this.addSequential(new AlignCommand(leftGoal, drive, camera, robot));
 		this.addSequential(new ShootBall(loader, lights, robot));
 	}

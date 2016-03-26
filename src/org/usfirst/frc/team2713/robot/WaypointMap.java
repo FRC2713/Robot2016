@@ -1,19 +1,19 @@
 package org.usfirst.frc.team2713.robot;
 
 /**
- * The WaypoitMap keeps track of all of the various different waypoit positions
+ * The waypointMap keeps track of all of the various different waypoint positions
  * used for the autonomous.
  */
 public class WaypointMap {
 
 	/* //path is same for A-E 0-2 since it is all relative, only differences come with goals
-	public static final WayPoit[] Path = {
-			new WayPoit(0,0), //0
-			new WayPoit(0,0) //1
+	public static final waypoint[] Path = {
+			new waypoint(0,0), //0
+			new waypoint(0,0) //1
 			};
 	*/
 	
-	//First Waypoit, path is same for A-E 0-2 since it is all relative, only differences come with goals
+	//First waypoint, path is same for A-E 0-2 since it is all relative, only differences come with goals
 	public static final Waypoint ONE = new Waypoint(57.845, 0);
 	
 	//Left is 0, Right is 1
