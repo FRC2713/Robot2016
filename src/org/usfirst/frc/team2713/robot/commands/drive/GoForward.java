@@ -39,8 +39,6 @@ public class GoForward extends Command {
 	@Override
 	protected boolean isFinished() {
 		if(System.currentTimeMillis() - startTime > Math.abs(distance)) {
-			drive.leftback.set(0);
-			drive.rightback.set(0);
 			return true;
 		}
 		return false;
@@ -54,8 +52,7 @@ public class GoForward extends Command {
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
-
+		drive.move(0);
 	}
 
 }

@@ -22,6 +22,7 @@ public class ManualLoadBall extends Command {
 	@Override
 	protected void execute() {
 		loader.ballLoader.set(polarity);
+		System.out.println(loader.ballLoader.getOutputCurrent());
 	}
 
 	@Override

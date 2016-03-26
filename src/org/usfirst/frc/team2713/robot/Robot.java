@@ -2,13 +2,11 @@ package org.usfirst.frc.team2713.robot;
 
 import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomousCommand;
 
-import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
 import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
 import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
-import org.usfirst.frc.team2713.robot.subsystems.lights.LightSubsystem.Color;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -47,8 +45,7 @@ public class Robot extends IterativeRobot {
 	static {
 		try {
 			System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
-		} catch (SecurityException | UnsatisfiedLinkError
-				| NullPointerException e) {
+		} catch (SecurityException | UnsatisfiedLinkError | NullPointerException e) {
 			e.printStackTrace();
 			System.out.println("OpenCV could not be loaded. Is it installed?");
 			System.exit(8);
@@ -61,10 +58,6 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		initSubsystems();
-
-		oi = new OI();
-
-		oi.initCommands(loader, lights, drive, this);
 		SmartDashboard.putData(Scheduler.getInstance());
 
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -77,9 +70,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void initSubsystems() {
-		server = CameraServer.getInstance();
-		server.setQuality(50);
-		server.startAutomaticCapture("cam0");
+		// server = CameraServer.getInstance();
+		// server.setQuality(50);
+		// server.startAutomaticCapture("cam0");
 		if (gyro == null && RobotMap.INIT_GYRO)
 			gyro = new GyroAccelWrapper(); // Calibrated in ADXRS450_Gyro
 											// constructor.
@@ -221,6 +214,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
+		oi = new OI();
+		oi.initCommands(loader, lights, drive, this);
 		if (RobotMap.TEST) {
 			resetSensors();
 		}
@@ -274,9 +269,9 @@ public class Robot extends IterativeRobot {
 
 	public void checkLimitSwitches() {
 		if (loader != null) {
-			if (!loader.moveLoader.isRevLimitSwitchClosed()) {
-				loader.moveLoader.setPosition(RobotMap.LOADER_LOWER_LIMIT);
-			}
+			// if (!loader.moveLoader.isRevLimitSwitchClosed()) {
+			// loader.moveLoader.setPosition(RobotMap.LOADER_LOWER_LIMIT);
+			// }
 		}
 	}
 
@@ -304,36 +299,38 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void checkInteruptions() {
-		if (oi.manualMoveArm()) {
-			interuptArm = true;
-		} else {
-			interuptArm = false;
-		}
-		if (oi.manualMoveLoader()) {
-			interuptAllLoaderMover = true;
-		} else {
-			interuptAllLoaderMover = false;
-		}
-		if (oi.upperLevelMoveLoader()) {
-			interuptUpperLevelLoaderMover = true;
-		} else {
-			interuptUpperLevelLoaderMover = false;
-		}
-		if (oi.manualMoveLoaderWheels()) {
-			interuptLoaderWheels = true;
-		} else {
-			interuptLoaderWheels = false;
-		}
-		if (oi.manualMoveDrive()) {
-			interuptDrive = true;
-		} else {
-			interuptDrive = false;
-		}
-		if (oi.interupted()) {
-			interuptLoaderWheels = true;
-			interuptDrive = true;
-			interuptAllLoaderMover = true;
-			interuptArm = true;
+		if (oi != null) {
+			if (oi.manualMoveArm()) {
+				interuptArm = true;
+			} else {
+				interuptArm = false;
+			}
+			if (oi.manualMoveLoader()) {
+				interuptAllLoaderMover = true;
+			} else {
+				interuptAllLoaderMover = false;
+			}
+			if (oi.upperLevelMoveLoader()) {
+				interuptUpperLevelLoaderMover = true;
+			} else {
+				interuptUpperLevelLoaderMover = false;
+			}
+			if (oi.manualMoveLoaderWheels()) {
+				interuptLoaderWheels = true;
+			} else {
+				interuptLoaderWheels = false;
+			}
+			if (oi.manualMoveDrive()) {
+				interuptDrive = true;
+			} else {
+				interuptDrive = false;
+			}
+			if (oi.interupted()) {
+				interuptLoaderWheels = true;
+				interuptDrive = true;
+				interuptAllLoaderMover = true;
+				interuptArm = true;
+			}
 		}
 	}
 }

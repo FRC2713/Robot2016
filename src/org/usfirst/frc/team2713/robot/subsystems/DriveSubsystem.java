@@ -27,7 +27,7 @@ public class DriveSubsystem extends BaseSubsystem {
 	public DriveSubsystem(Robot robot, GyroAccelWrapper gyro) {
 		this.gyro = gyro;
 		this.robot = robot;
-		
+				
 		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
 
 		leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
@@ -81,10 +81,7 @@ public class DriveSubsystem extends BaseSubsystem {
 	}
 
 	public void resetPosition() {
-		leftback.setPosition(0);
 		rightback.setPosition(0);
-		leftback.set(0);
-		rightback.set(0);
 	}
 	
 	/**
@@ -104,12 +101,8 @@ public class DriveSubsystem extends BaseSubsystem {
 		rightback.set(pos);
 	}
 	
-	public double getRightDistanceTraveled() {
+	public double getDistance() {
 		return rightback.getPosition();
-	}
-	
-	public double getLeftDistanceTraveled() {
-		return leftback.getPosition();
 	}
 	
 	public double getAngleRotated() {

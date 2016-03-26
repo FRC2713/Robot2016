@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
 	private XBoxController xbox;
-	private Joystick gamepad;
+	private XBoxController gamepad;
 	private JoystickButton armUp;
 	private JoystickButton armDown;
 	private JoystickButton loadIn;
@@ -103,7 +103,7 @@ public class OI {
 				xbox = new XBoxController(i);
 			}
 			if (test.getName().equals(RobotMap.GAMEPAD_NAME)) {
-				gamepad = new Joystick(i);
+				gamepad = new XBoxController(i);
 			}
 		}
 		if (xbox == null) {
@@ -127,9 +127,9 @@ public class OI {
 			
 			if (gamepad != null) {
 				loadIn = new JoystickButton(gamepad, 5);
-				loadIn.whileHeld(new ManualLoadBall(loader, -100));
+				loadIn.whileHeld(new ManualLoadBall(loader, -1));
 				loadOut = new JoystickButton(gamepad, 1);
-				loadOut.whileHeld(new ManualLoadBall(loader, 100));
+				loadOut.whileHeld(new ManualLoadBall(loader, 1));
 				loadUp = new JoystickButton(xbox, 6);
 				loadUp.whileHeld(new ManualMoveLoader(loader, -1));
 				loadDown = new JoystickButton(xbox, 5);

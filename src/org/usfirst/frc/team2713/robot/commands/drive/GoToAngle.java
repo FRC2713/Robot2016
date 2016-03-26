@@ -48,8 +48,7 @@ public class GoToAngle extends Command{
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
-		
+		drive.move(0);
 	}
 	
 
