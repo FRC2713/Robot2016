@@ -8,9 +8,9 @@ import org.usfirst.frc.team2713.robot.OI;
 import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.RobotMap.ColorThreshold;
-import org.usfirst.frc.team2713.robot.Waypoit;
-import org.usfirst.frc.team2713.robot.WaypoitMap;
-import org.usfirst.frc.team2713.robot.commands.GoToWayPoit;
+import org.usfirst.frc.team2713.robot.Waypoint;
+import org.usfirst.frc.team2713.robot.WaypointMap;
+import org.usfirst.frc.team2713.robot.commands.GoToWayPoint;
 import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
 import org.usfirst.frc.team2713.robot.commands.drive.GoToAngle;
 import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
@@ -27,7 +27,7 @@ public class AlignCommand extends CommandGroup {
 	private static final double HIGH_GOAL_VISION_ERROR_MARGIN = 3; //degrees
 	private static final double DISTANCE_TO_FRONT_OF_GOAL = 61.619; //inches, from the correctional point
 	
-	private Waypoit correctionWaypoit;
+	private Waypoint correctionWaypoit;
 	
 	private boolean isLeft;
 	
@@ -43,13 +43,13 @@ public class AlignCommand extends CommandGroup {
 		this.isLeft = isLeft;
 		
 		//Some lazy things happen to make this work.
-		this.correctionWaypoit = new Waypoit();
+		this.correctionWaypoit = new Waypoint();
 
 		ultrasonicFront = createUltrasonic(RobotMap.FRONT_ULTRASONIC_TRIGGER_PORT, RobotMap.FRONT_ULTRASONIC_ECHO_PORT);
 		ultrasonicSide = createUltrasonic(RobotMap.SIDE_ULTRASONIC_TRIGGER_PORT, RobotMap.SIDE_ULTRASONIC_ECHO_PORT);
 		
 		this.addSequential(new CorrectDistance(drive.gyro.getAngle())); //<-- Lazy stuff happens here
-		this.addSequential(new GoToWayPoit(drive, correctionWaypoit, robot));
+		this.addSequential(new GoToWayPoint(drive, correctionWaypoit, robot));
 		this.addSequential(new GoToAngle(drive, 60 * (isLeft ? -1 : 1), robot.oi.getXbox()));
 		
 		if (camera != null) {
@@ -81,10 +81,10 @@ public class AlignCommand extends CommandGroup {
 			double distanceY = ultrasonicSide.getRangeInches() * cos;
 			if (isLeft) { //If you didn't guess yet, makeNewXY is the lazy solution.
 				correctionWaypoit.makeNewXY(distanceX, distanceY,
-						WaypoitMap.LEFT_END_X, WaypoitMap.LEFT_END_Y);
+						WaypointMap.LEFT_END_X, WaypointMap.LEFT_END_Y);
 			} else {
 				correctionWaypoit.makeNewXY(distanceX, 319.72 - distanceY,
-						WaypoitMap.RIGHT_END_X, WaypoitMap.RIGHT_END_Y);
+						WaypointMap.RIGHT_END_X, WaypointMap.RIGHT_END_Y);
 			}
 		}
 

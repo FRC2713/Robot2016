@@ -2,9 +2,9 @@ package org.usfirst.frc.team2713.robot.commands.autonomous;
 
 import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
-import org.usfirst.frc.team2713.robot.Waypoit;
-import org.usfirst.frc.team2713.robot.WaypoitMap;
-import org.usfirst.frc.team2713.robot.commands.GoToWayPoit;
+import org.usfirst.frc.team2713.robot.Waypoint;
+import org.usfirst.frc.team2713.robot.WaypointMap;
+import org.usfirst.frc.team2713.robot.commands.GoToWayPoint;
 import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
 import org.usfirst.frc.team2713.robot.commands.grabber.PutLoaderAtTopOrBotton;
 import org.usfirst.frc.team2713.robot.commands.grabber.ShootBall;
@@ -37,17 +37,17 @@ public class AutonomousCommand extends CommandGroup {
 	public AutonomousCommand(int startPos, int defense, boolean leftGoal,
 			DriveSubsystem drive, LoaderSubsystem loader, LightManager lights,
 			Robot robot, CameraSubsystem camera) {
-		this.addSequential(new GoToWayPoit(drive, WaypoitMap.ONE, robot));
+		this.addSequential(new GoToWayPoint(drive, WaypointMap.ONE, robot));
 		manageDefenses(defense, drive, lights, robot);
 
-		Waypoit waypoit;
+		Waypoint waypoit;
 		if (leftGoal) {
-			waypoit = WaypoitMap.GOAL_POIT[0][startPos];
+			waypoit = WaypointMap.GOAL_POIT[0][startPos];
 		} else {
-			waypoit = WaypoitMap.GOAL_POIT[1][startPos - 3];
+			waypoit = WaypointMap.GOAL_POIT[1][startPos - 3];
 		}
 
-		this.addSequential(new GoToWayPoit(drive, waypoit, robot));
+		this.addSequential(new GoToWayPoint(drive, waypoit, robot));
 		this.addSequential(new AlignCommand(leftGoal, drive, camera, robot));
 		this.addSequential(new ShootBall(loader, lights, robot));
 	}
