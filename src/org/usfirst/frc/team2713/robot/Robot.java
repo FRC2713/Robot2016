@@ -37,7 +37,7 @@ public class Robot extends IterativeRobot {
 	public LightManager lights;
 	private VisionSubsystem visionSubsystem;
 	private CameraServer cameraServer;
-	private SendableChooser myPossition;
+	private SendableChooser myPosition;
 	private SendableChooser myObstacle;
 	private SendableChooser doNothing;
 	private GyroAccelWrapper gyro;
@@ -97,22 +97,20 @@ public class Robot extends IterativeRobot {
 
 			}
 		}
-		if (lights == null && RobotMap.INIT_LIGHTS) {
+		if (lights == null && RobotMap.INIT_LIGHTS)
 			lights = new LightManager();
-		}
-		if (drive == null && RobotMap.INIT_DRIVE) {
+		if (drive == null && RobotMap.INIT_DRIVE)
 			drive = new DriveSubsystem(this, gyro);
-		}
 		if (loader == null && RobotMap.INIT_LOADER)
 			loader = new LoaderSubsystem(lights, this);
 		if (RobotMap.INIT_SMART_DASHBOARD) {
-			myPossition = new SendableChooser();
-			myPossition.addDefault("Possition Low Bar", 1);
-			myPossition.addObject("Possition 2", 2);
-			myPossition.addObject("Possition 3", 3);
-			myPossition.addObject("Possition 4", 4);
-			myPossition.addObject("Possition 5", 5);
-			SmartDashboard.putData("Possition Chooser", myPossition);
+			myPosition = new SendableChooser();
+			myPosition.addDefault("Position Low Bar", 1);
+			myPosition.addObject("Position 2", 2);
+			myPosition.addObject("Position 3", 3);
+			myPosition.addObject("Position 4", 4);
+			myPosition.addObject("Position 5", 5);
+			SmartDashboard.putData("Position Chooser", myPosition);
 			myObstacle = new SendableChooser();
 			myObstacle.addDefault("Obstacle: Low Bar", 0);
 			myObstacle.addObject("Obstacle: Portcullis ", 1);
@@ -132,7 +130,6 @@ public class Robot extends IterativeRobot {
 		}
 		oi = new OI();
 		oi.initCommands(loader, lights, drive, this);
-
 	}
 
 	/**
@@ -143,9 +140,8 @@ public class Robot extends IterativeRobot {
 	public void disabledInit() {
 		if (drive != null)
 			drive.startDisabled();
-		if (loader != null) {
+		if (loader != null)
 			loader.startDisabled();
-		}
 		if (lights != null)
 			lights.startDisabled();
 	}
@@ -174,7 +170,7 @@ public class Robot extends IterativeRobot {
 		// Start of debug messages
 		String defenseStr;
 		int defense = (Integer) myObstacle.getSelected();
-		int startPos = (Integer) myPossition.getSelected();
+		int startPos = (Integer) myPosition.getSelected();
 		shouldDoNothing = (Boolean) doNothing.getSelected();
 		switch (defense) {
 		case 0:
@@ -235,9 +231,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		if (RobotMap.TEST) {
+		if (RobotMap.TEST)
 			resetSensors();
-		}
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -277,15 +272,12 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void resetSensors() {
-		if (drive != null) {
+		if (drive != null)
 			drive.resetPosition();
-		}
-		if (loader != null) {
-			loader.resetPossition();
-		}
-		if (gyro != null) {
+		if (loader != null)
+			loader.resetPosition();
+		if (gyro != null)
 			gyro.reset();
-		}
 	}
 
 	public void checkLimitSwitches() {
@@ -302,9 +294,8 @@ public class Robot extends IterativeRobot {
 		checkTilted();
 		checkInteruptions();
 
-		if (lights != null) {
+		if (lights != null)
 			lights.managerLights();
-		}
 	}
 
 	public void doCameraStuff() {
