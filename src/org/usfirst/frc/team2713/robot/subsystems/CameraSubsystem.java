@@ -20,13 +20,22 @@ import org.opencv.core.Size;
 import org.opencv.videoio.VideoCapture;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.RobotMap.ColorThreshold;
+import org.usfirst.frc.team2713.robot.commands.camera.CameraFlip;
+
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.FlipAxis;
+import com.ni.vision.NIVision.Image;
+
+import edu.wpi.first.wpilibj.CameraServer;
 
 public class CameraSubsystem extends BaseSubsystem {
 	private static final Size IMAGE_SIZE = new Size(320, 240);
 	private VideoCapture processingCapture;
+	private CameraServer cameraServer;
 	
 	public CameraSubsystem() {
 		processingCapture = new VideoCapture(RobotMap.BACK_CAMERA);
+		//cameraServer = CameraServer.getInstance();
 		
 		if (!processingCapture.isOpened()) {
 			throw new RuntimeException("Camera capture couldn't be started.");
@@ -145,7 +154,15 @@ public class CameraSubsystem extends BaseSubsystem {
 		return Math.atan((apparentDistance * (targetWidth / apparentWidth))/findDistanceToContour(contour, targetWidth));
 	}
 	
+	public void setTeleopImage(Image image, boolean flip) {
+		if (flip) {
+			NIVision.imaqFlip(image, image, FlipAxis.CENTER_AXIS);
+		}
+		cameraServer.setImage(image);
+	}
+	
 	public void releaseCamera() {
 		processingCapture.release();
 	}
+
 }

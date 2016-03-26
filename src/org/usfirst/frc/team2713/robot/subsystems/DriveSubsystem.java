@@ -90,14 +90,14 @@ public class DriveSubsystem extends BaseSubsystem {
 	 */
 	public void move(double polarity) {
 		leftback.set(polarity);
-		rightback.set(polarity);
+		rightback.set(-polarity);
 	}
 
 	public void rotate(double angle, boolean radians) {
 		if (!radians)
 			angle *= Math.PI / 180;
 		double pos = angle * (RobotMap.ROBOT_WIDTH / 2);
-		leftback.set(-pos);
+		leftback.set(pos);
 		rightback.set(pos);
 	}
 	

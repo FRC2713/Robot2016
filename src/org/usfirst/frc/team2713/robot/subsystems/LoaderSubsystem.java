@@ -20,7 +20,6 @@ public class LoaderSubsystem extends BaseSubsystem {
 	Robot robot;
 
 	public LoaderSubsystem(LightManager lights, Robot robot) {
-		/*
 		moveLoader = new CANTalon(RobotMap.MOVE_LOAD_MOTOR);
 		
 		moveLoader.configEncoderCodesPerRev(1);
@@ -34,7 +33,7 @@ public class LoaderSubsystem extends BaseSubsystem {
 		
 		moveLoader.ConfigRevLimitSwitchNormallyOpen(true);
 		moveLoader.enableLimitSwitch(false, false);
-		*/
+
 		ballLoader = new CANTalon(RobotMap.BALL_LOADER_MOTOR);
 		loadswitch = new DigitalInput(RobotMap.LOADER_LIMIT_SWITCH);
 		
@@ -80,7 +79,6 @@ public class LoaderSubsystem extends BaseSubsystem {
 	}
 	
 	public void resetPossition() {
-		System.out.println("Reset");
 		moveLoader.setPosition(-5);
 	}
 }

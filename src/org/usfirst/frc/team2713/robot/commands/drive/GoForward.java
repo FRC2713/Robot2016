@@ -1,10 +1,9 @@
 package org.usfirst.frc.team2713.robot.commands.drive;
 
 import org.usfirst.frc.team2713.robot.Robot;
-import org.usfirst.frc.team2713.robot.RobotMap;
+
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class GoForward extends Command {
@@ -15,7 +14,6 @@ public class GoForward extends Command {
 	double timesRun = 0;
 	boolean shouldStopIfStuck;
 	Robot robot;
-	double startTime = 0;
 	
 	public GoForward(DriveSubsystem drive, double distance, boolean shouldStopIfStuck, Robot robot) {
 		this.drive = drive;
@@ -27,18 +25,18 @@ public class GoForward extends Command {
 
 	@Override
 	protected void initialize() {
-		startTime = System.currentTimeMillis();
+
 	}
 
 	@Override
 	protected void execute() {
-		drive.leftback.set(1 * distance / Math.abs(distance));
-		drive.rightback.set(-1* distance / Math.abs(distance));
+		drive.move(-1* distance / Math.abs(distance));
+		System.out.println(drive.getDistance());
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if(System.currentTimeMillis() - startTime > Math.abs(distance)) {
+		if(Math.abs(drive.getDistance()) > Math.abs(distance)) {
 			return true;
 		}
 		return false;

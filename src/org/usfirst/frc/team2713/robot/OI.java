@@ -16,18 +16,12 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
 	private XBoxController xbox;
 	private XBoxController gamepad;
-	private JoystickButton armUp;
-	private JoystickButton armDown;
 	private JoystickButton loadIn;
 	private JoystickButton loadOut;
 	private JoystickButton putLoaderAtBottom;
 	private JoystickButton putLoaderAtTop;
 	private JoystickButton loadUp;
 	private JoystickButton loadDown;
-	private JoystickButton startLoadCommand;
-	private JoystickButton shootballGamepad;
-	private JoystickButton gateButton;
-	private JoystickButton chevalDeFriseButton;
 	private JoystickButton shootballXbox;
 	private JoystickButton interuptAll;
 	Robot robot;

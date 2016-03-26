@@ -3,10 +3,15 @@ package org.usfirst.frc.team2713.robot;
 import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomousCommand;
 
 import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
-import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
+
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.FlipAxis;
+import com.ni.vision.NIVision.Image;
+import com.ni.vision.NIVision.ImageType;
+import com.ni.vision.VisionException;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -14,6 +19,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,11 +31,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public OI oi;
-	private CameraServer server;
 	private DriveSubsystem drive;
 	private LoaderSubsystem loader;
 	public LightManager lights;
-	private CameraSubsystem camera;
+	//private CameraSubsystem cameraSubsystem;
+	private CameraServer cameraServer;
 	private SendableChooser myPossition;
 	private SendableChooser myObstacle;
 	private SendableChooser doNothing;
@@ -39,6 +45,7 @@ public class Robot extends IterativeRobot {
 	public Boolean interuptUpperLevelLoaderMover = false;
 	public Boolean interuptLoaderWheels = false;
 	public Boolean interuptDrive = false;
+	private USBCamera camera;
 
 	AutonomousCommand autonomousCommand;
 
@@ -63,21 +70,20 @@ public class Robot extends IterativeRobot {
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			@Override
 			public void run() {
-				if (camera != null)
-					camera.releaseCamera();
+				//if (cameraServer != null)
+					//cameraServer.releaseCamera();
 			}
 		}));
 	}
 
 	public void initSubsystems() {
-		// server = CameraServer.getInstance();
-		// server.setQuality(50);
-		// server.startAutomaticCapture("cam0");
+		camera = new USBCamera("cam0");
+		camera.startCapture();
 		if (gyro == null && RobotMap.INIT_GYRO)
 			gyro = new GyroAccelWrapper(); // Calibrated in ADXRS450_Gyro
 											// constructor.
-		if (camera == null && RobotMap.INIT_CAMERA)
-			camera = new CameraSubsystem();
+		if (cameraServer == null && RobotMap.INIT_CAMERA)
+			cameraServer = CameraServer.getInstance();
 		if (lights == null && RobotMap.INIT_LIGHTS) {
 			lights = new LightManager();
 		}
@@ -111,6 +117,8 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putData("Do Nothing Selector", doNothing);
 			System.out.println("Dashboard Turned On");
 		}
+		oi = new OI();
+		oi.initCommands(loader, lights, drive, this);
 
 	}
 
@@ -214,8 +222,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		oi = new OI();
-		oi.initCommands(loader, lights, drive, this);
 		if (RobotMap.TEST) {
 			resetSensors();
 		}
@@ -231,6 +237,8 @@ public class Robot extends IterativeRobot {
 			loader.startTeleop();
 		if (lights != null)
 			lights.startTeleop();
+		//if (cameraSubsystem != null)
+		//	cameraSubsystem.startTeleop();
 		// new DataCollection(drive, hookarm, loader, lights, imu).start();
 		// new GoForward(drive, 72.0, false).start();
 		Scheduler.getInstance().run();
@@ -276,6 +284,16 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void commandsToAlwaysRun() {
+		Image image = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
+		camera.getImage(image);
+		if (true) {
+			try {
+				NIVision.imaqFlip(image, image, FlipAxis.CENTER_AXIS);
+			} catch(VisionException ex) {
+				
+			}
+		}
+		cameraServer.setImage(image);		
 		checkLimitSwitches();
 		checkTilted();
 		checkInteruptions();

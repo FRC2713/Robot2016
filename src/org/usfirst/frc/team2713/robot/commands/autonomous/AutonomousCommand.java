@@ -23,6 +23,7 @@ public class AutonomousCommand extends CommandGroup {
 
 	public AutonomousCommand(DriveSubsystem drive, LoaderSubsystem loader,
 			Robot robot, int defense) {
+		/*
 		if (defense == 0) {
 			this.addSequential(new PutLoaderAtTopOrBotton(false, loader));
 			this.addSequential(new GoForward(drive, -1500, false, robot));
@@ -31,7 +32,8 @@ public class AutonomousCommand extends CommandGroup {
 			this.addSequential(new GoForward(drive, 2000, false, robot));
 		} else {
 			
-		}
+		} */
+		this.addSequential(new GoForward(drive, 2, false, robot));
 	}
 
 	public AutonomousCommand(int startPos, int defense, boolean leftGoal,
