@@ -22,8 +22,8 @@ public class RobotMap {
 	public static final int RIGHT_TANK = 3;
 	public static final int LEFT_TANK_BACK = 2;
 	public static final int RIGHT_TANK_BACK = 4;
-	public static final int MOVE_LOAD_MOTOR = 6;
-	public static final int BALL_LOADER_MOTOR = 5;
+	public static final int MOVE_LOAD_MOTOR = 4;
+	public static final int BALL_LOADER_MOTOR = 3;
 
 	//Joystick stuff
 	public static final String XBOX_NAME = "Controller (XBOX 360 For Windows)";
@@ -51,9 +51,9 @@ public class RobotMap {
 	//Initialization stuff
 	public static final boolean INIT_DRIVE = false;
 	public static final boolean INIT_HOOKARM = false;
-	public static final boolean INIT_LOADER = false;
+	public static final boolean INIT_LOADER = true;
 	public static final boolean INIT_LIGHTS = false;
-	public static final boolean INIT_CAMERA = true;
+	public static final boolean INIT_CAMERA = false;
 	public static final boolean INIT_SMART_DASHBOARD = true;
 	public static final boolean INIT_GYRO = true;
 	

@@ -319,7 +319,9 @@ public class Robot extends IterativeRobot {
 				image = visionSubsystem.matToImage(visionSubsystem.getImageMat());
 			}
 		}
-		cameraServer.setImage(image);
+		if(cameraServer != null) {
+			cameraServer.setImage(image);
+		}
 	}
 	
 	public void checkTilted() {
@@ -327,10 +329,12 @@ public class Robot extends IterativeRobot {
 			double roll = gyro.getRoll();
 			double pitch = gyro.getPitch();
 			double tilt = Math.sqrt(roll * roll + pitch * pitch) - Math.PI;
+			if(lights != null) {
 			if (Math.abs(tilt) > RobotMap.IS_TILTED_CONSTANT) {
 				lights.setTilted(false);
 			} else {
 				lights.setTilted(false);
+			}
 			}
 		}
 	}
