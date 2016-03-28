@@ -5,6 +5,7 @@ import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomousCommand;
 import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
 import com.ni.vision.NIVision;
@@ -34,7 +35,7 @@ public class Robot extends IterativeRobot {
 	private DriveSubsystem drive;
 	private LoaderSubsystem loader;
 	public LightManager lights;
-	//private CameraSubsystem cameraSubsystem;
+	private VisionSubsystem visionSubsystem;
 	private CameraServer cameraServer;
 	private SendableChooser myPossition;
 	private SendableChooser myObstacle;
@@ -77,13 +78,20 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void initSubsystems() {
-		camera = new USBCamera("cam0");
-		camera.startCapture();
 		if (gyro == null && RobotMap.INIT_GYRO)
 			gyro = new GyroAccelWrapper(); // Calibrated in ADXRS450_Gyro
 											// constructor.
-		if (cameraServer == null && RobotMap.INIT_CAMERA)
+		if (cameraServer == null && RobotMap.INIT_CAMERA) {
+			try {
+				camera = new USBCamera("cam0");
+				camera.startCapture();
+			} catch(VisionException ex) {
+				
+			}
 			cameraServer = CameraServer.getInstance();
+		}
+		if(visionSubsystem == null && RobotMap.INIT_CAMERA)
+			visionSubsystem = new VisionSubsystem();
 		if (lights == null && RobotMap.INIT_LIGHTS) {
 			lights = new LightManager();
 		}
@@ -296,12 +304,19 @@ public class Robot extends IterativeRobot {
 
 	public void doCameraStuff() {
 		Image image = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
+		if(camera != null) {
 		camera.getImage(image);
 		if (!this.isAutonomous()) {
 			try {
 				NIVision.imaqFlip(image, image, FlipAxis.CENTER_AXIS);
 			} catch(VisionException ex) {
 				
+			}
+		}	
+		}
+		if (this.isAutonomous()) {
+			if(visionSubsystem != null) {
+				image = visionSubsystem.matToImage(visionSubsystem.getImageMat());
 			}
 		}
 		cameraServer.setImage(image);

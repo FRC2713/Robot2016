@@ -18,6 +18,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.videoio.VideoCapture;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.RobotMap.ColorThreshold;
@@ -25,6 +26,7 @@ import org.usfirst.frc.team2713.robot.RobotMap.ColorThreshold;
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.FlipAxis;
 import com.ni.vision.NIVision.Image;
+import com.ni.vision.NIVision.ImageType;
 
 import edu.wpi.first.wpilibj.CameraServer;
 
@@ -162,6 +164,13 @@ public class VisionSubsystem extends BaseSubsystem {
 	
 	public void releaseCamera() {
 		processingCapture.release();
+	}
+	
+	public Image matToImage(Mat mat) {
+		 Image image = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
+		 Imgcodecs.imwrite("/home/lvuser/camout.jpg", mat);
+		 NIVision.imaqReadFile(image, "/home/lvuser/camout.jpg");
+		 return image;
 	}
 
 }
