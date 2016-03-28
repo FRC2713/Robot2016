@@ -283,17 +283,8 @@ public class Robot extends IterativeRobot {
 		}
 	}
 
-	public void commandsToAlwaysRun() {
-		Image image = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
-		camera.getImage(image);
-		if (true) {
-			try {
-				NIVision.imaqFlip(image, image, FlipAxis.CENTER_AXIS);
-			} catch(VisionException ex) {
-				
-			}
-		}
-		cameraServer.setImage(image);		
+	public void commandsToAlwaysRun() {		
+		doCameraStuff();
 		checkLimitSwitches();
 		checkTilted();
 		checkInteruptions();
@@ -303,6 +294,19 @@ public class Robot extends IterativeRobot {
 		}
 	}
 
+	public void doCameraStuff() {
+		Image image = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
+		camera.getImage(image);
+		if (!this.isAutonomous()) {
+			try {
+				NIVision.imaqFlip(image, image, FlipAxis.CENTER_AXIS);
+			} catch(VisionException ex) {
+				
+			}
+		}
+		cameraServer.setImage(image);
+	}
+	
 	public void checkTilted() {
 		if (gyro != null) {
 			double roll = gyro.getRoll();

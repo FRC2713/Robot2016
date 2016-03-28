@@ -12,7 +12,7 @@ import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateBumpyObstacle;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateChevalDeFrise;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateGate;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
-import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
@@ -38,7 +38,7 @@ public class AutonomousCommand extends CommandGroup {
 
 	public AutonomousCommand(int startPos, int defense, boolean leftGoal,
 			DriveSubsystem drive, LoaderSubsystem loader, LightManager lights,
-			Robot robot, CameraSubsystem camera) {
+			Robot robot, VisionSubsystem camera) {
 		this.addSequential(new GoToWayPoint(drive, WaypointMap.ONE, robot));
 		manageDefenses(defense, drive, lights, robot);
 

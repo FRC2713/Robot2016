@@ -13,7 +13,7 @@ import org.usfirst.frc.team2713.robot.WaypointMap;
 import org.usfirst.frc.team2713.robot.commands.GoToWayPoint;
 import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
 import org.usfirst.frc.team2713.robot.commands.drive.GoToAngle;
-import org.usfirst.frc.team2713.robot.subsystems.CameraSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -34,10 +34,10 @@ public class AlignCommand extends CommandGroup {
 	private Ultrasonic ultrasonicFront;
 	private Ultrasonic ultrasonicSide;
 	
-	private CameraSubsystem camera;
+	private VisionSubsystem camera;
 	private DriveSubsystem drive;
 	
-	public AlignCommand(boolean isLeft, DriveSubsystem drive, CameraSubsystem camera, Robot robot) {
+	public AlignCommand(boolean isLeft, DriveSubsystem drive, VisionSubsystem camera, Robot robot) {
 		this.drive = drive;
 		this.camera = camera;
 		this.isLeft = isLeft;

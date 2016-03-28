@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2713.robot.subsystems;
 
 import static org.opencv.core.Core.inRange;
+
 import static org.opencv.imgproc.Imgproc.CHAIN_APPROX_SIMPLE;
 import static org.opencv.imgproc.Imgproc.COLOR_BGR2HLS;
 import static org.opencv.imgproc.Imgproc.RETR_LIST;
@@ -20,7 +21,6 @@ import org.opencv.core.Size;
 import org.opencv.videoio.VideoCapture;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.RobotMap.ColorThreshold;
-import org.usfirst.frc.team2713.robot.commands.camera.CameraFlip;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.FlipAxis;
@@ -28,14 +28,13 @@ import com.ni.vision.NIVision.Image;
 
 import edu.wpi.first.wpilibj.CameraServer;
 
-public class CameraSubsystem extends BaseSubsystem {
+public class VisionSubsystem extends BaseSubsystem {
 	private static final Size IMAGE_SIZE = new Size(320, 240);
 	private VideoCapture processingCapture;
 	private CameraServer cameraServer;
 	
-	public CameraSubsystem() {
+	public VisionSubsystem() {
 		processingCapture = new VideoCapture(RobotMap.BACK_CAMERA);
-		//cameraServer = CameraServer.getInstance();
 		
 		if (!processingCapture.isOpened()) {
 			throw new RuntimeException("Camera capture couldn't be started.");
