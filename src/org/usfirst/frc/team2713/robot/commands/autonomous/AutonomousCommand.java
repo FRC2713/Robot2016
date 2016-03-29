@@ -6,6 +6,7 @@ import org.usfirst.frc.team2713.robot.Waypoint;
 import org.usfirst.frc.team2713.robot.WaypointMap;
 import org.usfirst.frc.team2713.robot.commands.GoToWayPoint;
 import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
+import org.usfirst.frc.team2713.robot.commands.drive.GoToAngle;
 import org.usfirst.frc.team2713.robot.commands.grabber.PutLoaderAtTopOrBotton;
 import org.usfirst.frc.team2713.robot.commands.grabber.ShootBall;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateBumpyObstacle;
@@ -23,7 +24,6 @@ public class AutonomousCommand extends CommandGroup {
 
 	public AutonomousCommand(DriveSubsystem drive, LoaderSubsystem loader,
 			Robot robot, int defense) {
-		/*
 		if (defense == 0) {
 			this.addSequential(new PutLoaderAtTopOrBotton(false, loader));
 			this.addSequential(new GoForward(drive, -1500, false, robot));
@@ -32,24 +32,27 @@ public class AutonomousCommand extends CommandGroup {
 			this.addSequential(new GoForward(drive, 2000, false, robot));
 		} else {
 			
-		} */
+		} 
 		this.addSequential(new GoForward(drive, 2, false, robot));
 	}
 
 	public AutonomousCommand(int startPos, int defense, boolean leftGoal,
 			DriveSubsystem drive, LoaderSubsystem loader, LightManager lights,
 			Robot robot, VisionSubsystem camera) {
-		this.addSequential(new GoToWayPoint(drive, WaypointMap.ONE, robot));
 		manageDefenses(defense, drive, lights, robot);
 
-		Waypoint waypoint;
 		if (leftGoal) {
-			waypoint = WaypointMap.GOAL_POIT[0][startPos];
+			this.addSequential(new GoToAngle(drive, 90, null));
 		} else {
-			waypoint = WaypointMap.GOAL_POIT[1][startPos - 3];
+			this.addSequential(new GoToAngle(drive, -90, null));
 		}
-
-		this.addSequential(new GoToWayPoint(drive, waypoint, robot));
+		this.addSequential(new GoDistanceFromWall(24, drive));
+		if (leftGoal) {
+			this.addSequential(new GoToAngle(drive, -90, null));
+		} else {
+			this.addSequential(new GoToAngle(drive, 90, null));
+		}
+		this.addSequential(new GoDistanceFromWall(24, drive));
 		this.addSequential(new AlignCommand(leftGoal, drive, camera, robot));
 		this.addSequential(new ShootBall(loader, lights, robot));
 	}

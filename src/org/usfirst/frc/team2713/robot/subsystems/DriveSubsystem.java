@@ -7,9 +7,11 @@ import org.usfirst.frc.team2713.robot.commands.drive.ArcadeDrive;
 import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.Ultrasonic.Unit;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class DriveSubsystem extends BaseSubsystem {
 
@@ -23,11 +25,16 @@ public class DriveSubsystem extends BaseSubsystem {
 	private Robot robot;
 	public GyroAccelWrapper gyro;
 	public double powerTotal;
-
+	public Ultrasonic ultrasonicFront;
+	public Ultrasonic ultrasonicSide;
+	
 	public DriveSubsystem(Robot robot, GyroAccelWrapper gyro) {
 		this.gyro = gyro;
 		this.robot = robot;
 				
+		ultrasonicFront = createUltrasonic(RobotMap.FRONT_ULTRASONIC_TRIGGER_PORT, RobotMap.FRONT_ULTRASONIC_ECHO_PORT);
+		ultrasonicSide = createUltrasonic(RobotMap.SIDE_ULTRASONIC_TRIGGER_PORT, RobotMap.SIDE_ULTRASONIC_ECHO_PORT);
+		
 		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
 
 		leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
@@ -128,5 +135,14 @@ public class DriveSubsystem extends BaseSubsystem {
 		leftback.set(0);
 		rightback.set(0);
 	}
+	
+	private Ultrasonic createUltrasonic(int triggerPort, int echoPort) {
+		Ultrasonic ultrasonic = new Ultrasonic(triggerPort, echoPort);
+		ultrasonic.setEnabled(true);
+		ultrasonic.setAutomaticMode(true);
+		ultrasonic.setDistanceUnits(Unit.kInches);
+		return ultrasonic;
+	}
+
 
 }
