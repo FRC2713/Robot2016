@@ -46,13 +46,13 @@ public class AutonomousCommand extends CommandGroup {
 		} else {
 			this.addSequential(new GoToAngle(drive, -90, null));
 		}
-		this.addSequential(new GoDistanceFromWall(24, drive));
+		this.addSequential(new GoDistanceFromWall(18.56, drive));
 		if (leftGoal) {
 			this.addSequential(new GoToAngle(drive, -90, null));
 		} else {
 			this.addSequential(new GoToAngle(drive, 90, null));
 		}
-		this.addSequential(new GoDistanceFromWall(24, drive));
+		this.addSequential(new GoDistanceFromWall(28.35, drive));
 		this.addSequential(new AlignCommand(leftGoal, drive, camera, robot));
 		this.addSequential(new ShootBall(loader, lights, robot));
 	}
