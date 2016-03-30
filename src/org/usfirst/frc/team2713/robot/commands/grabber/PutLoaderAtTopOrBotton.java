@@ -22,24 +22,22 @@ public class PutLoaderAtTopOrBotton extends Command {
 
 	@Override
 	protected void execute() {
-		if(topOrBottom && !loader.moveLoader.isRevLimitSwitchClosed()) {
-			System.out.println("Hi!");
-			//loader.moveLoader(-1);
+		System.out.println(loader.moveLoader.isFwdLimitSwitchClosed());
+		if(topOrBottom && !loader.moveLoader.isFwdLimitSwitchClosed()) {
+			//loader.moveLoader(1);
 		}
 		if(!topOrBottom) {
-			loader.moveLoader(-1);
+			//loader.moveLoader(-1);
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if(topOrBottom && loader.moveLoader.isRevLimitSwitchClosed()) {
-			loader.moveLoader(0);
-			return true;
+		if(topOrBottom && loader.moveLoader.isFwdLimitSwitchClosed()) {
+			//return true;
 		}
 		if(!topOrBottom && System.currentTimeMillis() - startTime > 200) {
-			loader.moveLoader(0);
-			return true;
+			//return true;
 		}
 		return false;
 	}
@@ -52,8 +50,7 @@ public class PutLoaderAtTopOrBotton extends Command {
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
-		
+		loader.moveLoader(0);		
 	}
 
 }

@@ -71,8 +71,8 @@ public class Robot extends IterativeRobot {
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			@Override
 			public void run() {
-				//if (cameraServer != null)
-					//cameraServer.releaseCamera();
+				// if (cameraServer != null)
+				// cameraServer.releaseCamera();
 			}
 		}));
 	}
@@ -85,13 +85,18 @@ public class Robot extends IterativeRobot {
 			try {
 				camera = new USBCamera("cam0");
 				camera.startCapture();
-			} catch(VisionException ex) {
-				
+			} catch (VisionException ex) {
+
 			}
 			cameraServer = CameraServer.getInstance();
 		}
-		if(visionSubsystem == null && RobotMap.INIT_CAMERA)
-			visionSubsystem = new VisionSubsystem();
+		if (visionSubsystem == null && RobotMap.INIT_CAMERA) {
+			try {
+				visionSubsystem = new VisionSubsystem();
+			} catch (RuntimeException ex) {
+
+			}
+		}
 		if (lights == null && RobotMap.INIT_LIGHTS) {
 			lights = new LightManager();
 		}
@@ -245,8 +250,8 @@ public class Robot extends IterativeRobot {
 			loader.startTeleop();
 		if (lights != null)
 			lights.startTeleop();
-		//if (cameraSubsystem != null)
-		//	cameraSubsystem.startTeleop();
+		// if (cameraSubsystem != null)
+		// cameraSubsystem.startTeleop();
 		// new DataCollection(drive, hookarm, loader, lights, imu).start();
 		// new GoForward(drive, 72.0, false).start();
 		Scheduler.getInstance().run();
@@ -291,8 +296,8 @@ public class Robot extends IterativeRobot {
 		}
 	}
 
-	public void commandsToAlwaysRun() {		
-		doCameraStuff();
+	public void commandsToAlwaysRun() {
+		//doCameraStuff();
 		checkLimitSwitches();
 		checkTilted();
 		checkInteruptions();
@@ -303,38 +308,42 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void doCameraStuff() {
-		Image image = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
-		if(camera != null) {
-		camera.getImage(image);
-		if (!this.isAutonomous()) {
-			try {
-				NIVision.imaqFlip(image, image, FlipAxis.CENTER_AXIS);
-			} catch(VisionException ex) {
-				
+		try {
+			Image image = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
+			if (camera != null) {
+				camera.getImage(image);
+				if (!this.isAutonomous()) {
+					try {
+						NIVision.imaqFlip(image, image, FlipAxis.CENTER_AXIS);
+					} catch (VisionException ex) {
+
+					}
+				}
 			}
-		}	
-		}
-		if (this.isAutonomous()) {
-			if(visionSubsystem != null) {
-				image = visionSubsystem.matToImage(visionSubsystem.getImageMat());
+			if (this.isAutonomous()) {
+				if (visionSubsystem != null) {
+					//image = visionSubsystem.matToImage(visionSubsystem.getImageMat());
+				}
 			}
-		}
-		if(cameraServer != null) {
-			cameraServer.setImage(image);
+			if (cameraServer != null) {
+				cameraServer.setImage(image);
+			}
+		} catch (VisionException ex) {
+
 		}
 	}
-	
+
 	public void checkTilted() {
 		if (gyro != null) {
 			double roll = gyro.getRoll();
 			double pitch = gyro.getPitch();
 			double tilt = Math.sqrt(roll * roll + pitch * pitch) - Math.PI;
-			if(lights != null) {
-			if (Math.abs(tilt) > RobotMap.IS_TILTED_CONSTANT) {
-				lights.setTilted(false);
-			} else {
-				lights.setTilted(false);
-			}
+			if (lights != null) {
+				if (Math.abs(tilt) > RobotMap.IS_TILTED_CONSTANT) {
+					lights.setTilted(false);
+				} else {
+					lights.setTilted(false);
+				}
 			}
 		}
 	}

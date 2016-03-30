@@ -2,6 +2,7 @@ package org.usfirst.frc.team2713.robot;
 
 import org.usfirst.frc.team2713.robot.commands.grabber.ManualLoadBall;
 import org.usfirst.frc.team2713.robot.commands.grabber.ManualMoveLoader;
+import org.usfirst.frc.team2713.robot.commands.grabber.PutLoaderAtTopOrBotton;
 import org.usfirst.frc.team2713.robot.commands.grabber.ShootBall;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateChevalDeFrise;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateGate;
@@ -121,13 +122,17 @@ public class OI {
 			
 			if (gamepad != null) {
 				loadIn = new JoystickButton(gamepad, 5);
-				loadIn.whileHeld(new ManualLoadBall(loader, -.75));
+				loadIn.whileHeld(new ManualLoadBall(loader, .75));
 				loadOut = new JoystickButton(gamepad, 1);
-				loadOut.whileHeld(new ManualLoadBall(loader, .25));
+				loadOut.whileHeld(new ManualLoadBall(loader, -.75));
 				loadUp = new JoystickButton(xbox, 6);
 				loadUp.whileHeld(new ManualMoveLoader(loader, -1));
 				loadDown = new JoystickButton(xbox, 5);
 				loadDown.whileHeld(new ManualMoveLoader(loader, 1));
+				putLoaderAtTop = new JoystickButton(xbox, 4);
+				putLoaderAtTop.whenPressed(new PutLoaderAtTopOrBotton(true, loader));
+				putLoaderAtBottom = new JoystickButton(xbox, 1);
+				putLoaderAtBottom.whileHeld(new PutLoaderAtTopOrBotton(false, loader));
 				//startLoadCommand = new JoystickButton(gamepad, 8);
 				//startLoadCommand.whenPressed(new LoadBall(loader, lights, robot));
 				
