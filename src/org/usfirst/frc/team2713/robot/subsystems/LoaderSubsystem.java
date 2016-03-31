@@ -78,7 +78,7 @@ public class LoaderSubsystem extends BaseSubsystem {
 		//loadCommand.start();
 	}
 	
-	public void resetPossition() {
+	public void resetPosition() {
 		moveLoader.setPosition(-5);
 	}
 }

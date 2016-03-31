@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AlignCommand extends CommandGroup {
 	private static final double HIGH_GOAL_WIDTH = 20; //inches
 	private static final double HIGH_GOAL_CONTOUR_MINIMUM_AREA = 400;
-	private static final double HIGH_GOAL_VISION_ERROR_MARGIN = 3; //degrees
+	private static final double HIGH_GOAL_VISION_ERROR_MARGIN = 1; //degrees
 	private static final double DISTANCE_TO_FRONT_OF_GOAL = 61.619; //inches, from the correctional point
 	
 	private Waypoint correctionwaypoint;
