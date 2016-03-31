@@ -151,8 +151,8 @@ public class VisionSubsystem extends BaseSubsystem {
 	public double approximateAngleToContourCenter(MatOfPoint contour, double targetWidth) {
 		Rect rect = boundingRect(contour);
 		double apparentWidth = rect.width;
-		double apparentDistance = IMAGE_SIZE.width/2 - (rect.x + apparentWidth/2);
-		return 180 / Math.PI * Math.atan((apparentDistance * (targetWidth / apparentWidth))/findDistanceToContour(contour, targetWidth));
+		double apparentDistanceFromCenter = IMAGE_SIZE.width/2 - (rect.x + apparentWidth/2);
+		return 180 / Math.PI * Math.atan((apparentDistanceFromCenter * (targetWidth / apparentWidth))/findDistanceToContour(contour, targetWidth));
 	}
 	
 	public void setTeleopImage(Image image, boolean flip) {
