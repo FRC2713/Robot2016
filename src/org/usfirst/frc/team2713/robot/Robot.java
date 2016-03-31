@@ -47,6 +47,7 @@ public class Robot extends IterativeRobot {
 	public Boolean interuptLoaderWheels = false;
 	public Boolean interuptDrive = false;
 	private USBCamera camera;
+	private int timesSinceCameraUpdate = 0;
 
 	AutonomousCommand autonomousCommand;
 
@@ -297,7 +298,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void commandsToAlwaysRun() {
-		//doCameraStuff();
+		doCameraStuff();
 		checkLimitSwitches();
 		checkTilted();
 		checkInteruptions();
@@ -308,28 +309,33 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void doCameraStuff() {
-		try {
-			Image image = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
-			if (camera != null) {
-				camera.getImage(image);
-				if (!this.isAutonomous()) {
-					try {
-						NIVision.imaqFlip(image, image, FlipAxis.CENTER_AXIS);
-					} catch (VisionException ex) {
+		if (timesSinceCameraUpdate > 5) {
+			try {
+				Image image = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
+				if (camera != null) {
+					camera.getImage(image);
+					if (!this.isAutonomous()) {
+						try {
+							NIVision.imaqFlip(image, image, FlipAxis.CENTER_AXIS);
+						} catch (VisionException ex) {
 
+						}
 					}
 				}
-			}
-			if (this.isAutonomous()) {
-				if (visionSubsystem != null) {
-					//image = visionSubsystem.matToImage(visionSubsystem.getImageMat());
+				if (this.isAutonomous()) {
+					if (visionSubsystem != null) {
+						image = visionSubsystem.matToImage(visionSubsystem.getImageMat());
+					}
 				}
-			}
-			if (cameraServer != null) {
-				cameraServer.setImage(image);
-			}
-		} catch (VisionException ex) {
+				if (cameraServer != null) {
+					cameraServer.setImage(image);
+				}
+				timesSinceCameraUpdate = 0;
+			} catch (VisionException ex) {
 
+			}
+		} else {
+			timesSinceCameraUpdate++;
 		}
 	}
 
