@@ -134,7 +134,7 @@ public class VisionSubsystem extends BaseSubsystem {
 	 */
 	public double findDistanceToContour(MatOfPoint contour, double targetWidth) {
 		double apparentWidth = boundingRect(contour).width;
-		return (targetWidth * 160) / (2 * apparentWidth * Math.tan(RobotMap.CAMERA_VIEW_ANGLE));
+		return (targetWidth * IMAGE_SIZE.width) / (2 * apparentWidth * Math.tan(RobotMap.CAMERA_VIEW_ANGLE / 2 * Math.PI / 180));
 	}
 	
 	/**
@@ -146,13 +146,13 @@ public class VisionSubsystem extends BaseSubsystem {
 	 * 
 	 * @param contour Contour to find the angle to the center of.
 	 * @param targetWidth Real width of the object.
-	 * @return The approximate angle from the contour's center.
+	 * @return The approximate angle from the contour's center in degrees.
 	 */
 	public double approximateAngleToContourCenter(MatOfPoint contour, double targetWidth) {
 		Rect rect = boundingRect(contour);
 		double apparentWidth = rect.width;
 		double apparentDistance = IMAGE_SIZE.width/2 - (rect.x + apparentWidth/2);
-		return Math.atan((apparentDistance * (targetWidth / apparentWidth))/findDistanceToContour(contour, targetWidth));
+		return 180 / Math.PI * Math.atan((apparentDistance * (targetWidth / apparentWidth))/findDistanceToContour(contour, targetWidth));
 	}
 	
 	public void setTeleopImage(Image image, boolean flip) {
