@@ -2,9 +2,6 @@ package org.usfirst.frc.team2713.robot.commands.autonomous;
 
 import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
-import org.usfirst.frc.team2713.robot.Waypoint;
-import org.usfirst.frc.team2713.robot.WaypointMap;
-import org.usfirst.frc.team2713.robot.commands.GoToWayPoint;
 import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
 import org.usfirst.frc.team2713.robot.commands.drive.GoToAngle;
 import org.usfirst.frc.team2713.robot.commands.grabber.PutLoaderAtTopOrBotton;
@@ -13,9 +10,9 @@ import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateBumpyObstacle;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateChevalDeFrise;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateGate;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
-import org.usfirst.frc.team2713.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
+import org.usfirst.frc.team2713.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
