@@ -40,6 +40,7 @@ public class Robot extends IterativeRobot {
 	private SendableChooser myPosition;
 	private SendableChooser myObstacle;
 	private SendableChooser doNothing;
+	private SendableChooser doGoal;
 	private GyroAccelWrapper gyro;
 	public Boolean interuptArm = false;
 	public Boolean interuptAllLoaderMover = false;
@@ -128,6 +129,10 @@ public class Robot extends IterativeRobot {
 			doNothing.addDefault("Do Something", false);
 			doNothing.addObject("Do Nothing", true);
 			SmartDashboard.putData("Do Nothing Selector", doNothing);
+			doGoal = new SendableChooser();
+			doGoal.addDefault("Do Goal + Obstacle", true);
+			doGoal.addObject("Do Obstacle Only", false);
+			SmartDashboard.putData("Do Goal Selector", doGoal);
 			System.out.println("Dashboard Turned On");
 		}
 		oi = new OI();
@@ -217,7 +222,7 @@ public class Robot extends IterativeRobot {
 				lights.startAuto(defense, startPos, isRed, leftGoal);
 		}
 		if (!shouldDoNothing) {
-			autonomousCommand = new AutonomousCommand(drive, loader, this, defense);
+			autonomousCommand = new AutonomousCommand(startPos, defense, leftGoal, ((Boolean) doGoal.getSelected()).booleanValue(), drive, loader, lights, this, visionSubsystem);
 			if (autonomousCommand != null)
 				autonomousCommand.start();
 		}

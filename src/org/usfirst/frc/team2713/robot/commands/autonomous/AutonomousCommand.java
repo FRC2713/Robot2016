@@ -24,11 +24,10 @@ public class AutonomousCommand extends CommandGroup {
 	private Robot robot;
 	public double finalDistance;
 
-	public AutonomousCommand(DriveSubsystem drive, LoaderSubsystem loader,
+	/*public AutonomousCommand(DriveSubsystem drive, LoaderSubsystem loader,
 			Robot robot, int defense) {
 		this.drive = drive;
 		this.robot = robot;
-		/*
 		if (defense == 0) {
 			this.addSequential(new PutLoaderAtTopOrBotton(false, loader));
 			this.addSequential(new GoForward(drive, -150, false, robot));
@@ -40,40 +39,41 @@ public class AutonomousCommand extends CommandGroup {
 		} 
 		this.addSequential(new GoForward(drive, 2, false, robot));
 				this.addSequential(new GoToAngle(drive, -70, robot.getOI().getXbox()));
-		*/
 		this.addSequential(new GoForward(drive, 50, false, robot, true));
-	}
+	}*/
 
 	public AutonomousCommand(int startPos, int defense, boolean leftGoal,
-			DriveSubsystem drive, LoaderSubsystem loader, LightManager lights,
+			boolean doGoal, DriveSubsystem drive, LoaderSubsystem loader, LightManager lights,
 			Robot robot, VisionSubsystem camera) {
 		manageDefenses(defense, drive, lights, robot, loader);
 
-		if (leftGoal && defense != 0) { // (0 = low bar)
-			this.addSequential(new GoToAngle(robot, drive, 90, null));
-			this.addSequential(new GoDistanceFromWall(47.15 - RobotMap.ROBOT_LENGTH / 2, drive));
-			this.addSequential(new GoToAngle(robot, drive, 0, null));
-			this.addSequential(new GoDistanceFromWall(72 - RobotMap.ROBOT_LENGTH / 2, drive));
-			finalDistance = 144;
-		} else if (!leftGoal && defense != 0) {
-			this.addSequential(new GoToAngle(robot, drive, -90, null));
-			this.addSequential(new GoDistanceFromWall(47.15 - RobotMap.ROBOT_LENGTH / 2, drive));
-			this.addSequential(new GoToAngle(robot, drive, 0, null));
-			this.addSequential(new GoDistanceFromWall(72 - RobotMap.ROBOT_LENGTH / 2, drive));
-			finalDistance = 144;
-		} else {
-			this.addSequential(new PostLowBarAlign(this, drive, robot, leftGoal));
-			//^ final length set in here.
+		if (doGoal) {
+			if (leftGoal && defense != 0) { // (0 = low bar)
+				this.addSequential(new GoToAngle(robot, drive, 90, null));
+				this.addSequential(new GoDistanceFromWall(47.15 - RobotMap.ROBOT_LENGTH / 2, drive));
+				this.addSequential(new GoToAngle(robot, drive, 0, null));
+				this.addSequential(new GoDistanceFromWall(72 - RobotMap.ROBOT_LENGTH / 2, drive));
+				finalDistance = 144;
+			} else if (!leftGoal && defense != 0) {
+				this.addSequential(new GoToAngle(robot, drive, -90, null));
+				this.addSequential(new GoDistanceFromWall(47.15 - RobotMap.ROBOT_LENGTH / 2, drive));
+				this.addSequential(new GoToAngle(robot, drive, 0, null));
+				this.addSequential(new GoDistanceFromWall(72 - RobotMap.ROBOT_LENGTH / 2, drive));
+				finalDistance = 144;
+			} else {
+				this.addSequential(new PostLowBarAlign(this, drive, robot, leftGoal));
+				//^ final length set in here.
+			}
+		
+			this.addSequential(new HelpMe());
+			this.addSequential(new GoToAngle(robot, drive, 60 * (leftGoal ? -1 : 1), robot.oi.getXbox()));
+		
+			if (camera != null) {
+				this.addSequential(new VisionAlign(camera, drive, leftGoal));
+			}
+		
+			this.addSequential(new ShootBall(loader, lights, robot));
 		}
-		
-		this.addSequential(new HelpMe());
-		this.addSequential(new GoToAngle(robot, drive, 60 * (leftGoal ? -1 : 1), robot.oi.getXbox()));
-		
-		if (camera != null) {
-			this.addSequential(new VisionAlign(camera, drive, leftGoal));
-		}
-		
-		this.addSequential(new ShootBall(loader, lights, robot));
 	}
 
 	public void manageDefenses(int defense, DriveSubsystem drive,
