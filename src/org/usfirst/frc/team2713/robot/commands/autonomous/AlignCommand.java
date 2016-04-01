@@ -47,7 +47,7 @@ public class AlignCommand extends CommandGroup {
 			this.addSequential(new VisionAlign());
 		}
 		
-		this.addSequential(new GoForward(drive, DISTANCE_TO_FRONT_OF_GOAL, false, robot));
+		this.addSequential(new GoForward(drive, DISTANCE_TO_FRONT_OF_GOAL, false, robot, true));
 	}
 
 	public class CorrectDistance extends Command {

@@ -35,7 +35,7 @@ public class PutLoaderAtTopOrBotton extends Command {
 		if(topOrBottom && loader.moveLoader.isRevLimitSwitchClosed()) {
 			return true;
 		}
-		if(!topOrBottom && System.currentTimeMillis() - startTime > 200) {
+		if(!topOrBottom && System.currentTimeMillis() - startTime > 500) {
 			return true;
 		}
 		return false;

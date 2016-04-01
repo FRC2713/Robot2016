@@ -98,8 +98,9 @@ public class Robot extends IterativeRobot {
 
 			}
 		}
-		if (lights == null && RobotMap.INIT_LIGHTS)
+		if (lights == null && RobotMap.INIT_LIGHTS) {
 			lights = new LightManager();
+		}
 		if (drive == null && RobotMap.INIT_DRIVE)
 			drive = new DriveSubsystem(this, gyro);
 		if (loader == null && RobotMap.INIT_LOADER)

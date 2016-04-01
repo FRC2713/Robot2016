@@ -14,6 +14,7 @@ import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
+import org.usfirst.frc.team2713.robot.subsystems.lights.LightSubsystem;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -34,13 +35,13 @@ public class AutonomousCommand extends CommandGroup {
 		this.addSequential(new GoForward(drive, 2, false, robot));
 				this.addSequential(new GoToAngle(drive, -70, robot.getOI().getXbox()));
 		*/
-		this.addSequential(new GoForward(drive, 50, false, robot));
+		this.addSequential(new GoForward(drive, 50, false, robot, true));
 	}
 
 	public AutonomousCommand(int startPos, int defense, boolean leftGoal,
 			DriveSubsystem drive, LoaderSubsystem loader, LightManager lights,
 			Robot robot, VisionSubsystem camera) {
-		manageDefenses(defense, drive, lights, robot);
+		manageDefenses(defense, drive, lights, robot, loader);
 
 		if (leftGoal) {
 			this.addSequential(new GoToAngle(drive, 90, null));
@@ -59,22 +60,22 @@ public class AutonomousCommand extends CommandGroup {
 	}
 
 	public void manageDefenses(int defense, DriveSubsystem drive,
-			LightManager lights, Robot robot) {
+			LightManager lights, Robot robot, LoaderSubsystem loader) {
 		switch (defense) {
 		case 0:
-			manageLowBar(drive, robot);
+			manageLowBar(drive, robot, lights);
 			break;
 		case 1:
 			manageGate(drive, lights, robot);
 			break;
 		case 2:
-			manageChevalDeFrise(drive, lights, robot);
+			manageChevalDeFrise(drive, lights, robot, loader);
 			break;
 		case 3:
-			manageSmallRamps(drive, robot);
+			manageSmallRamps(drive, robot, lights);
 			break;
 		case 4:
-			manageMoat(drive, lights, robot.oi.getXbox());
+			manageMoat(drive, lights, robot);
 			break;
 		case 5:
 			manageDrawbridge();
@@ -83,18 +84,17 @@ public class AutonomousCommand extends CommandGroup {
 			manageSalyPort();
 			break;
 		case 7:
-			manageRockWall(drive, lights, robot.oi.getXbox());
+			manageRockWall(drive, lights, robot);
 			break;
 		case 8:
-			manageRoughTerain(drive, lights, robot.oi.getXbox());
+			manageRoughTerain(drive, lights, robot);
 			break;
 		}
 
 	}
 
-	public void manageLowBar(DriveSubsystem drive, Robot robot) {
-		this.addSequential(new GoForward(drive, RobotMap.LOW_BAR_DISTANCE,
-				false, robot)); // Needs to be Adjusted
+	public void manageLowBar(DriveSubsystem drive, Robot robot, LightManager lights) {
+		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot));
 	}
 
 	public void manageGate(DriveSubsystem drive, LightManager lights,
@@ -103,18 +103,17 @@ public class AutonomousCommand extends CommandGroup {
 	}
 
 	public void manageChevalDeFrise(DriveSubsystem drive, LightManager lights,
-			Robot robot) {
-		this.addSequential(new NavigateChevalDeFrise(drive, lights, robot));
+			Robot robot, LoaderSubsystem loader) {
+		this.addSequential(new NavigateChevalDeFrise(drive, loader, lights, robot));
 	}
 
-	public void manageSmallRamps(DriveSubsystem drive, Robot robot) {
-		this.addSequential(new GoForward(drive, RobotMap.SMALL_RAMP_DISTANCE,
-				false, robot)); // Needs to be adjusted
+	public void manageSmallRamps(DriveSubsystem drive, Robot robot, LightManager lights) {
+		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot));
 	}
 
 	public void manageMoat(DriveSubsystem drive, LightManager lights,
-			XBoxController xbox) {
-		this.addSequential(new NavigateBumpyObstacle(drive, lights, xbox));
+			Robot robot) {
+		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot));
 	}
 
 	public void manageDrawbridge() {
@@ -126,16 +125,16 @@ public class AutonomousCommand extends CommandGroup {
 	}
 
 	public void manageRockWall(DriveSubsystem drive, LightManager lights,
-			XBoxController xbox) {
-		this.addSequential(new NavigateBumpyObstacle(drive, lights, xbox)); // Needs
+			Robot robot) {
+		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot)); // Needs
 																			// to
 																			// be
 																			// adjusted
 	}
 
 	public void manageRoughTerain(DriveSubsystem drive, LightManager lights,
-			XBoxController xbox) {
-		this.addSequential(new NavigateBumpyObstacle(drive, lights, xbox)); // Needs
+			Robot robot) {
+		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot)); // Needs
 																			// to
 																			// be
 																			// adjusted
