@@ -53,7 +53,7 @@ public class RobotMap {
 	public static final boolean INIT_HOOKARM = false;
 	public static final boolean INIT_LOADER = true;
 	public static final boolean INIT_LIGHTS = false;
-	public static final boolean INIT_CAMERA = false;
+	public static final boolean INIT_CAMERA = true;
 	public static final boolean INIT_SMART_DASHBOARD = true;
 	public static final boolean INIT_GYRO = true;
 	
@@ -98,7 +98,7 @@ public class RobotMap {
 	public static final int FRONT_ULTRASONIC_ECHO_PORT = 3;
 	public static final int FRONT_ULTRASONIC_TRIGGER_PORT = 4;
 
-	public static final boolean TEST = false;
+	public static final boolean TEST = true;
 	
 	public enum ColorThreshold {
 		HIGH_GOAL(new Scalar(35D, 64D, 48D, 0D), new Scalar(93D, 144D, 255D, 0D));

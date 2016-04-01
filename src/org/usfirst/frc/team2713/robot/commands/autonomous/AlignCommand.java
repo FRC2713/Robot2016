@@ -106,7 +106,7 @@ public class AlignCommand extends CommandGroup {
 			
 			if (Math.abs(errorAngle) > HIGH_GOAL_VISION_ERROR_MARGIN) {
 				drive.resetPosition();
-				drive.rotate(((isLeft ? -1 : 1) * 60) + errorAngle, false);
+				drive.rotate(((isLeft ? -1 : 1) * 60) + errorAngle);
 			}
 		}
 

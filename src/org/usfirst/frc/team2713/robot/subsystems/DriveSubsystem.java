@@ -35,7 +35,9 @@ public class DriveSubsystem extends BaseSubsystem {
 		//ultrasonicSide = createUltrasonic(RobotMap.SIDE_ULTRASONIC_TRIGGER_PORT, RobotMap.SIDE_ULTRASONIC_ECHO_PORT);
 		
 		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
-
+		rightback.configEncoderCodesPerRev(12);
+		rightback.reverseSensor(false);
+		
 		leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
 		
 		left = new CANTalon(RobotMap.LEFT_TANK);
@@ -99,12 +101,9 @@ public class DriveSubsystem extends BaseSubsystem {
 		rightback.set(-polarity);
 	}
 
-	public void rotate(double angle, boolean radians) {
-		if (!radians)
-			angle *= Math.PI / 180;
-		double pos = angle * (RobotMap.ROBOT_WIDTH / 2);
-		leftback.set(pos);
-		rightback.set(pos);
+	public void rotate(double angle) {
+		leftback.set(angle / Math.abs(angle) / 2);
+		rightback.set(angle / Math.abs(angle) / 2);
 	}
 	
 	public double getDistance() {
@@ -112,7 +111,7 @@ public class DriveSubsystem extends BaseSubsystem {
 	}
 	
 	public double getAngleRotated() {
-		return rightback.getPosition() / (RobotMap.ROBOT_WIDTH / 2);
+		return (180 / Math.PI) * rightback.getPosition() / (RobotMap.ROBOT_WIDTH / 2);
 	}
 
 	public void arcadeDrive(double d, double rightY, double deadband) {

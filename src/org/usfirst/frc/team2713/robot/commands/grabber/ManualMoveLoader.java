@@ -27,13 +27,16 @@ public class ManualMoveLoader extends Command {
 
 	@Override
 	protected boolean isFinished() {
+		if(polarity > 0 && loader.moveLoader.isRevLimitSwitchClosed()) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
-		
+		loader.moveLoader.set(0);
+		double pos = loader.moveLoader.getPosition();		
 	}
 
 	@Override

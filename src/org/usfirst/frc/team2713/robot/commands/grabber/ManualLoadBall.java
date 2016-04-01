@@ -32,8 +32,7 @@ public class ManualLoadBall extends Command {
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
-		
+		loader.ballLoader.set(0);
 	}
 
 	@Override

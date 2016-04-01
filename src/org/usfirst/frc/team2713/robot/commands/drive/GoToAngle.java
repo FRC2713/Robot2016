@@ -16,7 +16,7 @@ public class GoToAngle extends Command{
 	
 	public GoToAngle(DriveSubsystem drive, double angle, XBoxController xbox) {
 		this.drive = drive;
-		this.angle = angle - drive.gyro.getAngle();
+		this.angle = angle;
 		this.xbox = xbox;
 		requires(drive);
 	}
@@ -24,17 +24,16 @@ public class GoToAngle extends Command{
 	@Override
 	protected void initialize() {
 		drive.resetPosition();
-		drive.rotate(angle, false);
 	}
 
 	@Override
 	protected void execute() {
-		
+		drive.rotate(angle);
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if(drive.getAngleRotated() >= angle) {
+		if(Math.abs(drive.getAngleRotated()) >= Math.abs(angle)) {
 			return true;
 		}
 		return false;
@@ -42,8 +41,7 @@ public class GoToAngle extends Command{
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
-		
+		drive.move(0);		
 	}
 
 	@Override

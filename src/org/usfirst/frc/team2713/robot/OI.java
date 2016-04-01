@@ -122,9 +122,9 @@ public class OI {
 			
 			if (gamepad != null) {
 				loadIn = new JoystickButton(gamepad, 5);
-				loadIn.whileHeld(new ManualLoadBall(loader, .75));
+				loadIn.whileHeld(new ManualLoadBall(loader, 1));
 				loadOut = new JoystickButton(gamepad, 1);
-				loadOut.whileHeld(new ManualLoadBall(loader, -.75));
+				loadOut.whileHeld(new ManualLoadBall(loader, -1));
 				loadUp = new JoystickButton(xbox, 6);
 				loadUp.whileHeld(new ManualMoveLoader(loader, -1));
 				loadDown = new JoystickButton(xbox, 5);

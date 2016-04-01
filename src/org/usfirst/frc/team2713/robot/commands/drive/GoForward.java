@@ -11,32 +11,29 @@ public class GoForward extends Command {
 	DriveSubsystem drive;
 	double polarity;
 	double distance;
-	double timesRun = 0;
-	boolean shouldStopIfStuck;
 	Robot robot;
 	
 	public GoForward(DriveSubsystem drive, double distance, boolean shouldStopIfStuck, Robot robot) {
 		this.drive = drive;
-		this.distance = distance;
-		this.shouldStopIfStuck = shouldStopIfStuck;
+		this.distance = distance - 7;
 		this.robot = robot;
 		requires(drive);
 	}
 
 	@Override
 	protected void initialize() {
-
+		drive.resetPosition();
 	}
 
 	@Override
 	protected void execute() {
-		drive.move(-1* distance / Math.abs(distance));
-		System.out.println(drive.getDistance());
+		drive.move(1* distance / Math.abs(distance));
 	}
 
 	@Override
 	protected boolean isFinished() {
 		if(Math.abs(drive.getDistance()) > Math.abs(distance)) {
+			System.out.println(drive.getDistance());
 			return true;
 		}
 		return false;
@@ -44,8 +41,7 @@ public class GoForward extends Command {
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
-
+		drive.move(0);
 	}
 
 	@Override
