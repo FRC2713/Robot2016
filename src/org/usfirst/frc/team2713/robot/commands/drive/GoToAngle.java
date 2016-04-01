@@ -4,7 +4,6 @@ import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.input.XBoxController;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class GoToAngle extends Command{
@@ -14,9 +13,9 @@ public class GoToAngle extends Command{
 	boolean isFinished = false;
 	XBoxController xbox;
 	
-	public GoToAngle(DriveSubsystem drive, double angle, XBoxController xbox) {
+	public GoToAngle(Robot robot, DriveSubsystem drive, double angle, XBoxController xbox) {
 		this.drive = drive;
-		this.angle = angle;
+		this.angle = robot.getGyro().getAngle() - angle;
 		this.xbox = xbox;
 		requires(drive);
 	}
@@ -32,11 +31,8 @@ public class GoToAngle extends Command{
 	}
 
 	@Override
-	protected boolean isFinished() {
-		if(Math.abs(drive.getAngleRotated()) >= Math.abs(angle)) {
-			return true;
-		}
-		return false;
+	protected boolean isFinished() { // The follow is flawed, I will investigate eventually
+		return Math.abs(drive.getAngleRotated()) >= Math.abs(angle);
 	}
 
 	@Override

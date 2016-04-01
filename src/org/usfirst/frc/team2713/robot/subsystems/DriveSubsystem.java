@@ -31,8 +31,8 @@ public class DriveSubsystem extends BaseSubsystem {
 		this.gyro = gyro;
 		this.robot = robot;
 				
-		//ultrasonicFront = createUltrasonic(RobotMap.FRONT_ULTRASONIC_TRIGGER_PORT, RobotMap.FRONT_ULTRASONIC_ECHO_PORT);
-		//ultrasonicSide = createUltrasonic(RobotMap.SIDE_ULTRASONIC_TRIGGER_PORT, RobotMap.SIDE_ULTRASONIC_ECHO_PORT);
+		ultrasonicFront = createUltrasonic(RobotMap.FRONT_ULTRASONIC_TRIGGER_PORT, RobotMap.FRONT_ULTRASONIC_ECHO_PORT);
+		ultrasonicSide = createUltrasonic(RobotMap.SIDE_ULTRASONIC_TRIGGER_PORT, RobotMap.SIDE_ULTRASONIC_ECHO_PORT);
 		
 		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
 		rightback.configEncoderCodesPerRev(12);

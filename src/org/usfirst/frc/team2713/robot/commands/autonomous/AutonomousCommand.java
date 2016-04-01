@@ -15,12 +15,18 @@ import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
 
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonomousCommand extends CommandGroup {
+	private DriveSubsystem drive;
+	private Robot robot;
+	public double finalDistance;
 
 	public AutonomousCommand(DriveSubsystem drive, LoaderSubsystem loader,
 			Robot robot, int defense) {
+		this.drive = drive;
+		this.robot = robot;
 		/*
 		if (defense == 0) {
 			this.addSequential(new PutLoaderAtTopOrBotton(false, loader));
@@ -40,29 +46,40 @@ public class AutonomousCommand extends CommandGroup {
 	public AutonomousCommand(int startPos, int defense, boolean leftGoal,
 			DriveSubsystem drive, LoaderSubsystem loader, LightManager lights,
 			Robot robot, VisionSubsystem camera) {
-		manageDefenses(defense, drive, lights, robot);
+		manageDefenses(defense, drive, lights, loader, robot);
 
-		if (leftGoal) {
-			this.addSequential(new GoToAngle(drive, 90, null));
+		if (leftGoal && defense != 0) { // (0 = low bar)
+			this.addSequential(new GoToAngle(robot, drive, 90, null));
+			this.addSequential(new GoDistanceFromWall(47.15 - RobotMap.ROBOT_LENGTH / 2, drive));
+			this.addSequential(new GoToAngle(robot, drive, 0, null));
+			this.addSequential(new GoDistanceFromWall(72 - RobotMap.ROBOT_LENGTH / 2, drive));
+			finalDistance = 144;
+		} else if (!leftGoal && defense != 0) {
+			this.addSequential(new GoToAngle(robot, drive, -90, null));
+			this.addSequential(new GoDistanceFromWall(47.15 - RobotMap.ROBOT_LENGTH / 2, drive));
+			this.addSequential(new GoToAngle(robot, drive, 0, null));
+			this.addSequential(new GoDistanceFromWall(72 - RobotMap.ROBOT_LENGTH / 2, drive));
+			finalDistance = 144;
 		} else {
-			this.addSequential(new GoToAngle(drive, -90, null));
+			this.addSequential(new PostLowBarAlign(this, drive, robot, leftGoal));
+			//^ final length set in here.
 		}
-		this.addSequential(new GoDistanceFromWall(18.56, drive));
-		if (leftGoal) {
-			this.addSequential(new GoToAngle(drive, -90, null));
-		} else {
-			this.addSequential(new GoToAngle(drive, 90, null));
+		
+		this.addSequential(new HelpMe());
+		this.addSequential(new GoToAngle(robot, drive, 60 * (leftGoal ? -1 : 1), robot.oi.getXbox()));
+		
+		if (camera != null) {
+			this.addSequential(new VisionAlign(camera, drive, leftGoal));
 		}
-		this.addSequential(new GoDistanceFromWall(28.35, drive));
-		this.addSequential(new AlignCommand(leftGoal, drive, camera, robot));
+		
 		this.addSequential(new ShootBall(loader, lights, robot));
 	}
 
 	public void manageDefenses(int defense, DriveSubsystem drive,
-			LightManager lights, Robot robot) {
+			LightManager lights, LoaderSubsystem loader, Robot robot) {
 		switch (defense) {
 		case 0:
-			manageLowBar(drive, robot);
+			manageLowBar(drive, loader, robot);
 			break;
 		case 1:
 			manageGate(drive, lights, robot);
@@ -92,7 +109,8 @@ public class AutonomousCommand extends CommandGroup {
 
 	}
 
-	public void manageLowBar(DriveSubsystem drive, Robot robot) {
+	public void manageLowBar(DriveSubsystem drive, LoaderSubsystem loader, Robot robot) {
+		this.addSequential(new PutLoaderAtTopOrBotton(false, loader));
 		this.addSequential(new GoForward(drive, RobotMap.LOW_BAR_DISTANCE,
 				false, robot)); // Needs to be Adjusted
 	}
@@ -139,5 +157,37 @@ public class AutonomousCommand extends CommandGroup {
 																			// to
 																			// be
 																			// adjusted
+	}
+	
+	public class HelpMe extends Command {
+		private GoForward gocommand;
+
+		@Override
+		protected void initialize() {
+		}
+
+		@Override
+		protected void execute() {
+			gocommand = new GoForward(drive, finalDistance, false, robot);
+			gocommand.start();
+		}
+
+		@Override
+		protected boolean isFinished() {
+			return gocommand.isStarted() && !gocommand.isRunning();
+		}
+
+		@Override
+		protected void end() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		protected void interrupted() {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 }

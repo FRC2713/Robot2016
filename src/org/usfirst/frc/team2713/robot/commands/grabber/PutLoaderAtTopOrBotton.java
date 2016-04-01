@@ -6,13 +6,13 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class PutLoaderAtTopOrBotton extends Command {
 
-	boolean topOrBottom;
+	boolean top;
 	LoaderSubsystem loader;
 	double startTime = 0;
 	
-	public PutLoaderAtTopOrBotton(boolean topOrBottom, LoaderSubsystem loader) {
+	public PutLoaderAtTopOrBotton(boolean top, LoaderSubsystem loader) {
 		this.loader = loader;
-		this.topOrBottom = topOrBottom;
+		this.top = top;
 	}
 	
 	@Override
@@ -22,20 +22,20 @@ public class PutLoaderAtTopOrBotton extends Command {
 
 	@Override
 	protected void execute() {
-		if(topOrBottom && !loader.moveLoader.isRevLimitSwitchClosed()) {
+		if(top && !loader.moveLoader.isRevLimitSwitchClosed()) {
 			loader.moveLoader(.75);
 		}
-		if(!topOrBottom) {
+		if(!top) {
 			loader.moveLoader(-1);
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if(topOrBottom && loader.moveLoader.isRevLimitSwitchClosed()) {
+		if(top && loader.moveLoader.isRevLimitSwitchClosed()) {
 			return true;
 		}
-		if(!topOrBottom && System.currentTimeMillis() - startTime > 200) {
+		if(!top && System.currentTimeMillis() - startTime > 200) {
 			return true;
 		}
 		return false;

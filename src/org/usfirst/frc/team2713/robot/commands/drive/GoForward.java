@@ -13,15 +13,19 @@ public class GoForward extends Command {
 	double distance;
 	Robot robot;
 	
+	private boolean started;
+	
 	public GoForward(DriveSubsystem drive, double distance, boolean shouldStopIfStuck, Robot robot) {
 		this.drive = drive;
 		this.distance = distance - 7;
 		this.robot = robot;
+		started = false;
 		requires(drive);
 	}
 
 	@Override
 	protected void initialize() {
+		started = true;
 		drive.resetPosition();
 	}
 
@@ -37,6 +41,10 @@ public class GoForward extends Command {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean isStarted() {
+		return started;
 	}
 
 	@Override

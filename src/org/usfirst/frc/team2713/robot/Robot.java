@@ -344,6 +344,10 @@ public class Robot extends IterativeRobot {
 			}
 		}
 	}
+	
+	public GyroAccelWrapper getGyro() {
+		return gyro;
+	}
 
 	public void checkInteruptions() {
 		if (oi != null) {

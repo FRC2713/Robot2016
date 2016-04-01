@@ -8,6 +8,7 @@ public class GoDistanceFromWall extends Command {
 
 	private double distance;
 	private DriveSubsystem drive;
+	private int pol;
 	
 	public GoDistanceFromWall(double distance, DriveSubsystem drive) {
 		this.distance = distance;
@@ -16,24 +17,26 @@ public class GoDistanceFromWall extends Command {
 	
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		
+		if (drive.ultrasonicFront.getRangeInches() < distance) {
+			pol = -1;
+		} else {
+			pol = 1;
+		}
 	}
 
 	@Override
 	protected void execute() {
-		drive.move(.5);
+		drive.move(.5 * pol);
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return drive.ultrasonicFront.getRangeInches() > distance;
+		return drive.ultrasonicFront.getRangeInches() >= distance;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
-		
+		drive.move(0);
 	}
 
 	@Override
