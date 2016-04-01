@@ -162,6 +162,12 @@ public class VisionSubsystem extends BaseSubsystem {
 		cameraServer.setImage(image);
 	}
 	
+	public MatOfPoint findGoalContour(double targetWidth) {
+		Mat image = applyHLSThreshold(getImageMat(), ColorThreshold.HIGH_GOAL);
+		List<MatOfPoint> contours = filterContoursByArea(getContours(image), 400);
+		return getClosestContour(contours, targetWidth);
+	}
+	
 	public void releaseCamera() {
 		processingCapture.release();
 	}
