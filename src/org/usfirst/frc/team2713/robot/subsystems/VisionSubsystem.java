@@ -41,7 +41,7 @@ public class VisionSubsystem extends BaseSubsystem {
 		if (!processingCapture.isOpened()) {
 			processingCapture = new VideoCapture("http://10.27.13.11/mjpg/video.mjpg");
 			
-			if (processingCapture.isOpened()) {
+			if (!processingCapture.isOpened()) {
 				throw new RuntimeException("Camera capture couldn't be started.");
 			}
 		}
