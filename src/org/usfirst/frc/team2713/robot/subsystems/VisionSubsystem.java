@@ -36,10 +36,14 @@ public class VisionSubsystem extends BaseSubsystem {
 	private CameraServer cameraServer;
 	
 	public VisionSubsystem() {
-		processingCapture = new VideoCapture("http://10.27.13.11/mjpg/video.mjpg");
+		processingCapture = new VideoCapture("http://axis-camera-2713.local/mjpg/video.mjpg");
 		
 		if (!processingCapture.isOpened()) {
-			throw new RuntimeException("Camera capture couldn't be started.");
+			processingCapture = new VideoCapture("http://10.27.13.11/mjpg/video.mjpg");
+			
+			if (processingCapture.isOpened()) {
+				throw new RuntimeException("Camera capture couldn't be started.");
+			}
 		}
 	}
 
