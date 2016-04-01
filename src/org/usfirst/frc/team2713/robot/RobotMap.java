@@ -78,7 +78,7 @@ public class RobotMap {
 	//Camera Stuff
 	public static final int BACK_CAMERA = 0;
 	public static final int FRONT_CAMERA = 1;
-	public static final int CAMERA_VIEW_ANGLE = 45;
+	public static final int CAMERA_VIEW_ANGLE = 55;
 
 	//Obstacle Settings
 	public static final double CHEVAL_DE_FRISE_DISTANCE = 2;
