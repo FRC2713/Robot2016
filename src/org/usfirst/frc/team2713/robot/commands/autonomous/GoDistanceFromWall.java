@@ -10,13 +10,17 @@ public class GoDistanceFromWall extends Command {
 	private DriveSubsystem drive;
 	private int pol;
 	
+	private boolean started;
+	
 	public GoDistanceFromWall(double distance, DriveSubsystem drive) {
 		this.distance = distance;
 		this.drive = drive;
+		started = false;
 	}
 	
 	@Override
 	protected void initialize() {
+		started = true;
 		if (drive.ultrasonicFront.getRangeInches() < distance) {
 			pol = -1;
 		} else {
@@ -32,6 +36,10 @@ public class GoDistanceFromWall extends Command {
 	@Override
 	protected boolean isFinished() {
 		return drive.ultrasonicFront.getRangeInches() >= distance;
+	}
+	
+	public boolean isStarted() {
+		return started;
 	}
 
 	@Override

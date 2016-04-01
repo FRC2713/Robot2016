@@ -9,17 +9,20 @@ import edu.wpi.first.wpilibj.command.Command;
 public class GoForward extends Command {
 
 	DriveSubsystem drive;
+	double startTime;
 	double polarity;
 	double distance;
 	Robot robot;
 	
 	private boolean started;
+	boolean distanceOrTime;
 	
-	public GoForward(DriveSubsystem drive, double distance, boolean shouldStopIfStuck, Robot robot) {
+	public GoForward(DriveSubsystem drive, double distance, boolean shouldStopIfStuck, Robot robot, boolean distanceOrTime) {
 		this.drive = drive;
 		this.distance = distance - 7;
 		this.robot = robot;
 		started = false;
+		this.distanceOrTime = distanceOrTime;
 		requires(drive);
 	}
 
@@ -27,6 +30,7 @@ public class GoForward extends Command {
 	protected void initialize() {
 		started = true;
 		drive.resetPosition();
+		startTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -36,8 +40,10 @@ public class GoForward extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		if(Math.abs(drive.getDistance()) > Math.abs(distance)) {
-			System.out.println(drive.getDistance());
+		if(distanceOrTime && Math.abs(drive.getDistance()) > Math.abs(distance)) {
+			return true;
+		}
+		if(!distanceOrTime && (System.currentTimeMillis() - startTime) > distance) {
 			return true;
 		}
 		return false;

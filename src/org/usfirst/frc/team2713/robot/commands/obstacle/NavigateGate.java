@@ -13,7 +13,7 @@ public class NavigateGate extends CommandGroup {
 	Robot robot;
 	
 	public NavigateGate(DriveSubsystem drive, LightManager lightManager, Robot robot) {
-		addParallel(new GoForward(drive, RobotMap.GATE_DISTANCE, false, robot));
+		addParallel(new GoForward(drive, RobotMap.GATE_DISTANCE, false, robot, true));
 		this.robot = robot;
 	}	
 	

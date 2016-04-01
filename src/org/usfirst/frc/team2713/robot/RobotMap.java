@@ -84,7 +84,7 @@ public class RobotMap {
 	public static final double CHEVAL_DE_FRISE_DISTANCE = 2;
 	public static final double SPEED_TO_DO_GATE = .5;
 	public static final double GATE_DISTANCE = 2;
-	public static final double LOW_BAR_DISTANCE = 0;
+	public static final double LOW_BAR_DISTANCE = 2000;
 	public static final double SMALL_RAMP_DISTANCE = 0;
 	
 	//Robot Dimensions

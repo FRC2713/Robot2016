@@ -12,6 +12,6 @@ public class GoToWayPoint extends CommandGroup {
 	
 	public GoToWayPoint(DriveSubsystem drive, Waypoint w, Robot robot){
 		this.addSequential(new GoToAngle(robot, drive, w.getAngle(), robot.oi.getXbox()));
-		this.addSequential(new GoForward(drive, w.getDistance(), false, robot));
+		this.addSequential(new GoForward(drive, w.getDistance(), false, robot, true));
 	}
 }
