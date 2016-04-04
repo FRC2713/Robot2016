@@ -32,12 +32,12 @@ public class ManualLoadBall extends Command {
 
 	@Override
 	protected void end() {
-		loader.ballLoader.set(0);
+		loader.ballLoader.set(.3);
 	}
 
 	@Override
 	protected void interrupted() {
-		loader.ballLoader.set(0);
+		loader.ballLoader.set(.3);
 	}
 
 }

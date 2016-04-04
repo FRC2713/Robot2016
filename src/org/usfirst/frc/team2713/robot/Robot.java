@@ -38,7 +38,6 @@ public class Robot extends IterativeRobot {
 	private VisionSubsystem visionSubsystem;
 	private CameraServer cameraServer;
 	private SendableChooser myPosition;
-	private SendableChooser myObstacle;
 	private SendableChooser doNothing;
 	private SendableChooser doGoal;
 	private GyroAccelWrapper gyro;
@@ -47,7 +46,6 @@ public class Robot extends IterativeRobot {
 	public Boolean interuptUpperLevelLoaderMover = false;
 	public Boolean interuptLoaderWheels = false;
 	public Boolean interuptDrive = false;
-	private USBCamera camera;
 	private int timesSinceCameraUpdate = 0;
 
 	AutonomousCommand autonomousCommand;
@@ -55,7 +53,8 @@ public class Robot extends IterativeRobot {
 	static {
 		try {
 			System.load("/usr/local/share/OpenCV/java/libopencv_java310.so");
-		} catch (SecurityException | UnsatisfiedLinkError | NullPointerException e) {
+		} catch (SecurityException | UnsatisfiedLinkError
+				| NullPointerException e) {
 			e.printStackTrace();
 			System.out.println("OpenCV could not be loaded. Is it installed?");
 			System.exit(8);
@@ -83,15 +82,6 @@ public class Robot extends IterativeRobot {
 		if (gyro == null && RobotMap.INIT_GYRO)
 			gyro = new GyroAccelWrapper(); // Calibrated in ADXRS450_Gyro
 											// constructor.
-		if (cameraServer == null && RobotMap.INIT_CAMERA) {
-			try {
-				camera = new USBCamera("cam0");
-				camera.startCapture();
-			} catch (VisionException ex) {
-
-			}
-			cameraServer = CameraServer.getInstance();
-		}
 		if (visionSubsystem == null && RobotMap.INIT_CAMERA) {
 			try {
 				visionSubsystem = new VisionSubsystem();
@@ -99,6 +89,16 @@ public class Robot extends IterativeRobot {
 
 			}
 		}
+
+		if (cameraServer == null && RobotMap.INIT_CAMERA) {
+			try {
+				cameraServer = CameraServer.getInstance();
+				cameraServer.startAutomaticCapture("10.27.13.11");
+			} catch (RuntimeException ex) {
+
+			}
+		}
+
 		if (lights == null && RobotMap.INIT_LIGHTS) {
 			lights = new LightManager();
 		}
@@ -107,24 +107,18 @@ public class Robot extends IterativeRobot {
 		if (loader == null && RobotMap.INIT_LOADER)
 			loader = new LoaderSubsystem(lights, this);
 		if (RobotMap.INIT_SMART_DASHBOARD) {
+			System.out.println("hi");
 			myPosition = new SendableChooser();
-			myPosition.addDefault("Position Low Bar", 1);
-			myPosition.addObject("Position 2", 2);
-			myPosition.addObject("Position 3", 3);
-			myPosition.addObject("Position 4", 4);
-			myPosition.addObject("Position 5", 5);
+			myPosition.addDefault("Obstacle: Low Bar", 0);
+			myPosition.addObject("Obstacle: Portcullis ", 1);
+			myPosition.addObject("Obstacle: Cheval de Frise", 2);
+			myPosition.addObject("Obstacle: Ramparts", 3);
+			myPosition.addObject("Obstacle: Moat", 4);
+			myPosition.addObject("Drawbridge", 5);
+			myPosition.addObject("Obstacle: Sally Port", 6);
+			myPosition.addObject("Obstacle: Rock Wall", 7);
+			myPosition.addObject("Obstacle: Rough Terrain", 8);
 			SmartDashboard.putData("Position Chooser", myPosition);
-			myObstacle = new SendableChooser();
-			myObstacle.addDefault("Obstacle: Low Bar", 0);
-			myObstacle.addObject("Obstacle: Portcullis ", 1);
-			myObstacle.addObject("Obstacle: Cheval de Frise", 2);
-			myObstacle.addObject("Obstacle: Ramparts", 3);
-			myObstacle.addObject("Obstacle: Moat", 4);
-			myObstacle.addObject("Drawbridge", 5);
-			myObstacle.addObject("Obstacle: Sally Port", 6);
-			myObstacle.addObject("Obstacle: Rock Wall", 7);
-			myObstacle.addObject("Obstacle: Rough Terrain", 8);
-			SmartDashboard.putData("Obstacle Chooser", myObstacle);
 			doNothing = new SendableChooser();
 			doNothing.addDefault("Do Something", false);
 			doNothing.addObject("Do Nothing", true);
@@ -176,7 +170,7 @@ public class Robot extends IterativeRobot {
 		boolean shouldDoNothing;
 		// Start of debug messages
 		String defenseStr;
-		int defense = (Integer) myObstacle.getSelected();
+		int defense = (Integer) myPosition.getSelected();
 		int startPos = (Integer) myPosition.getSelected();
 		shouldDoNothing = (Boolean) doNothing.getSelected();
 		switch (defense) {
@@ -222,7 +216,9 @@ public class Robot extends IterativeRobot {
 				lights.startAuto(defense, startPos, isRed, leftGoal);
 		}
 		if (!shouldDoNothing) {
-			autonomousCommand = new AutonomousCommand(startPos, defense, leftGoal, ((Boolean) doGoal.getSelected()).booleanValue(), drive, loader, lights, this, visionSubsystem);
+			autonomousCommand = new AutonomousCommand(startPos, defense,
+					leftGoal, ((Boolean) doGoal.getSelected()).booleanValue(),
+					drive, loader, lights, this, visionSubsystem);
 			if (autonomousCommand != null)
 				autonomousCommand.start();
 		}
@@ -296,44 +292,12 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void commandsToAlwaysRun() {
-		doCameraStuff();
 		checkLimitSwitches();
 		checkTilted();
 		checkInteruptions();
 
 		if (lights != null)
 			lights.managerLights();
-	}
-
-	public void doCameraStuff() {
-		if (timesSinceCameraUpdate > 5) {
-			try {
-				Image image = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
-				if (camera != null) {
-					camera.getImage(image);
-					if (!this.isAutonomous()) {
-						try {
-							NIVision.imaqFlip(image, image, FlipAxis.CENTER_AXIS);
-						} catch (VisionException ex) {
-
-						}
-					}
-				}
-				if (this.isAutonomous()) {
-					if (visionSubsystem != null) {
-						image = visionSubsystem.matToImage(visionSubsystem.getImageMat());
-					}
-				}
-				if (cameraServer != null) {
-					cameraServer.setImage(image);
-				}
-				timesSinceCameraUpdate = 0;
-			} catch (VisionException ex) {
-
-			}
-		} else {
-			timesSinceCameraUpdate++;
-		}
 	}
 
 	public void checkTilted() {
@@ -350,7 +314,7 @@ public class Robot extends IterativeRobot {
 			}
 		}
 	}
-	
+
 	public GyroAccelWrapper getGyro() {
 		return gyro;
 	}

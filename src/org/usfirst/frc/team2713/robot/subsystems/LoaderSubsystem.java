@@ -50,11 +50,13 @@ public class LoaderSubsystem extends BaseSubsystem {
 	@Override
 	public void startTeleop() {
 		startLoadCommand(); // Needed?
+		ballLoader.set(.3);
 	}
 
 	@Override
 	public void startAuto(int defense, int startPos, boolean isRed, boolean leftGoal) {
 		startLoadCommand();
+		ballLoader.set(.3);
 	}
 
 	public void loadBall(double polarity) {

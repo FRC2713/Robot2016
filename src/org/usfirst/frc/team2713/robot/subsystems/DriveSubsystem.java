@@ -26,20 +26,19 @@ public class DriveSubsystem extends BaseSubsystem {
 	public double powerTotal;
 	public Ultrasonic ultrasonicFront;
 	public Ultrasonic ultrasonicSide;
-	
+
 	public DriveSubsystem(Robot robot, GyroAccelWrapper gyro) {
 		this.gyro = gyro;
 		this.robot = robot;
-				
-		ultrasonicFront = createUltrasonic(RobotMap.FRONT_ULTRASONIC_TRIGGER_PORT, RobotMap.FRONT_ULTRASONIC_ECHO_PORT);
-		ultrasonicSide = createUltrasonic(RobotMap.SIDE_ULTRASONIC_TRIGGER_PORT, RobotMap.SIDE_ULTRASONIC_ECHO_PORT);
 		
+		//initUltrasonic();
+
 		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
 		rightback.configEncoderCodesPerRev(12);
 		rightback.reverseSensor(false);
-		
+
 		leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
-		
+
 		left = new CANTalon(RobotMap.LEFT_TANK);
 		left.changeControlMode(TalonControlMode.Follower);
 		left.set(RobotMap.LEFT_TANK_BACK);
@@ -61,15 +60,19 @@ public class DriveSubsystem extends BaseSubsystem {
 	}
 
 	@Override
-	public void startAuto(int defense, int startPos, boolean isRed, boolean leftGoal) {
-		
+	public void startAuto(int defense, int startPos, boolean isRed,
+			boolean leftGoal) {
+
 	}
-	
+
 	/**
-	 * Deadband is the area of where the controller is meant to be at 0,
-	 * but is slightly higher (usually around 1-10)
-	 * @param value Value controller reports
-	 * @param deadband Deadband area
+	 * Deadband is the area of where the controller is meant to be at 0, but is
+	 * slightly higher (usually around 1-10)
+	 * 
+	 * @param value
+	 *            Value controller reports
+	 * @param deadband
+	 *            Deadband area
 	 * @return Value compensated for deadband
 	 */
 	private static double calcDeadband(double value, double deadband) {
@@ -91,10 +94,12 @@ public class DriveSubsystem extends BaseSubsystem {
 	public void resetPosition() {
 		rightback.setPosition(0);
 	}
-	
+
 	/**
 	 * Moves the robot forward
-	 * @param polarity Speed at which to move the robot
+	 * 
+	 * @param polarity
+	 *            Speed at which to move the robot
 	 */
 	public void move(double polarity) {
 		leftback.set(polarity);
@@ -105,17 +110,19 @@ public class DriveSubsystem extends BaseSubsystem {
 		leftback.set(angle / Math.abs(angle) / 2);
 		rightback.set(angle / Math.abs(angle) / 2);
 	}
-	
+
 	public double getDistance() {
-		return rightback.getPosition();
+		return rightback.getEncPosition();
 	}
-	
+
 	public double getAngleRotated() {
-		return (180 / Math.PI) * rightback.getPosition() / (RobotMap.ROBOT_WIDTH / 2);
+		return (180 / Math.PI) * rightback.getEncPosition()
+				/ (RobotMap.ROBOT_WIDTH / 2);
 	}
 
 	public void arcadeDrive(double d, double rightY, double deadband) {
-		roboDrive.arcadeDrive(calcDeadband(d, deadband), calcDeadband(rightY, deadband));
+		roboDrive.arcadeDrive(calcDeadband(d, deadband),
+				calcDeadband(rightY, deadband));
 	}
 
 	public void tankDrive(double left, double right, double deadband) {
@@ -126,14 +133,14 @@ public class DriveSubsystem extends BaseSubsystem {
 	public double getDriveTotal() {
 		return powerTotal;
 	}
-	
+
 	public void setPercentVBus() {
 		leftback.changeControlMode(TalonControlMode.PercentVbus);
 		rightback.changeControlMode(TalonControlMode.PercentVbus);
 		leftback.set(0);
 		rightback.set(0);
 	}
-	
+
 	private Ultrasonic createUltrasonic(int triggerPort, int echoPort) {
 		Ultrasonic ultrasonic = new Ultrasonic(triggerPort, echoPort);
 		ultrasonic.setEnabled(true);
@@ -141,6 +148,18 @@ public class DriveSubsystem extends BaseSubsystem {
 		ultrasonic.setDistanceUnits(Unit.kInches);
 		return ultrasonic;
 	}
-
+	
+	public void initUltrasonic() {
+		try {
+			ultrasonicFront = createUltrasonic(
+					RobotMap.FRONT_ULTRASONIC_TRIGGER_PORT,
+					RobotMap.FRONT_ULTRASONIC_ECHO_PORT);
+			ultrasonicSide = createUltrasonic(
+					RobotMap.SIDE_ULTRASONIC_TRIGGER_PORT,
+					RobotMap.SIDE_ULTRASONIC_ECHO_PORT);
+		} catch (java.lang.IllegalThreadStateException ex) {
+			ex.printStackTrace();
+		}
+	}
 
 }

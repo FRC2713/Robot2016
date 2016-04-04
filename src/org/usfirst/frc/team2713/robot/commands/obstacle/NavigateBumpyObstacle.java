@@ -16,10 +16,10 @@ public class NavigateBumpyObstacle extends CommandGroup {
 	XBoxController xbox;
 	double startTime;
 
-	public NavigateBumpyObstacle(DriveSubsystem drive, LightManager lights, Robot robot) {
+	public NavigateBumpyObstacle(DriveSubsystem drive, LightManager lights, Robot robot, double modifier) {
 		this.drive = drive;
 		this.lights = lights;
-		this.addSequential(new GoForward(drive, 2000, false, robot, false));
+		this.addSequential(new GoForward(drive, 1500 * modifier, false, robot, false));
 	}
 
 }

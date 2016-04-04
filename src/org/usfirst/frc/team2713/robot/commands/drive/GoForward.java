@@ -56,11 +56,13 @@ public class GoForward extends Command {
 	@Override
 	protected void end() {
 		drive.move(0);
+		drive.resetPosition();
 	}
 
 	@Override
 	protected void interrupted() {
 		drive.move(0);
+		drive.resetPosition();
 	}
 
 }

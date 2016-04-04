@@ -33,7 +33,7 @@ public class PutLoaderAtTopOrBotton extends Command {
 	@Override
 	protected boolean isFinished() {
 		return (top && loader.moveLoader.isRevLimitSwitchClosed())
-				|| (!top && System.currentTimeMillis() - startTime > 500);
+				|| (!top && System.currentTimeMillis() - startTime > 600);
 	}
 
 	@Override

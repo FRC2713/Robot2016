@@ -18,7 +18,7 @@ public class NavigateChevalDeFrise extends CommandGroup {
 		this.robot = robot;
 		this.addSequential(new GoForward(drive, 24, true, robot, true));
 		this.addSequential(new PutLoaderAtTopOrBotton(false, loader));
-		this.addSequential(new GoForward(drive, 24, true, robot, true));
+		this.addSequential(new GoForward(drive, 1000, true, robot, false));
 	}
 	
 	@Override

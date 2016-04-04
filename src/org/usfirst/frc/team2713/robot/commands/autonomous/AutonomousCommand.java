@@ -4,8 +4,8 @@ import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
 import org.usfirst.frc.team2713.robot.commands.drive.GoToAngle;
+import org.usfirst.frc.team2713.robot.commands.grabber.ManualLoadBall;
 import org.usfirst.frc.team2713.robot.commands.grabber.PutLoaderAtTopOrBotton;
-import org.usfirst.frc.team2713.robot.commands.grabber.ShootBall;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateBumpyObstacle;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateChevalDeFrise;
 import org.usfirst.frc.team2713.robot.commands.obstacle.NavigateGate;
@@ -72,7 +72,7 @@ public class AutonomousCommand extends CommandGroup {
 				this.addSequential(new VisionAlign(camera, drive, leftGoal));
 			}
 		
-			this.addSequential(new ShootBall(loader, lights, robot));
+			this.addSequential(new ManualLoadBall(loader, -1), 2);
 		}
 	}
 
@@ -83,7 +83,7 @@ public class AutonomousCommand extends CommandGroup {
 			manageLowBar(drive, loader, robot, lights);
 			break;
 		case 1:
-			manageGate(drive, lights, robot);
+			manageGate(drive, lights, robot, loader);
 			break;
 		case 2:
 			manageChevalDeFrise(drive, lights, robot, loader);
@@ -111,13 +111,18 @@ public class AutonomousCommand extends CommandGroup {
 	}
 
 	public void manageLowBar(DriveSubsystem drive, LoaderSubsystem loader, Robot robot, LightManager lights) {
-		this.addSequential(new PutLoaderAtTopOrBotton(false, loader));
-		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot));
+		//this.addSequential(new PutLoaderAtTopOrBotton(false, loader));
+		this.addSequential(new GoForward(drive, 250, false, robot, true));
+		//this.addParallel(new PutLoaderAtTopOrBotton(true, loader));
+		this.addSequential(new GoToAngle(robot, drive, 60, robot.getOI().getXbox()));
+		this.addSequential(new GoForward(drive, 144, false, robot, true));
+		//this.addSequential(new ManualLoadBall(loader, -1), 2);
 	}
 
 	public void manageGate(DriveSubsystem drive, LightManager lights,
-			Robot robot) {
-		this.addSequential(new NavigateGate(drive, lights, robot));
+			Robot robot, LoaderSubsystem loader) {
+		this.addSequential(new PutLoaderAtTopOrBotton(false, loader));
+		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot, 1.5));
 	}
 
 	public void manageChevalDeFrise(DriveSubsystem drive, LightManager lights,
@@ -126,12 +131,12 @@ public class AutonomousCommand extends CommandGroup {
 	}
 
 	public void manageSmallRamps(DriveSubsystem drive, Robot robot, LightManager lights) {
-		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot));
+		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot, 2));
 	}
 
 	public void manageMoat(DriveSubsystem drive, LightManager lights,
 			Robot robot) {
-		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot));
+		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot, 2));
 	}
 
 	public void manageDrawbridge() {
@@ -144,7 +149,7 @@ public class AutonomousCommand extends CommandGroup {
 
 	public void manageRockWall(DriveSubsystem drive, LightManager lights,
 			Robot robot) {
-		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot)); // Needs
+		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot, 1.5)); // Needs
 																			// to
 																			// be
 																			// adjusted
@@ -152,7 +157,7 @@ public class AutonomousCommand extends CommandGroup {
 
 	public void manageRoughTerain(DriveSubsystem drive, LightManager lights,
 			Robot robot) {
-		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot)); // Needs
+		this.addSequential(new NavigateBumpyObstacle(drive, lights, robot, 2)); // Needs
 																			// to
 																			// be
 																			// adjusted
