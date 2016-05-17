@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2713.robot.commands.obstacle;
+package org.usfirst.frc.team2713.robot.commands.autonomous.obstacle;
 
 import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.commands.drive.GoForward;
