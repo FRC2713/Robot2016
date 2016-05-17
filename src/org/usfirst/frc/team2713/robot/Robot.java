@@ -1,18 +1,10 @@
 package org.usfirst.frc.team2713.robot;
 
-import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomousCommand;
-
 import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.VisionSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.lights.LightManager;
-
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.FlipAxis;
-import com.ni.vision.NIVision.Image;
-import com.ni.vision.NIVision.ImageType;
-import com.ni.vision.VisionException;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -20,7 +12,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -47,8 +38,6 @@ public class Robot extends IterativeRobot {
 	public Boolean interuptLoaderWheels = false;
 	public Boolean interuptDrive = false;
 	private int timesSinceCameraUpdate = 0;
-
-	AutonomousCommand autonomousCommand;
 
 	static {
 		try {
@@ -214,13 +203,12 @@ public class Robot extends IterativeRobot {
 				loader.startAuto(defense, startPos, isRed, leftGoal);
 			if (lights != null)
 				lights.startAuto(defense, startPos, isRed, leftGoal);
-		}
-		if (!shouldDoNothing) {
-			autonomousCommand = new AutonomousCommand(startPos, defense,
-					leftGoal, ((Boolean) doGoal.getSelected()).booleanValue(),
-					drive, loader, lights, this, visionSubsystem);
-			if (autonomousCommand != null)
-				autonomousCommand.start();
+			
+			//autonomousCommand = new AutonomousCommand(startPos, defense,
+			//		leftGoal, ((Boolean) doGoal.getSelected()).booleanValue(),
+			//		drive, loader, lights, this, visionSubsystem);
+			//if (autonomousCommand != null)
+			//	autonomousCommand.start();
 		}
 		Scheduler.getInstance().run();
 	}
@@ -240,8 +228,8 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
+		//if (autonomousCommand != null)
+		//	autonomousCommand.cancel();
 		if (drive != null)
 			drive.startTeleop();
 		if (loader != null)
