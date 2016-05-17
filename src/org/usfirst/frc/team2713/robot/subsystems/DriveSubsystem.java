@@ -60,8 +60,7 @@ public class DriveSubsystem extends BaseSubsystem {
 	}
 
 	@Override
-	public void startAuto(int defense, int startPos, boolean isRed,
-			boolean leftGoal) {
+	public void startAuto(int defense, boolean isRed, boolean leftGoal) {
 
 	}
 

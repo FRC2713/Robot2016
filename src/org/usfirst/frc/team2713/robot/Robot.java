@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot {
 	public LightManager lights;
 	private VisionSubsystem visionSubsystem;
 	private CameraServer cameraServer;
-	private SendableChooser myPosition;
+	private SendableChooser startDefense;
 	private SendableChooser doNothing;
 	private SendableChooser doGoal;
 	private GyroAccelWrapper gyro;
@@ -75,7 +75,7 @@ public class Robot extends IterativeRobot {
 			try {
 				visionSubsystem = new VisionSubsystem();
 			} catch (RuntimeException ex) {
-
+				ex.printStackTrace();
 			}
 		}
 
@@ -84,30 +84,29 @@ public class Robot extends IterativeRobot {
 				cameraServer = CameraServer.getInstance();
 				cameraServer.startAutomaticCapture("10.27.13.11");
 			} catch (RuntimeException ex) {
-
+				ex.printStackTrace();
 			}
 		}
 
-		if (lights == null && RobotMap.INIT_LIGHTS) {
+		if (lights == null && RobotMap.INIT_LIGHTS)
 			lights = new LightManager();
-		}
 		if (drive == null && RobotMap.INIT_DRIVE)
 			drive = new DriveSubsystem(this, gyro);
 		if (loader == null && RobotMap.INIT_LOADER)
 			loader = new LoaderSubsystem(lights, this);
 		if (RobotMap.INIT_SMART_DASHBOARD) {
 			System.out.println("hi");
-			myPosition = new SendableChooser();
-			myPosition.addDefault("Obstacle: Low Bar", 0);
-			myPosition.addObject("Obstacle: Portcullis ", 1);
-			myPosition.addObject("Obstacle: Cheval de Frise", 2);
-			myPosition.addObject("Obstacle: Ramparts", 3);
-			myPosition.addObject("Obstacle: Moat", 4);
-			myPosition.addObject("Drawbridge", 5);
-			myPosition.addObject("Obstacle: Sally Port", 6);
-			myPosition.addObject("Obstacle: Rock Wall", 7);
-			myPosition.addObject("Obstacle: Rough Terrain", 8);
-			SmartDashboard.putData("Position Chooser", myPosition);
+			startDefense = new SendableChooser();
+			startDefense.addDefault("Obstacle: Low Bar", 0);
+			startDefense.addObject("Obstacle: Portcullis ", 1);
+			startDefense.addObject("Obstacle: Cheval de Frise", 2);
+			startDefense.addObject("Obstacle: Ramparts", 3);
+			startDefense.addObject("Obstacle: Moat", 4);
+			startDefense.addObject("Obstacle: Drawbridge", 5);
+			startDefense.addObject("Obstacle: Sally Port", 6);
+			startDefense.addObject("Obstacle: Rock Wall", 7);
+			startDefense.addObject("Obstacle: Rough Terrain", 8);
+			SmartDashboard.putData("Defense Chooser", startDefense);
 			doNothing = new SendableChooser();
 			doNothing.addDefault("Do Something", false);
 			doNothing.addObject("Do Nothing", true);
@@ -157,11 +156,12 @@ public class Robot extends IterativeRobot {
 		boolean isRed = false;
 		boolean leftGoal = false;
 		boolean shouldDoNothing;
+		
 		// Start of debug messages
 		String defenseStr;
-		int defense = (Integer) myPosition.getSelected();
-		int startPos = (Integer) myPosition.getSelected();
+		int defense = (Integer) startDefense.getSelected();
 		shouldDoNothing = (Boolean) doNothing.getSelected();
+		
 		switch (defense) {
 		case 0:
 			defenseStr = "Low bar";
@@ -194,15 +194,16 @@ public class Robot extends IterativeRobot {
 			defenseStr = "";
 			break;
 		}
-		System.out.printf("Defense: %s\nPosition: %d", defenseStr, startPos);
+		System.out.printf("Defense: %s\n", defenseStr);
 		// End of debug messages
+		
 		if (!shouldDoNothing) {
 			if (drive != null)
-				drive.startAuto(defense, startPos, isRed, leftGoal);
+				drive.startAuto(defense, isRed, leftGoal);
 			if (loader != null)
-				loader.startAuto(defense, startPos, isRed, leftGoal);
+				loader.startAuto(defense, isRed, leftGoal);
 			if (lights != null)
-				lights.startAuto(defense, startPos, isRed, leftGoal);
+				lights.startAuto(defense, isRed, leftGoal);
 			
 			//autonomousCommand = new AutonomousCommand(startPos, defense,
 			//		leftGoal, ((Boolean) doGoal.getSelected()).booleanValue(),

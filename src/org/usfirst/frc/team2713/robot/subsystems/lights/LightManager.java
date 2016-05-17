@@ -47,7 +47,7 @@ public class LightManager extends LightSubsystem {
 
 	
 	@Override
-	public void startAuto(int defense, int startPos, boolean isRed, boolean leftGoal) {
+	public void startAuto(int defense, boolean isRed, boolean leftGoal) {
 		autoOrTeleop = true;
 		timeCommandStarted = System.currentTimeMillis();
 	}

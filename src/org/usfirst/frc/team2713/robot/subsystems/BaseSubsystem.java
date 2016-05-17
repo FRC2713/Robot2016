@@ -7,7 +7,7 @@ public abstract class BaseSubsystem extends Subsystem {
 	protected abstract void initDefaultCommand();
 	
 	public void startTeleop() {}
-	public void startAuto(int defense, int startPos, boolean isRed, boolean leftGoal) {}
+	public void startAuto(int defense, boolean isRed, boolean leftGoal) {}
 	public void startDisabled() {}
 
 }
