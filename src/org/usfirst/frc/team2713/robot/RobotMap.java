@@ -42,11 +42,9 @@ public class RobotMap {
 	public static final int ENCODER_PULSE = 1;
 
 	//Drive Stuff
+	public static final double DRIVE_WHEEL_DIAMETER = 8D;
 	public static final double ACCELERATION_STOP_POINT = .1;
 	public static final double IS_TILTED_CONSTANT = 3;
-	public static final double KpDrive = 2;
-	public static final double KiDrive = .00;
-	public static final double KdDrive = 0;
 
 	//Initialization stuff
 	public static final boolean INIT_DRIVE = true;

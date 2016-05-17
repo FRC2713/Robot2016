@@ -7,25 +7,21 @@ import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.Ultrasonic.Unit;
 
 public class DriveSubsystem extends BaseSubsystem {
 
-	public Encoder rightFrontWheelEncoder;
-	public Double distanceTraveled;
-	public RobotDrive roboDrive;
-	public CANTalon right;
-	public CANTalon left;
-	public CANTalon leftback;
-	public CANTalon rightback;
+	private RobotDrive roboDrive;
+	private CANTalon right;
+	private CANTalon left;
+	private CANTalon leftback;
+	private CANTalon rightback;
 	private Robot robot;
-	public GyroAccelWrapper gyro;
-	public double powerTotal;
-	public Ultrasonic ultrasonicFront;
-	public Ultrasonic ultrasonicSide;
+	private GyroAccelWrapper gyro;
+	private Ultrasonic ultrasonicFront;
+	private Ultrasonic ultrasonicSide;
 
 	public DriveSubsystem(Robot robot, GyroAccelWrapper gyro) {
 		this.gyro = gyro;
@@ -34,8 +30,7 @@ public class DriveSubsystem extends BaseSubsystem {
 		//initUltrasonic();
 
 		rightback = new CANTalon(RobotMap.RIGHT_TANK_BACK);
-		rightback.configEncoderCodesPerRev(12);
-		rightback.reverseSensor(false);
+		rightback.configEncoderCodesPerRev(1440);
 
 		leftback = new CANTalon(RobotMap.LEFT_TANK_BACK);
 
@@ -62,6 +57,19 @@ public class DriveSubsystem extends BaseSubsystem {
 	@Override
 	public void startAuto(int defense, boolean isRed, boolean leftGoal) {
 
+	}
+	
+	/**
+	 * Finds the rotations needed for
+	 * the robot to travel a distance in inches
+	 * for a given wheel diameter.
+	 * 
+	 * @param distance The distance to travel in inches.
+	 * @param wheelDiameter The diameter of the wheel in inches.
+	 * @return The number of rotations the wheel must turn.
+	 */
+	public double findWheelRotations(double distance, double wheelDiameter) {
+		return distance/(wheelDiameter * Math.PI);
 	}
 
 	/**
@@ -129,10 +137,6 @@ public class DriveSubsystem extends BaseSubsystem {
 		roboDrive.tankDrive(calcDeadband(left, ban), calcDeadband(right, ban));
 	}
 
-	public double getDriveTotal() {
-		return powerTotal;
-	}
-
 	public void setPercentVBus() {
 		leftback.changeControlMode(TalonControlMode.PercentVbus);
 		rightback.changeControlMode(TalonControlMode.PercentVbus);
@@ -160,5 +164,4 @@ public class DriveSubsystem extends BaseSubsystem {
 			ex.printStackTrace();
 		}
 	}
-
 }

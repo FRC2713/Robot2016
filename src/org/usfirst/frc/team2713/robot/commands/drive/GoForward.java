@@ -1,7 +1,7 @@
 package org.usfirst.frc.team2713.robot.commands.drive;
 
 import org.usfirst.frc.team2713.robot.Robot;
-
+import org.usfirst.frc.team2713.robot.RobotMap;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -19,10 +19,13 @@ public class GoForward extends Command {
 	
 	public GoForward(DriveSubsystem drive, double distance, boolean shouldStopIfStuck, Robot robot, boolean distanceOrTime) {
 		this.drive = drive;
-		this.distance = distance - 7;
+		this.distance = distance;
 		this.robot = robot;
 		started = false;
 		this.distanceOrTime = distanceOrTime;
+		if (distanceOrTime) {
+			this.distance = drive.findWheelRotations(distance, RobotMap.DRIVE_WHEEL_DIAMETER);
+		}
 		requires(drive);
 	}
 
@@ -35,18 +38,13 @@ public class GoForward extends Command {
 
 	@Override
 	protected void execute() {
-		drive.move(1* distance / Math.abs(distance));
+		drive.move(distance / Math.abs(distance));
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if(distanceOrTime && Math.abs(drive.getDistance()) > Math.abs(distance)) {
-			return true;
-		}
-		if(!distanceOrTime && (System.currentTimeMillis() - startTime) > distance) {
-			return true;
-		}
-		return false;
+		return (!distanceOrTime && (System.currentTimeMillis() - startTime) > distance) ||
+				(distanceOrTime && Math.abs(drive.getDistance()) > Math.abs(distance));
 	}
 	
 	public boolean isStarted() {

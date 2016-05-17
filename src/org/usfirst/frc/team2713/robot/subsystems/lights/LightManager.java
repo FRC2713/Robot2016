@@ -1,7 +1,6 @@
 package org.usfirst.frc.team2713.robot.subsystems.lights;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class LightManager extends LightSubsystem {
 
