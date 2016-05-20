@@ -6,17 +6,11 @@ import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class GoToAngle extends Command{
-
+public class TurnAround extends Command {
 	DriveSubsystem drive;
-	double angle;
-	boolean isFinished = false;
-	XBoxController xbox;
 	
-	public GoToAngle(Robot robot, DriveSubsystem drive, double angle, XBoxController xbox) {
+	public TurnAround(DriveSubsystem drive) {
 		this.drive = drive;
-		this.angle = robot.getGyro().getAngle() - angle;
-		this.xbox = xbox;
 		requires(drive);
 	}
 	
@@ -27,12 +21,12 @@ public class GoToAngle extends Command{
 
 	@Override
 	protected void execute() {
-		drive.rotate(angle, 1);
+		drive.rotate(180, 1);
 	}
 
 	@Override
-	protected boolean isFinished() { // The follow is flawed, I will investigate eventually
-		return Math.abs(drive.getAngleRotated()) >= Math.abs(angle);
+	protected boolean isFinished() {
+		return Math.abs(drive.getAngleRotated()) >= Math.abs(180);
 	}
 
 	@Override

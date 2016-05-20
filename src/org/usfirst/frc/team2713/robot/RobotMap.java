@@ -1,5 +1,8 @@
 package org.usfirst.frc.team2713.robot;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.opencv.core.Scalar;
 
 /**
@@ -114,6 +117,93 @@ public class RobotMap {
 		
 		public Scalar getHighValues() {
 			return highValues;
+		}
+	}
+	
+	public enum Defense {
+		/*
+		 * A negative time means that distance will be used.
+		 * Time is measured in milliseconds.
+		 * Negative distances will move the robot backwards.
+		 * If time is positive, distance will be ignored.
+		 * 
+		 * If the defense is not one of the static obstacles,
+		 * the values are given are used...
+		 * 
+		 * By the low bar (technically static) to travel backwards (a
+		 * negative distance should, however, still be given) a given distance with
+		 * the loader down;
+		 * By the portcullis to travel for the number of milliseconds given,
+		 * with the loader down;
+		 * By the sally port, drawbridge, and Cheval de Frise to do nothing,
+		 * because we cannot get over them.
+		 */
+		
+		LOW_BAR(0, "Low bar", -1, -142, false, false), // TECHNICALLY STATIC BUT NOT.
+		PORTCULLIS(1, "Portcullis", 2250, 0, false, false),
+		CHEVAL(2, "Cheval de Frise", -1, 0, false, true),
+		RAMPARTS(3, "Ramparts", 3000, 0, true, false),
+		MOAT(4, "Moat", 3000, 0, true, false),
+		DRAWBRIDGE(5, "Drawbridge", -1, 0, false, true),
+		SALLY_PORT(6, "Sally Port", -1, 0, false, true),
+		ROCK_WALL(7, "Rock Wall", 3000, 0, true, false),
+		ROUGH_TERRAIN(8, "Rough Terrain", 3000, 0, true, false);
+		
+		private int id;
+		private String name;
+		private long time;
+		private double distance;
+		private boolean doNothing;
+		private boolean _static; // "static" is a keyword. Sorry, I'm cheating.
+		
+		private static Map<Integer, Defense> valueMap;
+		
+		/*
+		 * I'm pretty sure the ordinal value would do this for us,
+		 * but I am too afraid to trust it.
+		 */
+		static {
+			valueMap = new HashMap<Integer, Defense>();
+			
+			for (Defense defense : Defense.values()) {
+				valueMap.put(defense.id, defense);
+			}
+		}
+		
+		public static Defense valueOf(int id) {
+			return valueMap.get(id);
+		}
+		
+		private Defense(int id, String name, long time, double distance, boolean _static, boolean doNothing) {
+			this.name = name;
+			this.time = time;
+			this.distance = distance;
+			this.doNothing = doNothing;
+			this._static = _static;
+		}
+		
+		public boolean usesDistance() {
+			return time < 0;
+		}
+		
+		public boolean doNothing() {
+			return doNothing;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public long getTime() {
+			return time;
+		}
+		
+		public boolean isStatic() {
+			return _static;
+		}
+		
+		public double getDistance() {
+			return distance;
 		}
 	}
 }

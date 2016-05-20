@@ -2,6 +2,7 @@ package org.usfirst.frc.team2713.robot.subsystems;
 
 import org.usfirst.frc.team2713.robot.Robot;
 import org.usfirst.frc.team2713.robot.RobotMap;
+import org.usfirst.frc.team2713.robot.RobotMap.Defense;
 import org.usfirst.frc.team2713.robot.commands.drive.ArcadeDrive;
 import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
 
@@ -55,7 +56,7 @@ public class DriveSubsystem extends BaseSubsystem {
 	}
 
 	@Override
-	public void startAuto(int defense, boolean isRed, boolean leftGoal) {
+	public void startAuto(Defense defense, boolean isRed, boolean leftGoal) {
 
 	}
 	
@@ -70,6 +71,10 @@ public class DriveSubsystem extends BaseSubsystem {
 	 */
 	public double findWheelRotations(double distance, double wheelDiameter) {
 		return distance/(wheelDiameter * Math.PI);
+	}
+	
+	public double findDistanceFromRotation(double rotations, double wheelDiameter) {
+		return rotations * wheelDiameter * Math.PI;
 	}
 
 	/**
@@ -113,17 +118,17 @@ public class DriveSubsystem extends BaseSubsystem {
 		rightback.set(-polarity);
 	}
 
-	public void rotate(double angle) {
-		leftback.set(angle / Math.abs(angle) / 2);
-		rightback.set(angle / Math.abs(angle) / 2);
+	public void rotate(double angle, double speed) {
+		leftback.set(speed * angle / Math.abs(angle) / 2);
+		rightback.set(speed * angle / Math.abs(angle) / 2);
 	}
 
-	public double getDistance() {
+	public double getWheelRotations() {
 		return rightback.getEncPosition();
 	}
 
 	public double getAngleRotated() {
-		return (180 / Math.PI) * rightback.getEncPosition()
+		return (180 / Math.PI) * findDistanceFromRotation(getWheelRotations(), RobotMap.DRIVE_WHEEL_DIAMETER)
 				/ (RobotMap.ROBOT_WIDTH / 2);
 	}
 

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2713.robot.subsystems.lights;
 
+import org.usfirst.frc.team2713.robot.RobotMap.Defense;
+
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class LightManager extends LightSubsystem {
@@ -46,7 +48,7 @@ public class LightManager extends LightSubsystem {
 
 	
 	@Override
-	public void startAuto(int defense, boolean isRed, boolean leftGoal) {
+	public void startAuto(Defense defense, boolean isRed, boolean leftGoal) {
 		autoOrTeleop = true;
 		timeCommandStarted = System.currentTimeMillis();
 	}

@@ -17,7 +17,7 @@ public class GoForward extends Command {
 	private boolean started;
 	boolean distanceOrTime;
 	
-	public GoForward(DriveSubsystem drive, double distance, boolean shouldStopIfStuck, Robot robot, boolean distanceOrTime) {
+	public GoForward(DriveSubsystem drive, double distance, Robot robot, boolean distanceOrTime) {
 		this.drive = drive;
 		this.distance = distance;
 		this.robot = robot;
@@ -44,7 +44,7 @@ public class GoForward extends Command {
 	@Override
 	protected boolean isFinished() {
 		return (!distanceOrTime && (System.currentTimeMillis() - startTime) > distance) ||
-				(distanceOrTime && Math.abs(drive.getDistance()) > Math.abs(distance));
+				(distanceOrTime && Math.abs(drive.getWheelRotations()) >= Math.abs(distance));
 	}
 	
 	public boolean isStarted() {

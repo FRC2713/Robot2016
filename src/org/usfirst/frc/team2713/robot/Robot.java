@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2713.robot;
 
+import org.usfirst.frc.team2713.robot.RobotMap.Defense;
+import org.usfirst.frc.team2713.robot.commands.autonomous.AutonomousCommand;
 import org.usfirst.frc.team2713.robot.sensors.GyroAccelWrapper;
 import org.usfirst.frc.team2713.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2713.robot.subsystems.LoaderSubsystem;
@@ -26,11 +28,11 @@ public class Robot extends IterativeRobot {
 	private DriveSubsystem drive;
 	private LoaderSubsystem loader;
 	public LightManager lights;
-	private VisionSubsystem visionSubsystem;
+	private VisionSubsystem vision;
 	private CameraServer cameraServer;
 	private SendableChooser startDefense;
 	private SendableChooser doNothing;
-	private SendableChooser doGoal;
+	private AutonomousCommand autonomousCommand;
 	private GyroAccelWrapper gyro;
 	public Boolean interuptArm = false;
 	public Boolean interuptAllLoaderMover = false;
@@ -71,9 +73,9 @@ public class Robot extends IterativeRobot {
 		if (gyro == null && RobotMap.INIT_GYRO)
 			gyro = new GyroAccelWrapper(); // Calibrated in ADXRS450_Gyro
 											// constructor.
-		if (visionSubsystem == null && RobotMap.INIT_CAMERA) {
+		if (vision == null && RobotMap.INIT_CAMERA) {
 			try {
-				visionSubsystem = new VisionSubsystem();
+				vision = new VisionSubsystem();
 			} catch (RuntimeException ex) {
 				ex.printStackTrace();
 			}
@@ -111,10 +113,6 @@ public class Robot extends IterativeRobot {
 			doNothing.addDefault("Do Something", false);
 			doNothing.addObject("Do Nothing", true);
 			SmartDashboard.putData("Do Nothing Selector", doNothing);
-			doGoal = new SendableChooser();
-			doGoal.addDefault("Do Goal + Obstacle", true);
-			doGoal.addObject("Do Obstacle Only", false);
-			SmartDashboard.putData("Do Goal Selector", doGoal);
 			System.out.println("Dashboard Turned On");
 		}
 		oi = new OI();
@@ -157,45 +155,9 @@ public class Robot extends IterativeRobot {
 		boolean leftGoal = false;
 		boolean shouldDoNothing;
 		
-		// Start of debug messages
-		String defenseStr;
-		int defense = (Integer) startDefense.getSelected();
-		shouldDoNothing = (Boolean) doNothing.getSelected();
-		
-		switch (defense) {
-		case 0:
-			defenseStr = "Low bar";
-			break;
-		case 1:
-			defenseStr = "Portcullis";
-			break;
-		case 2:
-			defenseStr = "Cheval de Frise";
-			break;
-		case 3:
-			defenseStr = "Ramparts";
-			break;
-		case 4:
-			defenseStr = "Moat";
-			break;
-		case 5:
-			defenseStr = "Drawbridge";
-			break;
-		case 6:
-			defenseStr = "Sally Port";
-			break;
-		case 7:
-			defenseStr = "Rock Wall";
-			break;
-		case 8:
-			defenseStr = "Rough Terrain";
-			break;
-		default:
-			defenseStr = "";
-			break;
-		}
-		System.out.printf("Defense: %s\n", defenseStr);
-		// End of debug messages
+		Defense defense = Defense.valueOf((Integer) startDefense.getSelected());
+		shouldDoNothing = (Boolean) doNothing.getSelected() || defense.doNothing();
+		System.out.printf("Defense: %s\n", defense.getName());
 		
 		if (!shouldDoNothing) {
 			if (drive != null)
@@ -205,11 +167,9 @@ public class Robot extends IterativeRobot {
 			if (lights != null)
 				lights.startAuto(defense, isRed, leftGoal);
 			
-			//autonomousCommand = new AutonomousCommand(startPos, defense,
-			//		leftGoal, ((Boolean) doGoal.getSelected()).booleanValue(),
-			//		drive, loader, lights, this, visionSubsystem);
-			//if (autonomousCommand != null)
-			//	autonomousCommand.start();
+			autonomousCommand = new AutonomousCommand(defense, drive, loader, vision, this);
+			if (autonomousCommand != null)
+				autonomousCommand.start();
 		}
 		Scheduler.getInstance().run();
 	}
