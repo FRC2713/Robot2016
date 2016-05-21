@@ -175,6 +175,7 @@ public class RobotMap {
 		}
 		
 		private Defense(int id, String name, long time, double distance, boolean _static, boolean doNothing) {
+			this.id = id;
 			this.name = name;
 			this.time = time;
 			this.distance = distance;

@@ -32,6 +32,7 @@ public class Robot extends IterativeRobot {
 	private CameraServer cameraServer;
 	private SendableChooser startDefense;
 	private SendableChooser doNothing;
+	private SendableChooser xboxOutput;
 	private AutonomousCommand autonomousCommand;
 	private GyroAccelWrapper gyro;
 	public Boolean interuptArm = false;
@@ -113,7 +114,10 @@ public class Robot extends IterativeRobot {
 			doNothing.addDefault("Do Something", false);
 			doNothing.addObject("Do Nothing", true);
 			SmartDashboard.putData("Do Nothing Selector", doNothing);
-			System.out.println("Dashboard Turned On");
+			xboxOutput = new SendableChooser();
+			xboxOutput.addDefault("Controller Input", false);
+			xboxOutput.addObject("Xbox Input", true);
+			SmartDashboard.putData("Xbox Or Controller", xboxOutput);
 		}
 		oi = new OI();
 		oi.initCommands(loader, lights, drive, this);
@@ -193,8 +197,10 @@ public class Robot extends IterativeRobot {
 		//	autonomousCommand.cancel();
 		if (drive != null)
 			drive.startTeleop();
-		if (loader != null)
+		if (loader != null) {
+			oi.initLoadCommands(loader, lights, this, (boolean)(xboxOutput.getSelected())); 
 			loader.startTeleop();
+		}
 		if (lights != null)
 			lights.startTeleop();
 		// if (cameraSubsystem != null)
